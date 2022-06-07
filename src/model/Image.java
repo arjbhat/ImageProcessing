@@ -2,7 +2,7 @@ package model;
 
 import java.util.function.Function;
 
-public class Image {
+public class Image implements ImageTransform {
   private final int height;
   private final int width;
   private final RGBColor[][] pane;
@@ -35,14 +35,17 @@ public class Image {
     }
   }
 
+  @Override
   public int getHeight() {
     return height;
   }
 
+  @Override
   public int getWidth() {
     return width;
   }
 
+  @Override
   public RGBColor getColorAt(int row, int col) {
     if (row < 0 || col < 0 || row >= height || col >= width) {
       throw new IllegalArgumentException("Invalid location");
@@ -50,57 +53,46 @@ public class Image {
     return pane[row][col];
   }
 
-  public Image transformed(Function<RGBColor, RGBColor> transform) {
+  @Override
+  public Image transform(ColorMap map) {
     RGBColor[][] newPane = new RGBColor[height][width];
     for (int row = 0; row < height; row += 1) {
       for (int col = 0; col < width; col += 1) {
-        newPane[row][col] = transform.apply(this.pane[row][col]);
+        newPane[row][col] = map.apply(this.pane[row][col], row, col);
       }
     }
     return new Image(newPane);
   }
 
   public Image asRedGrayscale() {
-    return this.transformed(c -> new RGBColor(c.getRed(), c.getRed(), c.getRed()));
+    return this.transform((c, y, x) -> new RGBColor(c.getRed(), c.getRed(), c.getRed()));
   }
 
   public Image asGreenGrayscale() {
-    return this.transformed(c -> new RGBColor(c.getGreen(), c.getGreen(), c.getGreen()));
+    return this.transform((c, y, x) -> new RGBColor(c.getGreen(), c.getGreen(), c.getGreen()));
   }
 
   public Image asBlueGrayscale() {
-    return this.transformed(c -> new RGBColor(c.getBlue(), c.getBlue(), c.getBlue()));
+    return this.transform((c, y, x) -> new RGBColor(c.getBlue(), c.getBlue(), c.getBlue()));
   }
 
   public Image asValueGrayscale() {
-    return this.transformed(c -> new RGBColor(c.getValue(), c.getValue(), c.getValue()));
+    return this.transform((c, y, x) -> new RGBColor(c.getValue(), c.getValue(), c.getValue()));
   }
 
   public Image asIntensityGrayscale() {
-    return this.transformed(c -> new RGBColor(c.getIntensity(), c.getIntensity(), c.getIntensity()));
+    return this.transform((c, y, x) -> new RGBColor(c.getIntensity(), c.getIntensity(), c.getIntensity()));
   }
 
   public Image asLumaGrayscale() {
-    return this.transformed(c -> new RGBColor(c.getLuma(), c.getLuma(), c.getLuma()));
+    return this.transform((c, y, x) -> new RGBColor(c.getLuma(), c.getLuma(), c.getLuma()));
   }
 
   public Image flipHoriz() {
-    RGBColor[][] newPane = new RGBColor[height][width];
-    for (int row = 0; row < height; row += 1) {
-      for (int col = 0; col < width; col += 1) {
-        newPane[row][width - col - 1] = this.pane[row][col];
-      }
-    }
-    return new Image(newPane);
+    return this.transform((c, y, x) -> pane[y][this.width - x - 1]);
   }
 
   public Image flipVert() {
-    RGBColor[][] newPane = new RGBColor[height][width];
-    for (int row = 0; row < height; row += 1) {
-      for (int col = 0; col < width; col += 1) {
-        newPane[height - row - 1][col] = this.pane[row][col];
-      }
-    }
-    return new Image(newPane);
+    return this.transform((c, y, x) -> pane[height - y - 1][x]);
   }
 }

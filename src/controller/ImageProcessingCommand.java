@@ -1,4 +1,4 @@
-package Commands;
+package controller;
 
 import model.ImageProcessingModel;
 
