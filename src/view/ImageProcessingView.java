@@ -3,7 +3,7 @@ package view;
 /**
  * Represents the view that displays images.
  */
-interface ImageProcessingView {
+public interface ImageProcessingView {
 
 
 }
