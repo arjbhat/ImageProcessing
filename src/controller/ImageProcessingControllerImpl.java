@@ -1,10 +1,21 @@
 package controller;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Function;
 
 import model.ImageProcessingModel;
+import model.macros.BlueGrayscale;
+import model.macros.Brightness;
+import model.macros.GreenGrayscale;
+import model.macros.HorizontalFlip;
+import model.macros.IntensityGrayscale;
+import model.macros.LumaGrayscale;
+import model.macros.RedGrayscale;
+import model.macros.ValueGrayscale;
 
 /**
  * Implementation of the ImageProcessingController that works with the file passed in and
@@ -15,6 +26,40 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
 
   ImageProcessingControllerImpl() {
     knownCommands = new HashMap<>();
+    this.loadCommands();
+  }
+
+  private void loadCommands() {
+    knownCommands.put("load",
+            sc -> {
+              final FileReader file;
+              try {
+                file = new FileReader(sc.next());
+              } catch (FileNotFoundException e) {
+                return img -> {
+                };
+              }
+              return img -> img.createImage(parse(file), sc.next());
+            });
+    knownCommands.put("save", sc -> new Save(sc.next(), sc.next()));
+    knownCommands.put("red-component",
+            sc -> img -> img.runCommand(new RedGrayscale(), sc.next(), sc.next()));
+    knownCommands.put("green-component",
+            sc -> img -> img.runCommand(new GreenGrayscale(), sc.next(), sc.next()));
+    knownCommands.put("blue-component",
+            sc -> img -> img.runCommand(new BlueGrayscale(), sc.next(), sc.next()));
+    knownCommands.put("value-component",
+            sc -> img -> img.runCommand(new ValueGrayscale(), sc.next(), sc.next()));
+    knownCommands.put("intensity-component",
+            sc -> img -> img.runCommand(new IntensityGrayscale(), sc.next(), sc.next()));
+    knownCommands.put("luma-component",
+            sc -> img -> img.runCommand(new LumaGrayscale(), sc.next(), sc.next()));
+    knownCommands.put("horizontal-flip",
+            sc -> img -> img.runCommand(new HorizontalFlip(), sc.next(), sc.next()));
+    knownCommands.put("vertical-flip",
+            sc -> img -> img.runCommand(new HorizontalFlip(), sc.next(), sc.next()));
+    knownCommands.put("brighten",
+            sc -> img -> img.runCommand(new Brightness(sc.nextInt()), sc.next(), sc.next()));
   }
 
   /**

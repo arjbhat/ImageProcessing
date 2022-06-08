@@ -39,7 +39,7 @@ public class Image implements ImageTransform {
   public int getHeight() {
     return height;
   }
-
+ 
   @Override
   public int getWidth() {
     return width;
@@ -62,37 +62,5 @@ public class Image implements ImageTransform {
       }
     }
     return new Image(newPane);
-  }
-
-  public Image asRedGrayscale() {
-    return this.transform((c, y, x) -> new RGBColor(c.getRed(), c.getRed(), c.getRed()));
-  }
-
-  public Image asGreenGrayscale() {
-    return this.transform((c, y, x) -> new RGBColor(c.getGreen(), c.getGreen(), c.getGreen()));
-  }
-
-  public Image asBlueGrayscale() {
-    return this.transform((c, y, x) -> new RGBColor(c.getBlue(), c.getBlue(), c.getBlue()));
-  }
-
-  public Image asValueGrayscale() {
-    return this.transform((c, y, x) -> new RGBColor(c.getValue(), c.getValue(), c.getValue()));
-  }
-
-  public Image asIntensityGrayscale() {
-    return this.transform((c, y, x) -> new RGBColor(c.getIntensity(), c.getIntensity(), c.getIntensity()));
-  }
-
-  public Image asLumaGrayscale() {
-    return this.transform((c, y, x) -> new RGBColor(c.getLuma(), c.getLuma(), c.getLuma()));
-  }
-
-  public Image flipHoriz() {
-    return this.transform((c, y, x) -> pane[y][this.width - x - 1]);
-  }
-
-  public Image flipVert() {
-    return this.transform((c, y, x) -> pane[height - y - 1][x]);
   }
 }

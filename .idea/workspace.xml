@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" name="Changes" comment="Added files in and created the structure for the MVC.">
-      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Commands/ImageProcessingCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Image.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/RGBColor.java" afterDir="false" />
+    <list default="true" id="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" name="Changes" comment="We made macros!">
+      <change afterPath="$PROJECT_DIR$/src/model/ImageProcessingState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/macros/BlueGrayscale.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/macros/Brightness.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/macros/GreenGrayscale.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/macros/HorizontalFlip.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/macros/IntensityGrayscale.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/macros/LumaGrayscale.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/macros/RedGrayscale.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/macros/ValueGrayscale.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/macros/VerticalFlip.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/RGBColorTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assignment4.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment4.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ImageProcessingProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ImageProcessingProgram.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ImageProcessingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ImageProcessingController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Color.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Image.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/ImageProcessingModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/ImageProcessingModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/ImageProcessingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ImageProcessingView.java" afterDir="false" />
-    </list>
-    <list id="7229967f-1aca-459c-9083-9fc06cf0dbc4" name="Changes by ac-dc" comment="">
-      <change beforePath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/ImageProcessingModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/ImageProcessingModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/ImageProcessingModelImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/ImageProcessingModelImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Macro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/Macro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/RGBColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/RGBColor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,31 +34,19 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit4 Test Class" />
       </list>
     </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="Git.Settings">
     <branch-grouping />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/model/ImageProcessingModel.java">
-      <ranges>
-        <range start1="5" end1="6" start2="5" end2="6" changelist="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" />
-        <range start1="7" end1="8" start2="7" end2="7" changelist="7229967f-1aca-459c-9083-9fc06cf0dbc4" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/src/controller/ImageProcessingControllerImpl.java">
-      <ranges>
-        <range start1="4" end1="4" start2="4" end2="8" changelist="7229967f-1aca-459c-9083-9fc06cf0dbc4" />
-        <range start1="10" end1="10" start2="14" end2="16" changelist="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" />
-        <range start1="11" end1="12" start2="17" end2="19" changelist="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" />
-        <range start1="13" end1="14" start2="20" end2="21" changelist="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" />
-        <range start1="15" end1="61" start2="22" end2="23" changelist="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" />
-        <range start1="62" end1="63" start2="24" end2="52" changelist="7229967f-1aca-459c-9083-9fc06cf0dbc4" />
-        <range start1="64" end1="64" start2="53" end2="65" changelist="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" />
-      </ranges>
-    </file>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -64,17 +59,98 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "code.cleanup.on.save": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": "",
     "jdk.selected.JAVA_MODULE": "11",
+    "last_opened_file_path": "/Users/bhat/Desktop/CS3500_S22/Group/Assignment4",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "configurable.group.appearance"
+    "rearrange.code.on.save": "true",
+    "settings.editor.selected.configurable": "CodeWithMe"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.RGBColorTest.areHashesEqual">
+    <configuration name="RGBColorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Assignment4" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RGBColorTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RGBColorTest.areColorsEqual" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Assignment4" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RGBColorTest" />
+      <option name="METHOD_NAME" value="areColorsEqual" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RGBColorTest.areHashesEqual" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Assignment4" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RGBColorTest" />
+      <option name="METHOD_NAME" value="areHashesEqual" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RGBColorTest.getIntensity" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Assignment4" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RGBColorTest" />
+      <option name="METHOD_NAME" value="getIntensity" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RGBColorTest.getLuma" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Assignment4" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RGBColorTest" />
+      <option name="METHOD_NAME" value="getLuma" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.RGBColorTest.areHashesEqual" />
+        <item itemvalue="JUnit.RGBColorTest.areColorsEqual" />
+        <item itemvalue="JUnit.RGBColorTest.getLuma" />
+        <item itemvalue="JUnit.RGBColorTest.getIntensity" />
+        <item itemvalue="JUnit.RGBColorTest" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -92,7 +168,8 @@
       <workItem from="1654493693255" duration="192000" />
       <workItem from="1654493995332" duration="65000" />
       <workItem from="1654494069132" duration="1113000" />
-      <workItem from="1654495236192" duration="11570000" />
+      <workItem from="1654495236192" duration="15695000" />
+      <workItem from="1654627039153" duration="14712000" />
     </task>
     <task id="LOCAL-00001" summary="Added files in and created the structure for the MVC.">
       <created>1654553094082</created>
@@ -101,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654553094082</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Created an image and color representation.">
+      <created>1654563933695</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1654563933695</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,6 +204,12 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added files in and created the structure for the MVC." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added files in and created the structure for the MVC." />
+    <MESSAGE value="Created an image and color representation." />
+    <MESSAGE value="We made macros!" />
+    <option name="LAST_COMMIT_MESSAGE" value="We made macros!" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
