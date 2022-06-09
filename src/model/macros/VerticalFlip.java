@@ -2,6 +2,9 @@ package model.macros;
 
 import model.Image;
 
+/**
+ * The macro that transforms an image by flipping the image vertically.
+ */
 public class VerticalFlip implements Macro {
   @Override
   public Image execute(Image img) {

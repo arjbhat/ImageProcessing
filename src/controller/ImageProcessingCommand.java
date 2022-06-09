@@ -3,8 +3,13 @@ package controller;
 import model.ImageProcessingModel;
 
 /**
- * Manipulations that we make on/with an image are represented as commands
+ * Manipulations that we make on/with an image are represented as commands to the model.
  */
 public interface ImageProcessingCommand {
-  void run(ImageProcessingModel model);
+  /**
+   * Run this command on the model.
+   *
+   * @param model
+   */
+  void run(ImageProcessingModel model) throws IllegalArgumentException;
 }

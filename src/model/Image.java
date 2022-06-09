@@ -1,13 +1,22 @@
 package model;
 
-import java.util.function.Function;
-
+/**
+ * The immutable image that we are working on. Any changes to the image will only produce a new
+ * image. An image is a 2D array of colors.
+ */
 public class Image implements ImageTransform {
   private final int height;
   private final int width;
+  private final int maxValue;
   private final RGBColor[][] pane;
 
-  public Image(int[][][] img) {
+  /**
+   * We can construct a new image by passing in a 2D array of RGBColors.
+   *
+   * @param img the color array that we want to construct an image with
+   */
+  public Image(RGBColor[][] img, int maxValue) {
+    this.maxValue = maxValue;
     this.height = img.length;
 
     if (height == 0) {
@@ -20,33 +29,43 @@ public class Image implements ImageTransform {
 
     for (int row = 0; row < height; row += 1) {
       for (int col = 0; col < width; col += 1) {
-        pane[row][col] = new RGBColor(img[row][col][0], img[row][col][1], img[row][col][2]);
+        RGBColor c = img[row][col];
+        if (c.getRed() > maxValue || c.getGreen() > maxValue || c.getBlue() > maxValue) {
+          throw new IllegalArgumentException("Color value larger than channel size");
+        }
+        pane[row][col] = c;
       }
     }
   }
 
-  private Image(RGBColor[][] pane) {
+  // So we don't have to make a copy unnecessarily - every time we transform the image.
+  private Image(RGBColor[][] pane, int height, int width, int maxValue) {
     this.pane = pane;
-    this.height = pane.length;
-    if (height == 0) {
-      this.width = 0;
-    } else {
-      this.width = pane[0].length;
-    }
+    this.height = height;
+    this.width = width;
+    this.maxValue = maxValue;
+  }
+
+  /**
+   * Returns the maximum value of this image.
+   */
+  @Override
+  public int getMaxValue() {
+    return maxValue;
   }
 
   @Override
   public int getHeight() {
     return height;
   }
- 
+
   @Override
   public int getWidth() {
     return width;
   }
 
   @Override
-  public RGBColor getColorAt(int row, int col) {
+  public RGBColor getColorAt(int row, int col) throws IllegalArgumentException {
     if (row < 0 || col < 0 || row >= height || col >= width) {
       throw new IllegalArgumentException("Invalid location");
     }
@@ -54,13 +73,17 @@ public class Image implements ImageTransform {
   }
 
   @Override
-  public Image transform(ColorMap map) {
+  public Image transform(ColorFunction map) {
     RGBColor[][] newPane = new RGBColor[height][width];
     for (int row = 0; row < height; row += 1) {
       for (int col = 0; col < width; col += 1) {
-        newPane[row][col] = map.apply(this.pane[row][col], row, col);
+        RGBColor c = map.apply(this.pane[row][col], row, col);
+        if (c.getRed() > maxValue || c.getGreen() > maxValue || c.getBlue() > maxValue) {
+          throw new IllegalArgumentException("Color value larger than channel size");
+        }
+        newPane[row][col] = c;
       }
     }
-    return new Image(newPane);
+    return new Image(newPane, height, width, maxValue);
   }
 }
