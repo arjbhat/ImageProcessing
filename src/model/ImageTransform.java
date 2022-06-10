@@ -14,5 +14,5 @@ public interface ImageTransform extends ImageState {
    * @throws IllegalArgumentException if the new color we want to make has a channel above maximum
    *                                  value or below 0.
    */
-  Image transform(ColorFunction map) throws IllegalArgumentException;
+  ImageTransform transform(ColorFunction map) throws IllegalArgumentException;
 }

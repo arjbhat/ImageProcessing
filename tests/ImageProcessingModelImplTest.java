@@ -5,6 +5,7 @@ import java.util.function.Function;
 import model.Color;
 import model.Image;
 import model.ImageState;
+import model.ImageTransform;
 import model.macros.Brighten;
 import model.macros.Grayscale;
 import model.macros.HorizontalFlip;
@@ -21,7 +22,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
     model.createImage(img1arr, "twoByThree", 127);
     ImageState twoByThreeState = model.getImage("twoByThree");
     // Let's create an array with the image with received
-    Image twoByThree = this.imageFromState(twoByThreeState);
+    ImageState twoByThree = this.imageFromState(twoByThreeState);
     assertNotEquals(img2, twoByThree);
     assertEquals(img1, twoByThree);
 
@@ -29,7 +30,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
     model.createImage(img2arr, "threeByTwo", 255);
     ImageState threeByTwoState = model.getImage("threeByTwo");
     // Let's create an array with the image with received
-    Image threeByTwo = this.imageFromState(threeByTwoState);
+    ImageState threeByTwo = this.imageFromState(threeByTwoState);
     assertNotEquals(img1, threeByTwo);
     assertEquals(img2, threeByTwo);
 
@@ -37,7 +38,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
     model.createImage(img1arr, "threeByTwo", 127);
     ImageState newThreeByTwoState = model.getImage("threeByTwo");
     // Let's create an array with the image with received
-    Image newThreeByTwo = this.imageFromState(newThreeByTwoState);
+    ImageState newThreeByTwo = this.imageFromState(newThreeByTwoState);
     assertEquals(img1, newThreeByTwo);
     assertNotEquals(img2, newThreeByTwo);
     // And we successfully overrode the old file name :)!
@@ -69,8 +70,8 @@ public class ImageProcessingModelImplTest extends TestHelper {
     model.createImage(img2arr, "threeByTwo", 255);
 
     // and let's save these images that we loaded
-    Image twoByThree = this.imageFromState(model.getImage("twoByThree"));
-    Image threeByTwo = this.imageFromState(model.getImage("threeByTwo"));
+    ImageState twoByThree = this.imageFromState(model.getImage("twoByThree"));
+    ImageState threeByTwo = this.imageFromState(model.getImage("threeByTwo"));
 
     // Time to test Macros!
 
@@ -121,27 +122,27 @@ public class ImageProcessingModelImplTest extends TestHelper {
     this.testVerticalCommand("threeByTwo", "verticalFlipThreeByTwo", img2);
   }
 
-  private void testGrayscaleCommand(String oldName, String newName, Image expected,
+  private void testGrayscaleCommand(String oldName, String newName, ImageState expected,
                                     Function<Color, Integer> func) {
     this.testMacro(oldName, newName, new Grayscale(func), this.imageAsComponent(expected, func));
   }
 
-  public void testBrightnessCommand(String oldName, String newName, Image expected, int n) {
+  public void testBrightnessCommand(String oldName, String newName, ImageState expected, int n) {
     this.testMacro(oldName, newName, new Brighten(n), this.imageBrightness(expected, n));
   }
 
-  public void testHorizontalCommand(String oldName, String newName, Image expected) {
+  public void testHorizontalCommand(String oldName, String newName, ImageState expected) {
     this.testMacro(oldName, newName, new HorizontalFlip(), this.imageHorizontal(expected));
   }
 
-  public void testVerticalCommand(String oldName, String newName, Image expected) {
+  public void testVerticalCommand(String oldName, String newName, ImageState expected) {
     this.testMacro(oldName, newName, new VerticalFlip(), this.imageVertical(expected));
   }
 
-  private void testMacro(String oldName, String newName, Macro macro, Image expected) {
-    Image oldImg = this.imageFromState(model.getImage(oldName));
+  private void testMacro(String oldName, String newName, Macro macro, ImageState expected) {
+    ImageTransform oldImg = this.imageFromState(model.getImage(oldName));
     model.runCommand(macro, oldName, newName);
-    Image newImg = this.imageFromState(model.getImage(newName));
+    ImageTransform newImg = this.imageFromState(model.getImage(newName));
     // Proof that there was no mutation on the original image
     assertNotEquals(oldImg, newImg);
     // But that the image new image produced is the one that we expect
@@ -186,8 +187,8 @@ public class ImageProcessingModelImplTest extends TestHelper {
     model.createImage(img2arr, "threeByTwo", 255);
 
     // and let's save these images that we loaded
-    Image twoByThree = this.imageFromState(model.getImage("twoByThree"));
-    Image threeByTwo = this.imageFromState(model.getImage("threeByTwo"));
+    ImageState twoByThree = this.imageFromState(model.getImage("twoByThree"));
+    ImageState threeByTwo = this.imageFromState(model.getImage("threeByTwo"));
 
     // to see that they're what we expected
     assertEquals(img1, twoByThree);

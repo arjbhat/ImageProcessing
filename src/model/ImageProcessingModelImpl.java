@@ -9,7 +9,7 @@ import model.macros.Macro;
  * An implementation of the ImageProcessingModel. It stores the images on a map and works with them.
  */
 public class ImageProcessingModelImpl implements ImageProcessingModel {
-  private final Map<String, Image> images;
+  private final Map<String, ImageTransform> images;
 
   /**
    * The constructor for the model.

@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import model.Color;
 import model.Image;
+import model.ImageTransform;
 import model.RGBColor;
 
 /**
@@ -29,7 +30,7 @@ public class Grayscale implements Macro {
    * Transforms all the pixels to their grayscale version.
    */
   @Override
-  public Image execute(Image img) {
+  public ImageTransform execute(ImageTransform img) {
     return img.transform((c, y, x)
         -> new RGBColor(getChannel.apply(c), getChannel.apply(c), getChannel.apply(c)));
   }

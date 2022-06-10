@@ -3,6 +3,8 @@ import org.junit.Test;
 
 import model.Color;
 import model.Image;
+import model.ImageState;
+import model.ImageTransform;
 import model.RGBColor;
 
 import static org.junit.Assert.*;
@@ -92,7 +94,7 @@ public class ImageTest extends TestHelper {
   }
 
   // Abstraction for getting invalid color from image
-  private void getInvalidColor(Image img, int row, int col) {
+  private void getInvalidColor(ImageState img, int row, int col) {
     try {
       Color color = img.getColorAt(row, col);
       fail("We should not be able to get this color.");
@@ -108,16 +110,16 @@ public class ImageTest extends TestHelper {
   public void transform() {
     // Let's first try a null function
     try {
-      Image nullImage = img0.transform(null);
+      ImageTransform nullImage = img0.transform(null);
       fail("We operated with a null???");
     } catch (IllegalArgumentException e) {
       assertEquals("Function cannot be null.", e.getMessage());
     }
 
     // Trying a grayscale function
-    Image img1Value = this.imageAsComponent(img1, Color::getValue);
+    ImageState img1Value = this.imageAsComponent(img1, Color::getValue);
 
-    Image newValueImg1 = img1.transform((c, y, x)
+    ImageTransform newValueImg1 = img1.transform((c, y, x)
         -> new RGBColor(c.getValue(), c.getValue(), c.getValue()));
 
     // new image is the same as the one we created
@@ -127,9 +129,9 @@ public class ImageTest extends TestHelper {
     assertNotEquals(img1Value, img1);
 
     // Trying a flip function
-    Image img1HorFlip = this.imageHorizontal(img1);
+    ImageTransform img1HorFlip = this.imageHorizontal(img1);
 
-    Image newHorFlipImg1 = img1.transform((c, y, x)
+    ImageTransform newHorFlipImg1 = img1.transform((c, y, x)
         -> img1.getColorAt(y, img1.getWidth() - x - 1));
 
     // new image is the same as the one we created
@@ -141,7 +143,7 @@ public class ImageTest extends TestHelper {
     // Now we try to change the brightness by a factor of 1000 without using the appropriate macro
     // and reduce it below 0 (color should throw this exception)
     try {
-      Image valueTooHigh = img1.transform((c, y, x)
+      ImageTransform valueTooHigh = img1.transform((c, y, x)
           -> new RGBColor(1000, 1000, 1000));
       fail("We were able to set to a value above max value");
     } catch (IllegalArgumentException e) {
@@ -150,7 +152,7 @@ public class ImageTest extends TestHelper {
     }
 
     try {
-      Image valueTooLow = img1.transform((c, y, x)
+      ImageTransform valueTooLow = img1.transform((c, y, x)
           -> new RGBColor(-1000, -1000, -1000));
       fail("We were able to set to a value below 0");
     } catch (IllegalArgumentException e) {

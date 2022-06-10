@@ -10,17 +10,17 @@ import model.Image;
 import model.ImageProcessingModel;
 import model.ImageProcessingModelImpl;
 import model.ImageState;
-import model.ObservableImage;
+import model.ImageTransform;
 import model.RGBColor;
 import view.ImageProcessingView;
 import view.ImageProcessingViewImpl;
 
 public abstract class TestHelper {
-  protected Image img0;
+  protected ImageTransform img0;
   protected Color[][] img1arr;
-  protected Image img1;
+  protected ImageTransform img1;
   protected Color[][] img2arr;
-  protected Image img2;
+  protected ImageTransform img2;
   protected Color c1;
   protected Color c2;
   protected Color c3;
@@ -28,7 +28,7 @@ public abstract class TestHelper {
   protected Color c5;
   protected Color c6;
   protected ImageProcessingModel model;
-  protected Image testImage;
+  protected ImageState testImage;
   protected StringBuilder input1;
   protected StringReader readInput1;
   protected StringBuilder print1;
@@ -63,7 +63,7 @@ public abstract class TestHelper {
     controller1 = new ImageProcessingControllerImpl(model, newView1, readInput1);
   }
 
-  protected Image imageAsComponent(Image img, Function<Color, Integer> component) {
+  protected ImageTransform imageAsComponent(ImageState img, Function<Color, Integer> component) {
     int height = img.getHeight();
     int width = img.getWidth();
     int maxValue = img.getMaxValue();
@@ -79,7 +79,7 @@ public abstract class TestHelper {
     return new Image(grayColorArr, maxValue);
   }
 
-  protected Image imageBrightness(Image img, int num) {
+  protected ImageTransform imageBrightness(ImageState img, int num) {
     int height = img.getHeight();
     int width = img.getWidth();
     int maxValue = img.getMaxValue();
@@ -98,7 +98,7 @@ public abstract class TestHelper {
     return new Image(colorArr, maxValue);
   }
 
-  protected Image imageHorizontal(Image img) {
+  protected ImageTransform imageHorizontal(ImageState img) {
     int height = img.getHeight();
     int width = img.getWidth();
     int maxValue = img.getMaxValue();
@@ -113,7 +113,7 @@ public abstract class TestHelper {
     return new Image(colorArr, maxValue);
   }
 
-  protected Image imageVertical(Image img) {
+  protected ImageTransform imageVertical(ImageState img) {
     int height = img.getHeight();
     int width = img.getWidth();
     int maxValue = img.getMaxValue();
@@ -128,7 +128,7 @@ public abstract class TestHelper {
     return new Image(colorArr, maxValue);
   }
 
-  protected Image imageFromState(ImageState s) {
+  protected ImageTransform imageFromState(ImageState s) {
     int height = s.getHeight();
     int width = s.getWidth();
     int maxValue = s.getMaxValue();

@@ -1,0 +1,22 @@
+load res/arjun.ppm arj
+red-component arj red-arj
+green-component arj green-arj
+blue-component arj blue-arj
+value-component arj value-arj
+luma-component arj luma-arj
+intensity-component arj intensity-arj
+vertical-flip arj vertical-arj
+horizontal-flip arj horizontal-arj
+brighten 50 arj bright-arj
+brighten -50 arj dark-arj
+save res/arjunRedComponent.ppm red-arj
+save res/arjunGreenComponent.ppm green-arj
+save res/arjunBlueComponent.ppm blue-arj
+save res/arjunValueComponent.ppm value-arj
+save res/arjunLumaComponent.ppm luma-arj
+save res/arjunIntensityComponent.ppm intensity-arj
+save res/arjunVerticalFlip.ppm vertical-arj
+save res/arjunHorizontalFlip.ppm horizontal-arj
+save res/arjunBrighter.ppm bright-arj
+save res/arjunDarker.ppm dark-arj
+quit

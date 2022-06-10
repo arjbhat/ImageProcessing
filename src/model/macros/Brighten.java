@@ -3,6 +3,7 @@ package model.macros;
 import java.util.function.Function;
 
 import model.Image;
+import model.ImageTransform;
 import model.RGBColor;
 
 /**
@@ -26,13 +27,13 @@ public class Brighten implements Macro {
    * Brightens or darkens all pixels by the increment. (clamping at max and min value)
    */
   @Override
-  public Image execute(Image img) {
+  public ImageTransform execute(ImageTransform img) {
     int max = img.getMaxValue();
     Function<Integer, Integer> minMax = num -> Math.max(Math.min(num + n, max), 0);
 
     return img.transform((c, y, x)
-            -> new RGBColor(minMax.apply(c.getRed()),
-            minMax.apply(c.getGreen()),
-            minMax.apply(c.getBlue())));
+        -> new RGBColor(minMax.apply(c.getRed()),
+        minMax.apply(c.getGreen()),
+        minMax.apply(c.getBlue())));
   }
 }

@@ -107,30 +107,30 @@ public class ImageProcessingControllerImplTest extends TestHelper {
   @Test
   public void testControllerToModel() {
     UserIO[] interactions = new UserIO[]{
-        inputs("load res/arjun.ppm arj"),
-        prints("method: createImage image-name: arj maxValue: 255"),
-        inputs("red-component arj red-arj"),
-        prints("method: runCommand image-name: arj dest-image-name: red-arj"),
-        inputs("green-component arj green-arj"),
-        prints("method: runCommand image-name: arj dest-image-name: green-arj"),
-        inputs("blue-component arj blue-arj"),
-        prints("method: runCommand image-name: arj dest-image-name: blue-arj"),
-        inputs("value-component arj value-arj"),
-        prints("method: runCommand image-name: arj dest-image-name: value-arj"),
-        inputs("luma-component arj luma-arj"),
-        prints("method: runCommand image-name: arj dest-image-name: luma-arj"),
-        inputs("intensity-component arj intensity-arj"),
-        prints("method: runCommand image-name: arj dest-image-name: intensity-arj"),
-        inputs("horizontal-flip arj horizontal-arj"),
-        prints("method: runCommand image-name: arj dest-image-name: horizontal-arj"),
-        inputs("vertical-flip arj vertical-arj"),
-        prints("method: runCommand image-name: arj dest-image-name: vertical-arj"),
-        inputs("brighten 10 arj brighten-arj"),
-        prints("method: runCommand image-name: arj dest-image-name: brighten-arj"),
-        inputs("brighten -11 arj brighten-arj"),
-        prints("method: runCommand image-name: arj dest-image-name: brighten-arj"),
-        inputs("save res/out.ppm arj"),
-        prints("method: getImage image-name: arj"),
+        inputs("load res/img1.ppm img"),
+        prints("method: createImage image-name: img maxValue: 127"),
+        inputs("red-component img red-img"),
+        prints("method: runCommand image-name: img dest-image-name: red-img"),
+        inputs("green-component img green-img"),
+        prints("method: runCommand image-name: img dest-image-name: green-img"),
+        inputs("blue-component img blue-img"),
+        prints("method: runCommand image-name: img dest-image-name: blue-img"),
+        inputs("value-component img value-img"),
+        prints("method: runCommand image-name: img dest-image-name: value-img"),
+        inputs("luma-component img luma-img"),
+        prints("method: runCommand image-name: img dest-image-name: luma-img"),
+        inputs("intensity-component img intensity-img"),
+        prints("method: runCommand image-name: img dest-image-name: intensity-img"),
+        inputs("horizontal-flip img horizontal-img"),
+        prints("method: runCommand image-name: img dest-image-name: horizontal-img"),
+        inputs("vertical-flip img vertical-img"),
+        prints("method: runCommand image-name: img dest-image-name: vertical-img"),
+        inputs("brighten 10 img brighten-img"),
+        prints("method: runCommand image-name: img dest-image-name: brighten-img"),
+        inputs("brighten -11 img brighten-img"),
+        prints("method: runCommand image-name: img dest-image-name: brighten-img"),
+        inputs("save res/out.ppm img"),
+        prints("method: getImage image-name: img"),
         inputs("q")
     };
 
@@ -292,7 +292,25 @@ public class ImageProcessingControllerImplTest extends TestHelper {
         inputs("load res/img1.ppm test"),
         prints("File is loaded."),
         prints("Type instruction:"),
+        inputs("brighten 10 test bright"),
+        prints("Brightness changed image created."),
+        prints("Type instruction:"),
+        inputs("horizontal-flip test horiz"),
+        prints("Horizontally flipped image created."),
+        prints("Type instruction:"),
+        inputs("vertical-flip test vert"),
+        prints("Vertically flipped image created."),
+        prints("Type instruction:"),
         inputs("save res/out1.ppm test"),
+        prints("File is saved."),
+        prints("Type instruction:"),
+        inputs("save res/out2.ppm bright"),
+        prints("File is saved."),
+        prints("Type instruction:"),
+        inputs("save res/out3.ppm horiz"),
+        prints("File is saved."),
+        prints("Type instruction:"),
+        inputs("save res/out4.ppm vert"),
         prints("File is saved."),
         prints("Type instruction:"),
         inputs("q"),
@@ -327,20 +345,98 @@ public class ImageProcessingControllerImplTest extends TestHelper {
         + "100\n"
         + "100\n"
         + "100\n");
+    testFile("res/out2.ppm", "P3\n"
+        + "2 3\n"
+        + "127\n"
+        + "10\n"
+        + "10\n"
+        + "10\n"
+        + "110\n"
+        + "60\n"
+        + "35\n"
+        + "60\n"
+        + "110\n"
+        + "35\n"
+        + "60\n"
+        + "35\n"
+        + "110\n"
+        + "35\n"
+        + "60\n"
+        + "110\n"
+        + "110\n"
+        + "110\n"
+        + "110\n");
+    testFile("res/out3.ppm", "P3\n"
+        + "2 3\n"
+        + "127\n"
+        + "100\n"
+        + "50\n"
+        + "25\n"
+        + "0\n"
+        + "0\n"
+        + "0\n"
+        + "50\n"
+        + "25\n"
+        + "100\n"
+        + "50\n"
+        + "100\n"
+        + "25\n"
+        + "100\n"
+        + "100\n"
+        + "100\n"
+        + "25\n"
+        + "50\n"
+        + "100\n");
+    testFile("res/out4.ppm", "P3\n"
+        + "2 3\n"
+        + "127\n"
+        + "25\n"
+        + "50\n"
+        + "100\n"
+        + "100\n"
+        + "100\n"
+        + "100\n"
+        + "50\n"
+        + "100\n"
+        + "25\n"
+        + "50\n"
+        + "25\n"
+        + "100\n"
+        + "0\n"
+        + "0\n"
+        + "0\n"
+        + "100\n"
+        + "50\n"
+        + "25\n");
   }
 
   @Test
   public void testBadInputs() {
     UserIO[] interactions = new UserIO[]{
         prints(this.welcomeMessage()),
+        inputs(""),
         prints("Type instruction:"),
-        inputs("load res/img1.ppm test"),
-        prints("File is loaded."),
+        prints("Unknown command, please try again. (╥﹏╥)"),
         prints("Type instruction:"),
-        inputs("save res/out1.ppm test"),
-        prints("File is saved."),
+        inputs("value-component"),
+        prints("Command failed: not enough arguments provided"),
         prints("Type instruction:"),
-        inputs("q"),
+        inputs("brighten quit"),
+        prints("Command failed: Invalid input type instead of integer."),
+        prints("Type instruction:"),
+        inputs("brighten 10"),
+        prints("Command failed: not enough arguments provided"),
+        prints("Type instruction:"),
+        inputs("brighten 10 jeffry matthew"),
+        prints("Command failed: Unknown image."),
+        prints("Type instruction:"),
+        inputs("load res/donotcreatedonotcreatedonotcreate res"),
+        prints("Command failed: Cannot load file."),
+        prints("Type instruction:"),
+        inputs("load tests/ColorTest.java test"),
+        prints("Command failed: Invalid PPM file: plain RAW file should begin with P3"),
+        prints("Type instruction:"),
+        inputs("quit"),
         prints(this.farewellMessage())
     };
 
@@ -350,6 +446,12 @@ public class ImageProcessingControllerImplTest extends TestHelper {
 
     String expected = this.runController(model, view, interactions);
     assertEquals(expected, outputLog.toString());
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testNoMoreInputs() {
+    this.runController(new MockModel(new StringBuilder(), new ArrayList<>()),
+        new MockView(new StringBuilder()));
   }
 
   private void testFile(String path, String contents) {

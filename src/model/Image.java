@@ -89,7 +89,7 @@ public class Image implements ImageTransform {
   }
 
   @Override
-  public Image transform(ColorFunction map) throws IllegalArgumentException {
+  public ImageTransform transform(ColorFunction map) throws IllegalArgumentException {
     if (map == null) {
       throw new IllegalArgumentException("Function cannot be null.");
     }
