@@ -7,9 +7,21 @@ import java.util.Objects;
  * Each channel value is a positive integer.
  */
 public class RGBColor {
+  //INVARIANT: Is a positive integer (0 inclusive)
+  //Reason: The channel value can be as high as the image specification
+  // and 0 will always be black
   private final int red;
+  //INVARIANT: Is a positive integer (0 inclusive)
+  //Reason: The channel value can be as high as the image specification
+  // and 0 will always be black
   private final int green;
+  //INVARIANT: Is a positive integer (0 inclusive)
+  //Reason: The channel value can be as high as the image specification
+  // and 0 will always be black
   private final int blue;
+  //INVARIANT: Is a positive integer (0 inclusive)
+  //Reason: The channel value can be as high as the image specification
+  // and 0 will always be opaque
   private final int transparency;
 
   /**
@@ -33,7 +45,7 @@ public class RGBColor {
    */
   public RGBColor(int red, int green, int blue, int transparency) throws IllegalArgumentException {
     if (red < 0 || green < 0 || blue < 0 || transparency < 0) {
-      throw new IllegalArgumentException("Cannot represent this color composition.");
+      throw new IllegalArgumentException("Color channel cannot be below 0.");
     }
 
     this.red = red;
@@ -104,7 +116,7 @@ public class RGBColor {
   public int getLuma() {
     return (int) (0.2126 * red + 0.7152 * green + 0.0722 * blue);
   }
-  
+
   /**
    * Two RGBColors are equal if they have the same values for the red, green, and blue channels.
    *
@@ -113,6 +125,7 @@ public class RGBColor {
    */
   @Override
   public boolean equals(Object obj) {
+    if (obj == this) return true;
     if (!(obj instanceof RGBColor)) return false;
 
     RGBColor that = (RGBColor) obj;

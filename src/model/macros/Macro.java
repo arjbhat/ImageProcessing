@@ -8,6 +8,7 @@ import model.Image;
 public interface Macro {
   /**
    * We can execute any operation on an image - producing a new transformed image.
+   * (Completely implementation based)
    *
    * @param img the image that we're working on
    * @return a new image that has undergone the transformation

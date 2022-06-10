@@ -59,18 +59,31 @@ public class RGBColorTest {
     this.tryColor(-1, 0, 255);
     this.tryColor(0, -1, 255);
     this.tryColor(0, 255, -1);
-    // Try number greater than 255 in each of the slots
-    this.tryColor(256, 0, 0);
-    this.tryColor(0, 256, 0);
-    this.tryColor(0, 0, 256);
+
+    this.tryColor(-1, 0, 0, 255);
+    this.tryColor(0, -1, 0, 255);
+    this.tryColor(0, 0, -1, 255);
+    this.tryColor(0, 0, 255, -1);
+    // We can construct colors that have a value greater than 255.
+    // it's the image that adds the constraints.
   }
 
-  private void tryColor(int r, int g, int b) {
-    try {
-      RGBColor c = new RGBColor(r, g, b);
-      fail("Unrepresentable color constructed");
-    } catch (IllegalArgumentException e) {
-      assertEquals("Cannot represent this color composition.", e.getMessage());
+  private void tryColor(int... args) {
+    if (args.length == 3) {
+      try {
+        RGBColor c = new RGBColor(args[0], args[1], args[2]);
+        fail("Unrepresentable color constructed");
+      } catch (IllegalArgumentException e) {
+        assertEquals("Color channel cannot be below 0.", e.getMessage());
+      }
+    }
+    if (args.length == 4) {
+      try {
+        RGBColor c = new RGBColor(args[0], args[1], args[2], args[3]);
+        fail("Unrepresentable color constructed");
+      } catch (IllegalArgumentException e) {
+        assertEquals("Color channel cannot be below 0.", e.getMessage());
+      }
     }
   }
 
@@ -190,10 +203,12 @@ public class RGBColorTest {
 
   @Test
   public void getTransparency() {
-    red = new RGBColor(255, 0, 0, 0);
-    assertEquals(54, red.getLuma());
-    assertEquals(145, orange.getLuma());
-    assertEquals(236, yellow.getLuma());
+    red = new RGBColor(255, 0, 0);
+    assertEquals(0, red.getTransparency());
+    red = new RGBColor(255, 0, 0, 10);
+    assertEquals(10, red.getTransparency());
+    red = new RGBColor(255, 0, 0, 20);
+    assertEquals(20, red.getTransparency());
   }
 
   @Test
@@ -217,7 +232,5 @@ public class RGBColorTest {
     assertEquals(8520226, red.hashCode());
     assertEquals(1168576, lime.hashCode());
     assertEquals(931426, blue.hashCode());
-
-    assertEquals("", "");
   }
 }

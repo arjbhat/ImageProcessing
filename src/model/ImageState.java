@@ -6,7 +6,8 @@ package model;
 public interface ImageState {
 
   /**
-   * Returns the maximum value of all color channels in this image.
+   * This defines the scale of values possible for the color intensities.
+   * This can be any value. (Usually between 0 and 255)
    */
   int getMaxValue();
 
@@ -30,4 +31,8 @@ public interface ImageState {
    * @return an RGB color at a specific position
    */
   RGBColor getColorAt(int row, int col) throws IllegalArgumentException;
+
+  boolean equals(Object other);
+
+  int hashCode();
 }

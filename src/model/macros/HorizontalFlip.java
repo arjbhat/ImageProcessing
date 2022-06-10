@@ -6,6 +6,10 @@ import model.Image;
  * The macro that transforms an image by flipping the image horizontally. It's the mirror image.
  */
 public class HorizontalFlip implements Macro {
+
+  /**
+   * Transforms images to their mirror counterpart. (horizontally)
+   */
   @Override
   public Image execute(Image img) {
     return img.transform((c, y, x)

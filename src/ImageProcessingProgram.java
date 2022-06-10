@@ -2,8 +2,11 @@ import java.io.InputStreamReader;
 
 import controller.ImageProcessingController;
 import controller.ImageProcessingControllerImpl;
+import model.Image;
 import model.ImageProcessingModel;
 import model.ImageProcessingModelImpl;
+import view.ImageProcessingView;
+import view.ImageProcessingViewImpl;
 
 /**
  * The image processing program that is used to manipulate images.
@@ -17,8 +20,8 @@ public class ImageProcessingProgram {
   public static void main(String[] args) {
     ImageProcessingModel model = new ImageProcessingModelImpl();
     Readable input = new InputStreamReader(System.in);
-    Appendable output = System.out;
-    ImageProcessingController controller = new ImageProcessingControllerImpl(model, input, output);
+    ImageProcessingView output = new ImageProcessingViewImpl();
+    ImageProcessingController controller = new ImageProcessingControllerImpl(model, output, input);
     controller.control();
   }
 }
