@@ -11,6 +11,7 @@ import java.util.Scanner;
 import controller.ImageProcessingControllerImpl;
 import model.Color;
 import model.ImageProcessingModel;
+import model.ImageProcessingModelImpl;
 import model.macros.Brighten;
 import model.macros.Grayscale;
 import model.macros.HorizontalFlip;
@@ -22,7 +23,6 @@ import view.ImageProcessingViewImpl;
 import static org.junit.Assert.*;
 
 public class ImageProcessingControllerImplTest extends TestHelper {
-
   private static UserIO inputs(String in) {
     return (input, output) -> {
       input.append(in).append('\n');
@@ -172,6 +172,184 @@ public class ImageProcessingControllerImplTest extends TestHelper {
     assertTrue(macroLog.get(9) instanceof Brighten);
     assertEquals(this.imageBrightness(img1, -11),
         macroLog.get(9).execute(img1));
+
+    testFile("res/out.ppm", "P3\n" + "0 0\n" + "0\n");
+  }
+
+  @Test
+  public void testControllerToView() {
+    UserIO[] interactions = new UserIO[]{
+        prints("method: renderMessage"), // welcome
+        prints("method: renderMessage"),
+        prints("method: renderMessage"),
+        prints("method: renderMessage"), // type input
+        inputs("menu"),
+        prints("method: renderMessage"), // 9 menu options
+        prints("method: renderMessage"),
+        prints("method: renderMessage"),
+        prints("method: renderMessage"),
+        prints("method: renderMessage"),
+        prints("method: renderMessage"),
+        prints("method: renderMessage"),
+        prints("method: renderMessage"),
+        prints("method: renderMessage"),
+        prints("method: renderMessage"), // type input
+        inputs(""),
+        prints("method: renderMessage"), // command failed
+        prints("method: renderMessage"), // type input
+        inputs("garble"),
+        prints("method: renderMessage"), // command failed
+        prints("method: renderMessage"), // type input
+        inputs("garble wkefnkwenf awef we fw ef wef wef wf weff wef we"),
+        prints("method: renderMessage"), // command failed
+        prints("method: renderMessage"), // type input
+        inputs("red-component a"),
+        prints("method: renderMessage"), // command failed
+        prints("method: renderMessage"), // type input
+        inputs("red-component a b"),
+        prints("method: renderMessage"), // command failed
+        prints("method: renderMessage"), // type input
+        inputs("brighten fe"),
+        prints("method: renderMessage"), // command failed
+        prints("method: renderMessage"), // type input
+        inputs("brighten 50 fas"),
+        prints("method: renderMessage"), // command failed
+        prints("method: renderMessage"), // type input
+        inputs("load res/img1.ppm arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("red-component arj red-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("green-component arj green-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("blue-component arj blue-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("value-component arj value-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("luma-component arj luma-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("intensity-component arj intensity-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("horizontal-flip arj horizontal-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("vertical-flip arj vertical-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("brighten 10 arj brighten-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("brighten -11 arj brighten-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("save res/out.ppm arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("q"),
+        prints("method: renderMessage"), // thank you
+    };
+    StringBuilder viewLog = new StringBuilder();
+    ImageProcessingModel model = new ImageProcessingModelImpl();
+    ImageProcessingView view = new MockView(viewLog);
+
+    String expected = runController(model, view, interactions);
+
+    assertEquals(expected, viewLog.toString());
+    testFile("res/out.ppm", "P3\n"
+        + "2 3\n"
+        + "127\n"
+        + "0\n"
+        + "0\n"
+        + "0\n"
+        + "100\n"
+        + "50\n"
+        + "25\n"
+        + "50\n"
+        + "100\n"
+        + "25\n"
+        + "50\n"
+        + "25\n"
+        + "100\n"
+        + "25\n"
+        + "50\n"
+        + "100\n"
+        + "100\n"
+        + "100\n"
+        + "100\n");
+  }
+
+  @Test
+  public void testFileIO() {
+    UserIO[] interactions = new UserIO[]{
+        prints(this.welcomeMessage()),
+        prints("Type instruction:"),
+        inputs("load res/img1.ppm test"),
+        prints("File is loaded."),
+        prints("Type instruction:"),
+        inputs("save res/out1.ppm test"),
+        prints("File is saved."),
+        prints("Type instruction:"),
+        inputs("q"),
+        prints(this.farewellMessage())
+    };
+
+    StringBuilder outputLog = new StringBuilder();
+    ImageProcessingModel model = new ImageProcessingModelImpl();
+    ImageProcessingView view = new ImageProcessingViewImpl(outputLog);
+
+    String expected = this.runController(model, view, interactions);
+    assertEquals(expected, outputLog.toString());
+    assertEquals(model.getImage("test"), this.img1);
+    testFile("res/out1.ppm", "P3\n"
+        + "2 3\n"
+        + "127\n"
+        + "0\n"
+        + "0\n"
+        + "0\n"
+        + "100\n"
+        + "50\n"
+        + "25\n"
+        + "50\n"
+        + "100\n"
+        + "25\n"
+        + "50\n"
+        + "25\n"
+        + "100\n"
+        + "25\n"
+        + "50\n"
+        + "100\n"
+        + "100\n"
+        + "100\n"
+        + "100\n");
+  }
+
+  @Test
+  public void testBadInputs() {
+    UserIO[] interactions = new UserIO[]{
+        prints(this.welcomeMessage()),
+        prints("Type instruction:"),
+        inputs("load res/img1.ppm test"),
+        prints("File is loaded."),
+        prints("Type instruction:"),
+        inputs("save res/out1.ppm test"),
+        prints("File is saved."),
+        prints("Type instruction:"),
+        inputs("q"),
+        prints(this.farewellMessage())
+    };
+
+    StringBuilder outputLog = new StringBuilder();
+    ImageProcessingModel model = new ImageProcessingModelImpl();
+    ImageProcessingView view = new ImageProcessingViewImpl(outputLog);
+
+    String expected = this.runController(model, view, interactions);
+    assertEquals(expected, outputLog.toString());
   }
 
   private void testFile(String path, String contents) {

@@ -15,6 +15,6 @@ public class MockView implements ImageProcessingView {
 
   @Override
   public void renderMessage(String message) throws IOException {
-    log.append(String.format("method: renderMessage message: %s", message)).append("\n");
+    log.append("method: renderMessage").append("\n");
   }
 }

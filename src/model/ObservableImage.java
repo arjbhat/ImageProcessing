@@ -1,5 +1,8 @@
 package model;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * The image that the model returns so that the user cannot cast the Image from an ImageState to an
  * ImageTransform (where the transform method can be called on it).
@@ -32,5 +35,15 @@ public class ObservableImage implements ImageState {
   @Override
   public Color getColorAt(int row, int col) throws IllegalArgumentException {
     return this.state.getColorAt(row, col);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return this.state.equals(obj);
+  }
+
+  @Override
+  public int hashCode() {
+    return this.state.hashCode();
   }
 }
