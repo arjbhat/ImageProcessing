@@ -3,7 +3,7 @@ package view;
 import java.io.IOException;
 
 /**
- * Represents the view that sends output to the appendable.
+ * Represents the view that sends output to the appendable. It is used by the controller.
  */
 public interface ImageProcessingView {
   /**

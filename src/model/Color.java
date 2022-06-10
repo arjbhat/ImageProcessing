@@ -2,7 +2,7 @@ package model;
 
 /**
  * The color interface that is used to represent colors that have a Red, Green, and Blue channel.
- * Alternatively, it can also have a value, intensity, and luma based channel.
+ * The intensity, luma, and value can also be observed.
  */
 public interface Color {
   /**

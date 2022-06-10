@@ -5,7 +5,8 @@ import java.io.IOException;
 import model.ImageProcessingState;
 
 /**
- * Transmits the output to the appendable (destination).
+ * Transmits the output to the appendable (destination) - printing messages exactly as they are.
+ * The default constructor uses the system output.
  */
 public class ImageProcessingViewImpl implements ImageProcessingView {
   private final Appendable destination;
