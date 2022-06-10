@@ -15,6 +15,9 @@ import model.RGBColor;
 import view.ImageProcessingView;
 import view.ImageProcessingViewImpl;
 
+/**
+ * Useful methods and fields for all sorts of image testing.
+ */
 public abstract class TestHelper {
   protected ImageTransform img0;
   protected Color[][] img1arr;

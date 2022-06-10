@@ -1,13 +1,16 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Image;
-import model.ImageState;
 import model.ImageTransform;
 import model.ObservableImage;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
+/**
+ * Tests for an observable image.
+ */
 public class ObservableImageTest extends TestHelper {
 
   @Test

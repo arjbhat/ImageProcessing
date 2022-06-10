@@ -1,4 +1,3 @@
-import org.junit.Before;
 import org.junit.Test;
 
 import model.Color;
@@ -7,12 +6,20 @@ import model.ImageState;
 import model.ImageTransform;
 import model.RGBColor;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
+/**
+ * Testing for Images.
+ */
 public class ImageTest extends TestHelper {
 
   @Test
   public void testIndexLargerThanMaxValue() {
+    assertNotNull(img1arr);
     this.constructInvalidImage(img1arr, 50,
         "Row: 0 Col: 1 has a color value larger than channel size.");
     this.constructInvalidImage(img2arr, 25,
@@ -21,14 +28,17 @@ public class ImageTest extends TestHelper {
 
   @Test
   public void testNegativeMaxValue() {
+    assertNotNull(img1arr);
     this.constructInvalidImage(img1arr, -1, "Invalid max value.");
     this.constructInvalidImage(img2arr, -5, "Invalid max value.");
   }
 
   @Test
   public void testNullArray() {
-    this.constructInvalidImage(null, 255, "RGBColor array cannot be null.");
-    this.constructInvalidImage(null, 255, "RGBColor array cannot be null.");
+    img1 = null;
+    this.constructInvalidImage(null, 255, "Color array cannot be null.");
+    this.constructInvalidImage(null, 255, "Color array cannot be null.");
+    assertNull(img1);
   }
 
   // Abstraction for constructing invalid images
@@ -75,17 +85,20 @@ public class ImageTest extends TestHelper {
 
   @Test
   public void getInvalidColor() {
+    assertNotNull(img0);
     this.getInvalidColor(img0, 0, 0);
     this.getInvalidColor(img0, 1, 1);
     this.getInvalidColor(img0, -1, 0);
     this.getInvalidColor(img0, 0, -1);
 
+    assertNotNull(img1);
     this.getInvalidColor(img1, 0, 2);
     this.getInvalidColor(img1, 3, 0);
     this.getInvalidColor(img1, 3, 2);
     this.getInvalidColor(img1, -1, 0);
     this.getInvalidColor(img1, 0, -1);
 
+    assertNotNull(img2);
     this.getInvalidColor(img2, 0, 3);
     this.getInvalidColor(img2, 2, 0);
     this.getInvalidColor(img2, 2, 3);

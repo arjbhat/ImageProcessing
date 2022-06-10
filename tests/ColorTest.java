@@ -6,10 +6,11 @@ import model.RGBColor;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 /**
- * Testing if all the methods in our RGB color system work
+ * Testing if all the methods in our RGB color system work.
  */
 public class ColorTest {
   private Color red;
@@ -29,7 +30,7 @@ public class ColorTest {
   private Color navy;
 
   /**
-   * Let's start by initialising some colors
+   * Let's start by initialising some colors.
    */
   @Before
   public void initColors() {
@@ -56,6 +57,7 @@ public class ColorTest {
    */
   @Test
   public void testConstructorExceptions() {
+    this.red = null;
     // Try negative in each of the slots
     this.tryColor(-1, 0, 255);
     this.tryColor(0, -1, 255);
@@ -65,6 +67,7 @@ public class ColorTest {
     this.tryColor(0, -1, 0, 255);
     this.tryColor(0, 0, -1, 255);
     this.tryColor(0, 0, 255, -1);
+    assertNull(this.red);
     // We can construct colors that have a value greater than 255.
     // it's the image that adds the constraints.
   }
@@ -72,7 +75,7 @@ public class ColorTest {
   private void tryColor(int... args) {
     if (args.length == 3) {
       try {
-        Color c = new RGBColor(args[0], args[1], args[2]);
+        this.red = new RGBColor(args[0], args[1], args[2]);
         fail("Unrepresentable color constructed");
       } catch (IllegalArgumentException e) {
         assertEquals("Color channel cannot be below 0.", e.getMessage());
@@ -80,7 +83,7 @@ public class ColorTest {
     }
     if (args.length == 4) {
       try {
-        Color c = new RGBColor(args[0], args[1], args[2], args[3]);
+        this.red = new RGBColor(args[0], args[1], args[2], args[3]);
         fail("Unrepresentable color constructed");
       } catch (IllegalArgumentException e) {
         assertEquals("Color channel cannot be below 0.", e.getMessage());

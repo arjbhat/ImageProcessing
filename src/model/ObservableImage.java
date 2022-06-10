@@ -1,8 +1,5 @@
 package model;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 /**
  * The image that the model returns so that the user cannot cast the Image from an ImageState to an
  * ImageTransform (where the transform method can be called on it).
@@ -10,6 +7,12 @@ import java.util.Objects;
 public class ObservableImage implements ImageState {
   private final ImageState state;
 
+  /**
+   * Construct an observable image using an image state.
+   *
+   * @param state the image state to observe with this.
+   * @throws IllegalArgumentException if the given image state is null
+   */
   public ObservableImage(ImageState state) throws IllegalArgumentException {
     if (state == null) {
       throw new IllegalArgumentException("Image cannot be null.");

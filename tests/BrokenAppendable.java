@@ -1,5 +1,8 @@
 import java.io.IOException;
 
+/**
+ * Represents an appendable that only throws IOExceptions.
+ */
 public class BrokenAppendable implements Appendable {
 
   @Override

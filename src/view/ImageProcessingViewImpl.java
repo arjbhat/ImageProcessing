@@ -2,8 +2,6 @@ package view;
 
 import java.io.IOException;
 
-import model.ImageProcessingState;
-
 /**
  * Transmits the output to the appendable (destination) - printing messages exactly as they are.
  * The default constructor uses the system output.
@@ -15,7 +13,7 @@ public class ImageProcessingViewImpl implements ImageProcessingView {
    * Constructor for our Image Processing view.
    */
   public ImageProcessingViewImpl() throws IllegalArgumentException {
-    this.destination = System.out;
+    this(System.out);
   }
 
   /**
@@ -25,8 +23,7 @@ public class ImageProcessingViewImpl implements ImageProcessingView {
    * @param destination the appendable object that this view uses as its destination
    * @throws IllegalArgumentException If the appendable is of type null
    */
-  public ImageProcessingViewImpl(Appendable destination)
-          throws IllegalArgumentException {
+  public ImageProcessingViewImpl(Appendable destination) throws IllegalArgumentException {
     if (destination == null) {
       throw new IllegalArgumentException("Invalid appendable of type null.");
     }

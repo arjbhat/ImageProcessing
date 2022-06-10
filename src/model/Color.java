@@ -1,40 +1,40 @@
 package model;
 
 /**
- * The color interface that is used to represent colors that have a Red, Green, and Blue channel.
- * The intensity, luma, and value can also be observed.
+ * The color interface that is used to represent colors that are on the observable color spectrum.
+ * The red, green, and blue components, as well as the intensity, luma, and value can be observed.
  */
 public interface Color {
   /**
-   * Get the red component of this color (between 0-255).
+   * Get the red component of this color.
    *
    * @return the red channel of the color
    */
   int getRed();
 
   /**
-   * Get the green component of this color (between 0-255).
+   * Get the green component of this color.
    *
    * @return the green channel of the color
    */
   int getGreen();
 
   /**
-   * Get the blue component of this color (between 0-255).
+   * Get the blue component of this color.
    *
    * @return the blue channel of the color
    */
   int getBlue();
 
   /**
-   * Get the transparency this color (between 0-255).
+   * Get the transparency this color.
    *
    * @return the transparency of the color.
    */
   int getTransparency();
 
   /**
-   * Get the largest component of this color (between 0-255).
+   * Get the largest component of this color.
    *
    * @return the largest channel of the color
    */
@@ -48,7 +48,7 @@ public interface Color {
   int getIntensity();
 
   /**
-   * Get the weighted sum of the color using the
+   * Get the weighted sum of the color using the RGB channels.
    *
    * @return the luminescence of the color
    */

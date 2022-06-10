@@ -2,7 +2,6 @@ package model.macros;
 
 import java.util.function.Function;
 
-import model.Image;
 import model.ImageTransform;
 import model.RGBColor;
 

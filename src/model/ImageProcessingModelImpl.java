@@ -12,10 +12,10 @@ public class ImageProcessingModelImpl implements ImageProcessingModel {
   private final Map<String, ImageTransform> images;
 
   /**
-   * The constructor for the model.
+   * The constructor for the model. Start with no images saved.
    */
   public ImageProcessingModelImpl() {
-    images = new HashMap<>();
+    this.images = new HashMap<>();
   }
 
   @Override
@@ -24,7 +24,7 @@ public class ImageProcessingModelImpl implements ImageProcessingModel {
     if (name == null) {
       throw new IllegalArgumentException("String name cannot be null.");
     }
-    images.put(name, new Image(colors, maxValue));
+    this.images.put(name, new Image(colors, maxValue));
   }
 
   @Override
@@ -38,20 +38,20 @@ public class ImageProcessingModelImpl implements ImageProcessingModel {
     if (newName == null) {
       throw new IllegalArgumentException("New String name cannot be null.");
     }
-    if (!images.containsKey(target)) {
+    if (!this.images.containsKey(target)) {
       throw new IllegalArgumentException("Unknown image.");
     }
-    images.put(newName, command.execute(images.get(target)));
+    this.images.put(newName, command.execute(this.images.get(target)));
   }
 
   @Override
   public ImageState getImage(String name) {
-    if (!images.containsKey(name)) {
+    if (!this.images.containsKey(name)) {
       throw new IllegalArgumentException("Unknown image.");
     }
     if (name == null) {
       throw new IllegalArgumentException("String name cannot be null.");
     }
-    return new ObservableImage(images.get(name));
+    return new ObservableImage(this.images.get(name));
   }
 }

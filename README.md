@@ -15,7 +15,12 @@ console to the system input. The provided sample images are in the `res/` folder
 ### Design:
 
 The code (besides the main class for the program) is split into 3 packages: model, view,
-and controller.
+and controller. The view and controller structure is mostly self-explanatory, with details
+provided below. The model consists of the model, which manages many images, which are
+made of a grid of colors. The logic for image operations is mostly handled by macros
+such as Grayscale and Brighten. The controller makes use of the command design pattern
+with the commands stored internally rather than declared as separate classes.
+The UML diagram is provided in the `UMLDiagram.png` file.
 
 - View:
     - (interface) ImageProcessingView: This represents a view that can be used by the
@@ -42,25 +47,22 @@ and controller.
       allows creating images and making new images by running macros on existing images.
     - (class) ImageProcessingModelImpl: This class stores images in a map for the controller
       to run macros on as needed.
-    - (interface) Macro: This represents a way to transform an image somehow
-
-Let's start with understanding the immutable objects that this program works with.
-
-The foundation of any image processing application is built with images and colors.
-We have represented Colors with a single class called RGBColors.
-Colors have final invariant fields that cannot be mutated after
-an image object has been constructed.
-This makes colors like any primitive data - immutable.
-Images (a 2D array of colors) is also built like an immutable class.
-No method in the Image class mutates the image in any way once it has been constructed
-with a 2D array and a max-value for all of its colors.
-The Image class implements the ImageTransform interface that has a method named transform
-(that returns a new Image) that allows that creation of other images like it.
-This does not mean that the original image was changed in any way
-(just that a new Image was created using some of its properties).
-The ImageTransform interface extends the ImageState which has the methods
-(getMaxValue, getHeight, getWidth, and getColorAt).
-This interface is only observable and does not allow the user to work on it.
+    - (interface) Macro: This represents a function to transform an image somehow.
+    - (class) Grayscale: This represents a function transforming an image to a grayscale of
+      one of its components Specified by a function from a color to its grayscale value.
+    - (class) Brighten: This represents a function transforming an image to a brighter or
+      darker version of the image depending on the value to change the brightness by.
+    - (class) HorizontalFlip: This represents a function transforming an image into its
+      horizontally flipped counterpart.
+    - (class) VerticalFlip: This represents a function transforming an image into its
+      vertically flipped counterpart.
+- Controller:
+    - (interface) ImageProcessingController: This represents a controller that accepts
+      user input to run an image processing model, displaying output to a given view.
+    - (interface) ImageProcessingCommand: This represents a function to handle inputs
+      for an individual command, and pass the values to the model to properly run the command.
+    - (class) ImageProcessingControllerImpl: This class controls the model from inputs
+      taken from a readable and handles commands line by line.
 
 ### Citation:
 

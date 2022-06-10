@@ -7,20 +7,20 @@ import java.util.Objects;
  * Each channel value is a positive integer.
  */
 public class RGBColor implements Color {
-  //INVARIANT: Is a positive integer (0 inclusive)
-  //Reason: The channel value can be as high as the image specification
+  // INVARIANT: Is a positive integer (0 inclusive)
+  // Reason: The channel value can be as high as the image specification
   // and 0 will always be black
   private final int red;
-  //INVARIANT: Is a positive integer (0 inclusive)
-  //Reason: The channel value can be as high as the image specification
+  // INVARIANT: Is a positive integer (0 inclusive)
+  // Reason: The channel value can be as high as the image specification
   // and 0 will always be black
   private final int green;
-  //INVARIANT: Is a positive integer (0 inclusive)
-  //Reason: The channel value can be as high as the image specification
+  // INVARIANT: Is a positive integer (0 inclusive)
+  // Reason: The channel value can be as high as the image specification
   // and 0 will always be black
   private final int blue;
-  //INVARIANT: Is a positive integer (0 inclusive)
-  //Reason: The channel value can be as high as the image specification
+  // INVARIANT: Is a positive integer (0 inclusive)
+  // Reason: The channel value can be as high as the image specification
   // and 0 will always be opaque
   private final int transparency;
 
@@ -91,8 +91,12 @@ public class RGBColor implements Color {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj == this) return true;
-    if (!(obj instanceof Color)) return false;
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof Color)) {
+      return false;
+    }
 
     Color that = (Color) obj;
     return this.getRed() == that.getRed()

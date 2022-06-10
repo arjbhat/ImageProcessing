@@ -8,17 +8,17 @@ import java.util.Objects;
  * image. An image is a 2D array of colors and a max value for the channels.
  */
 public class Image implements ImageTransform {
-  //INVARIANT: Is a non-negative integer
-  //Reason: You can have an image with no height (blank image)
+  // INVARIANT: Is a non-negative integer
+  // Reason: You can have an image with no height (blank image)
   private final int height;
-  //INVARIANT: Is a non-negative integer
-  //Reason: You can have an image with no width (blank image)
+  // INVARIANT: Is a non-negative integer
+  // Reason: You can have an image with no width (blank image)
   private final int width;
-  //INVARIANT: Is a positive integer
-  //Reason: Cannot be 0 because 0 only represents black but can be any positive integer
+  // INVARIANT: Is a positive integer
+  // Reason: Cannot be 0 because 0 only represents black but can be any positive integer
   // because we can always change what white represents (and base our color scale accordingly)
   private final int maxValue;
-  //INVARIANT: Non-null Color array
+  // INVARIANT: Non-null Color array
   private final Color[][] pane;
 
   /**
@@ -52,7 +52,7 @@ public class Image implements ImageTransform {
           throw new IllegalArgumentException(
               "Row: " + row + " Col: " + col + " has a color value larger than channel size.");
         }
-        pane[row][col] = c;
+        this.pane[row][col] = c;
       }
     }
   }
@@ -107,19 +107,14 @@ public class Image implements ImageTransform {
     return new Image(newPane, height, width, maxValue);
   }
 
-  /**
-   * Checks if two images are same. It first checks if the two objects have the same reference and
-   * returns true if they do. If they don't then it checks if it's an instance of the ImageState
-   * and if they have the same width, height, max-value, and all the colors in the image are
-   * in the same position as this one.
-   *
-   * @param obj the object that we are comparing this image with
-   * @return true if they represent the same image and false otherwise
-   */
   @Override
   public boolean equals(Object obj) {
-    if (obj == this) return true;
-    if (!(obj instanceof ImageState)) return false;
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof ImageState)) {
+      return false;
+    }
 
     Image that = (Image) obj;
     if (!(this.height == that.getHeight()
@@ -136,11 +131,7 @@ public class Image implements ImageTransform {
     }
     return true;
   }
-
-  /**
-   * Returns an integer hash using Objects.hash on the height, width, max-value, and
-   * Arrays.deepHashCode on the array storing the colors.
-   */
+  
   @Override
   public int hashCode() {
     return Objects.hash(height, width, maxValue, Arrays.deepHashCode(pane));

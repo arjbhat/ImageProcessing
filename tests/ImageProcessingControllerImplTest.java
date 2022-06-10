@@ -1,7 +1,6 @@
 import org.junit.Test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -20,8 +19,13 @@ import model.macros.VerticalFlip;
 import view.ImageProcessingView;
 import view.ImageProcessingViewImpl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+/**
+ * Tests for the controller implementation.
+ */
 public class ImageProcessingControllerImplTest extends TestHelper {
   private static UserIO inputs(String in) {
     return (input, output) -> {
@@ -446,6 +450,81 @@ public class ImageProcessingControllerImplTest extends TestHelper {
 
     String expected = this.runController(model, view, interactions);
     assertEquals(expected, outputLog.toString());
+  }
+
+  @Test
+  public void testScript() {
+    StringBuilder outputLog = new StringBuilder();
+    ImageProcessingModel model = new ImageProcessingModelImpl();
+    ImageProcessingView view = new ImageProcessingViewImpl(outputLog);
+
+    try (FileReader file = new FileReader("script.txt")) {
+      new ImageProcessingControllerImpl(model, view, file).control();
+    } catch (IOException e) {
+      fail("Script missing");
+    }
+
+    assertEquals(String.join("\n", this.welcomeMessage()) + "\n"
+        + "Type instruction:\n"
+        + "File is loaded.\n"
+        + "Type instruction:\n"
+        + "Red-component image created.\n"
+        + "Type instruction:\n"
+        + "Green-component image created.\n"
+        + "Type instruction:\n"
+        + "Blue-component image created.\n"
+        + "Type instruction:\n"
+        + "Value-component image created.\n"
+        + "Type instruction:\n"
+        + "Luma-component image created.\n"
+        + "Type instruction:\n"
+        + "Intensity-component image created.\n"
+        + "Type instruction:\n"
+        + "Vertically flipped image created.\n"
+        + "Type instruction:\n"
+        + "Horizontally flipped image created.\n"
+        + "Type instruction:\n"
+        + "Brightness changed image created.\n"
+        + "Type instruction:\n"
+        + "Brightness changed image created.\n"
+        + "Type instruction:\n"
+        + "File is saved.\n"
+        + "Type instruction:\n"
+        + "File is saved.\n"
+        + "Type instruction:\n"
+        + "File is saved.\n"
+        + "Type instruction:\n"
+        + "File is saved.\n"
+        + "Type instruction:\n"
+        + "File is saved.\n"
+        + "Type instruction:\n"
+        + "File is saved.\n"
+        + "Type instruction:\n"
+        + "File is saved.\n"
+        + "Type instruction:\n"
+        + "File is saved.\n"
+        + "Type instruction:\n"
+        + "File is saved.\n"
+        + "Type instruction:\n"
+        + "File is saved.\n"
+        + "Type instruction:\n"
+        + String.join("\n", this.farewellMessage()) + "\n", outputLog.toString());
+    String[] files = new String[]{
+        "res/arjunRedComponent.ppm",
+        "res/arjunGreenComponent.ppm",
+        "res/arjunBlueComponent.ppm",
+        "res/arjunValueComponent.ppm",
+        "res/arjunLumaComponent.ppm",
+        "res/arjunIntensityComponent.ppm",
+        "res/arjunVerticalFlip.ppm",
+        "res/arjunHorizontalFlip.ppm",
+        "res/arjunBrighter.ppm",
+        "res/arjunDarker.ppm"
+    };
+    for (String fileName : files) {
+      File file = new File(fileName);
+      file.deleteOnExit();
+    }
   }
 
   @Test(expected = IllegalStateException.class)

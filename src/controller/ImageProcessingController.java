@@ -9,7 +9,9 @@ package controller;
 public interface ImageProcessingController {
 
   /**
-   * Controls the whole program until the user quits and performs specified operations.
+   * Controls the whole program until the user quits and performs specified operations from
+   * the predefined known commands. This program only reads inputs one line at a time - limiting
+   * any unknown bugs or unexpected behavior.
    *
    * @throws IllegalStateException only if the controller is unable to successfully transmit output
    *                               to the appendable or read from the readable (runs out of inputs).

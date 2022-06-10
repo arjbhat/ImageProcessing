@@ -1,6 +1,5 @@
 package model.macros;
 
-import model.Image;
 import model.ImageTransform;
 
 /**

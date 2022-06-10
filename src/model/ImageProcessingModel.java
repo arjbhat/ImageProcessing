@@ -6,7 +6,6 @@ import model.macros.Macro;
  * Represents the model that contains, manages, and works on images.
  */
 public interface ImageProcessingModel extends ImageProcessingState {
-
   /**
    * Creates an image with the Color array, the name provided and the max value - placing it
    * in the map that the Model uses.

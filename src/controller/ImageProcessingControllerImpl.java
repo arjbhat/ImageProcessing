@@ -45,7 +45,8 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
    * @param output the view that we relay information with
    * @throws IllegalArgumentException if the model, readable, or view are null
    */
-  public ImageProcessingControllerImpl(ImageProcessingModel model, ImageProcessingView output, Readable input)
+  public ImageProcessingControllerImpl(ImageProcessingModel model, ImageProcessingView output,
+                                       Readable input)
       throws IllegalArgumentException {
     // We ensure that none of the arguments are null
     if (model == null) {
@@ -157,15 +158,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
           this.writeMessage("Brightness changed image created.");
         });
   }
-
-  /**
-   * Controls the whole program until the user quits and performs specified operations from
-   * the predefined known commands. This program only reads inputs one line at a time - limiting
-   * any unknown bugs.
-   *
-   * @throws IllegalStateException only if the controller is unable to successfully transmit output
-   *                               to the appendable or read from the readable (runs out of inputs).
-   */
+  
   @Override
   public void control() throws IllegalStateException {
     Scanner sc = new Scanner(input);

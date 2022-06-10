@@ -3,7 +3,6 @@ import org.junit.Test;
 import java.util.function.Function;
 
 import model.Color;
-import model.Image;
 import model.ImageState;
 import model.ImageTransform;
 import model.macros.Brighten;
@@ -12,10 +11,15 @@ import model.macros.HorizontalFlip;
 import model.macros.Macro;
 import model.macros.VerticalFlip;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
+/**
+ * Tests for the image processing model implementation.
+ */
 public class ImageProcessingModelImplTest extends TestHelper {
-
   @Test
   public void createImage() {
     // We added the image we had to the model.
@@ -46,6 +50,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
 
   @Test
   public void createImageExceptions() {
+    assertNotNull(model);
     this.createImageException(null, "arjun", 255,
         "Color array cannot be null.");
     this.createImageException(img1arr, "twoByThree", 10,
@@ -70,8 +75,8 @@ public class ImageProcessingModelImplTest extends TestHelper {
     model.createImage(img2arr, "threeByTwo", 255);
 
     // and let's save these images that we loaded
-    ImageState twoByThree = this.imageFromState(model.getImage("twoByThree"));
-    ImageState threeByTwo = this.imageFromState(model.getImage("threeByTwo"));
+    assertNotNull(this.imageFromState(model.getImage("twoByThree")));
+    assertNotNull(this.imageFromState(model.getImage("threeByTwo")));
 
     // Time to test Macros!
 
@@ -127,15 +132,15 @@ public class ImageProcessingModelImplTest extends TestHelper {
     this.testMacro(oldName, newName, new Grayscale(func), this.imageAsComponent(expected, func));
   }
 
-  public void testBrightnessCommand(String oldName, String newName, ImageState expected, int n) {
+  private void testBrightnessCommand(String oldName, String newName, ImageState expected, int n) {
     this.testMacro(oldName, newName, new Brighten(n), this.imageBrightness(expected, n));
   }
 
-  public void testHorizontalCommand(String oldName, String newName, ImageState expected) {
+  private void testHorizontalCommand(String oldName, String newName, ImageState expected) {
     this.testMacro(oldName, newName, new HorizontalFlip(), this.imageHorizontal(expected));
   }
 
-  public void testVerticalCommand(String oldName, String newName, ImageState expected) {
+  private void testVerticalCommand(String oldName, String newName, ImageState expected) {
     this.testMacro(oldName, newName, new VerticalFlip(), this.imageVertical(expected));
   }
 
@@ -163,6 +168,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
   @Test
   public void runCommandExceptions() {
     model.createImage(img1arr, "twoByThree", 127);
+    assertNotNull(model.getImage("twoByThree"));
     this.runCommandException(null, "twoByThree", "threeByTwo",
         "Macro cannot be null.");
     this.runCommandException(new Brighten(5), null, "brighterBy5",

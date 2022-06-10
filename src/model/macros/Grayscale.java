@@ -3,7 +3,6 @@ package model.macros;
 import java.util.function.Function;
 
 import model.Color;
-import model.Image;
 import model.ImageTransform;
 import model.RGBColor;
 
@@ -14,7 +13,7 @@ public class Grayscale implements Macro {
   private final Function<Color, Integer> getChannel;
 
   /**
-   * Constructs the Grayscale Macro
+   * Constructs the Grayscale Macro.
    *
    * @param getChannel the function that returns a channel (int factor of the image)
    * @throws IllegalArgumentException if inputted function is null

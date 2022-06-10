@@ -5,7 +5,6 @@ package model;
  * (where the original image has undergone some change)
  */
 public interface ImageTransform extends ImageState {
-
   /**
    * To transform the image we currently have into a new image.
    *

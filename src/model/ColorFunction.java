@@ -1,7 +1,7 @@
 package model;
 
 /**
- * A function with 3 inputs (RGBColor, row, and column) and one output (a RGBColor).
+ * A function with 3 inputs (Color, row, and column) and one output (a Color).
  */
 public interface ColorFunction {
 

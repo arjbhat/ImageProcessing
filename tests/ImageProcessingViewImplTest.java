@@ -2,12 +2,16 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import controller.ImageProcessingControllerImpl;
 import view.ImageProcessingView;
 import view.ImageProcessingViewImpl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
+/**
+ * Tests for the image processing view implementation.
+ */
 public class ImageProcessingViewImplTest extends TestHelper {
 
   /**
@@ -40,10 +44,11 @@ public class ImageProcessingViewImplTest extends TestHelper {
   }
 
   /**
-   * Test if we can render messages
+   * Test if we can render messages.
    */
   @Test
   public void renderMessage() {
+    assertNotNull(newView1);
     this.tryToSendMessage("Hello", newView1, "Hello");
     this.tryToSendMessage(" my", newView1, "Hello my");
     this.tryToSendMessage(" name", newView1, "Hello my name");
