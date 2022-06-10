@@ -1,7 +1,7 @@
 package model;
 
 /**
- * The image that the model returns so that the user cannot cast the Image from an ImageState to a
+ * The image that the model returns so that the user cannot cast the Image from an ImageState to an
  * ImageTransform (where the transform method can be called on it).
  */
 public class ObservableImage implements ImageState {

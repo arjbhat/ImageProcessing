@@ -10,6 +10,7 @@ import model.Image;
 import model.ImageProcessingModel;
 import model.ImageProcessingModelImpl;
 import model.ImageState;
+import model.ObservableImage;
 import model.RGBColor;
 import view.ImageProcessingView;
 import view.ImageProcessingViewImpl;
@@ -33,6 +34,8 @@ public abstract class TestHelper {
   protected StringBuilder print1;
   protected ImageProcessingController controller1;
   protected ImageProcessingView newView1;
+  protected ImageState observableImage;
+  protected ImageState obsInput;
 
   @Before
   public void initImages() {

@@ -11,7 +11,7 @@ import static org.junit.Assert.fail;
 /**
  * Testing if all the methods in our RGB color system work
  */
-public class RGBColorTest {
+public class ColorTest {
   private Color red;
   private Color orange;
   private Color yellow;

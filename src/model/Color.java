@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * The color interface that is used to represent colors that have a Red, Green, and Blue channel.
+ * Alternatively, it can also have a value, intensity, and luma based channel.
+ */
 public interface Color {
   /**
    * Get the red component of this color (between 0-255).
