@@ -2,9 +2,9 @@ import org.junit.Test;
 
 import java.util.function.Function;
 
+import model.Color;
 import model.Image;
 import model.ImageState;
-import model.RGBColor;
 import model.macros.Brighten;
 import model.macros.Grayscale;
 import model.macros.HorizontalFlip;
@@ -46,14 +46,14 @@ public class ImageProcessingModelImplTest extends TestHelper {
   @Test
   public void createImageExceptions() {
     this.createImageException(null, "arjun", 255,
-            "RGBColor array cannot be null.");
+        "Color array cannot be null.");
     this.createImageException(img1arr, "twoByThree", 10,
-            "Row: 0 Col: 1 has a color value larger than channel size.");
+        "Row: 0 Col: 1 has a color value larger than channel size.");
     this.createImageException(img1arr, null, 255,
-            "String name cannot be null.");
+        "String name cannot be null.");
   }
 
-  private void createImageException(RGBColor[][] arr, String name, int maxValue, String exe) {
+  private void createImageException(Color[][] arr, String name, int maxValue, String exe) {
     try {
       model.createImage(arr, name, maxValue);
       fail("Invalid image created.");
@@ -76,17 +76,17 @@ public class ImageProcessingModelImplTest extends TestHelper {
 
     // On Image 1:
     // Macro 1: RedGrayscale
-    this.testGrayscaleCommand("twoByThree", "redTwoByThree", img1, RGBColor::getRed);
+    this.testGrayscaleCommand("twoByThree", "redTwoByThree", img1, Color::getRed);
     // Macro 2: GreenGrayscale
-    this.testGrayscaleCommand("twoByThree", "greenTwoByThree", img1, RGBColor::getGreen);
+    this.testGrayscaleCommand("twoByThree", "greenTwoByThree", img1, Color::getGreen);
     // Macro 3: BlueGrayscale
-    this.testGrayscaleCommand("twoByThree", "blueTwoByThree", img1, RGBColor::getBlue);
+    this.testGrayscaleCommand("twoByThree", "blueTwoByThree", img1, Color::getBlue);
     // Macro 4: LumaGrayscale
-    this.testGrayscaleCommand("twoByThree", "lumaTwoByThree", img1, RGBColor::getLuma);
+    this.testGrayscaleCommand("twoByThree", "lumaTwoByThree", img1, Color::getLuma);
     // Macro 5: ValueGrayscale
-    this.testGrayscaleCommand("twoByThree", "valueTwoByThree", img1, RGBColor::getValue);
+    this.testGrayscaleCommand("twoByThree", "valueTwoByThree", img1, Color::getValue);
     // Macro 6: IntensityGrayscale
-    this.testGrayscaleCommand("twoByThree", "intensityTwoByThree", img1, RGBColor::getIntensity);
+    this.testGrayscaleCommand("twoByThree", "intensityTwoByThree", img1, Color::getIntensity);
     // Macro 7: Brighten
     this.testBrightnessCommand("twoByThree", "up10TwoByThree", img1, 10);
     this.testBrightnessCommand("twoByThree", "down10TwoByThree", img1, -10);
@@ -99,17 +99,17 @@ public class ImageProcessingModelImplTest extends TestHelper {
 
     // On Image 2:
     // Macro 1: RedGrayscale
-    this.testGrayscaleCommand("threeByTwo", "redThreeByTwo", img2, RGBColor::getRed);
+    this.testGrayscaleCommand("threeByTwo", "redThreeByTwo", img2, Color::getRed);
     // Macro 2: GreenGrayscale
-    this.testGrayscaleCommand("threeByTwo", "greenThreeByTwo", img2, RGBColor::getGreen);
+    this.testGrayscaleCommand("threeByTwo", "greenThreeByTwo", img2, Color::getGreen);
     // Macro 3: BlueGrayscale
-    this.testGrayscaleCommand("threeByTwo", "blueThreeByTwo", img2, RGBColor::getBlue);
+    this.testGrayscaleCommand("threeByTwo", "blueThreeByTwo", img2, Color::getBlue);
     // Macro 4: LumaGrayscale
-    this.testGrayscaleCommand("threeByTwo", "lumaThreeByTwo", img2, RGBColor::getLuma);
+    this.testGrayscaleCommand("threeByTwo", "lumaThreeByTwo", img2, Color::getLuma);
     // Macro 5: ValueGrayscale
-    this.testGrayscaleCommand("threeByTwo", "valueThreeByTwo", img2, RGBColor::getValue);
+    this.testGrayscaleCommand("threeByTwo", "valueThreeByTwo", img2, Color::getValue);
     // Macro 6: IntensityGrayscale
-    this.testGrayscaleCommand("threeByTwo", "intensityThreeByTwo", img2, RGBColor::getIntensity);
+    this.testGrayscaleCommand("threeByTwo", "intensityThreeByTwo", img2, Color::getIntensity);
     // Macro 7: Brighten
     this.testBrightnessCommand("threeByTwo", "up10ThreeByTwo", img2, 10);
     this.testBrightnessCommand("threeByTwo", "down10ThreeByTwo", img2, -10);
@@ -122,7 +122,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
   }
 
   private void testGrayscaleCommand(String oldName, String newName, Image expected,
-                                    Function<RGBColor, Integer> func) {
+                                    Function<Color, Integer> func) {
     this.testMacro(oldName, newName, new Grayscale(func), this.imageAsComponent(expected, func));
   }
 
@@ -163,11 +163,11 @@ public class ImageProcessingModelImplTest extends TestHelper {
   public void runCommandExceptions() {
     model.createImage(img1arr, "twoByThree", 127);
     this.runCommandException(null, "twoByThree", "threeByTwo",
-            "Macro cannot be null.");
+        "Macro cannot be null.");
     this.runCommandException(new Brighten(5), null, "brighterBy5",
-            "String target cannot be null.");
+        "String target cannot be null.");
     this.runCommandException(new Brighten(5), "twoByThree", null,
-            "New String name cannot be null.");
+        "New String name cannot be null.");
   }
 
   private void runCommandException(Macro command, String target, String newName, String exe) {

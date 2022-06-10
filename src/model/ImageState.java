@@ -28,9 +28,9 @@ public interface ImageState {
   /**
    * Returns the color at a specific position in the image.
    *
-   * @return an RGB color at a specific position
+   * @return a color at a specific position
    */
-  RGBColor getColorAt(int row, int col) throws IllegalArgumentException;
+  Color getColorAt(int row, int col) throws IllegalArgumentException;
 
   boolean equals(Object other);
 

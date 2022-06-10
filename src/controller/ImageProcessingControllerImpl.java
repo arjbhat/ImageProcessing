@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.function.Function;
 
+import model.Color;
 import model.ImageProcessingModel;
 import model.ImageState;
 import model.RGBColor;
@@ -45,7 +46,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
    * @throws IllegalArgumentException if the model, readable, or view are null
    */
   public ImageProcessingControllerImpl(ImageProcessingModel model, ImageProcessingView output, Readable input)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     // We ensure that none of the arguments are null
     if (model == null) {
       throw new IllegalArgumentException("Model cannot be null.");
@@ -72,89 +73,89 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
   private void loadCommands() {
     // Command to load the file in the model
     knownCommands.put("load",
-            sc -> {
-              String fileName = sc.next();
-              String imgName = sc.next();
-              return model -> {
-                try (FileReader file = new FileReader(fileName)) {
-                  this.parsePPM(file, imgName, model);
-                  this.writeMessage("File is loaded.");
-                } catch (IOException e) {
-                  throw new IllegalArgumentException("Cannot load file.");
-                }
-              };
-            });
+        sc -> {
+          String fileName = sc.next();
+          String imgName = sc.next();
+          return model -> {
+            try (FileReader file = new FileReader(fileName)) {
+              this.parsePPM(file, imgName, model);
+              this.writeMessage("File is loaded.");
+            } catch (IOException e) {
+              throw new IllegalArgumentException("Cannot load file.");
+            }
+          };
+        });
     // Command to save the file from the model
     knownCommands.put("save",
-            sc -> {
-              String fileName = sc.next();
-              String imgName = sc.next();
-              return model -> {
-                ImageState img = model.getImage(imgName);
-                try (FileWriter file = new FileWriter(fileName);
-                     BufferedWriter writer = new BufferedWriter(file);
-                     PrintWriter print = new PrintWriter(writer)) {
-                  print.append(toPPM(img));
-                  this.writeMessage("File is saved.");
-                } catch (IOException e) {
-                  throw new IllegalArgumentException("Cannot save file.");
-                }
-              };
-            });
+        sc -> {
+          String fileName = sc.next();
+          String imgName = sc.next();
+          return model -> {
+            ImageState img = model.getImage(imgName);
+            try (FileWriter file = new FileWriter(fileName);
+                 BufferedWriter writer = new BufferedWriter(file);
+                 PrintWriter print = new PrintWriter(writer)) {
+              print.append(toPPM(img));
+              this.writeMessage("File is saved.");
+            } catch (IOException e) {
+              throw new IllegalArgumentException("Cannot save file.");
+            }
+          };
+        });
     // A command that changes an image to its red-grayscale representation
     knownCommands.put("red-component",
-            sc -> model -> {
-              model.runCommand(new Grayscale(RGBColor::getRed), sc.next(), sc.next());
-              this.writeMessage("Red-component image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Grayscale(Color::getRed), sc.next(), sc.next());
+          this.writeMessage("Red-component image created.");
+        });
     // A command that changes an image to its green-grayscale representation
     knownCommands.put("green-component",
-            sc -> model -> {
-              model.runCommand(new Grayscale(RGBColor::getGreen), sc.next(), sc.next());
-              this.writeMessage("Green-component image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Grayscale(Color::getGreen), sc.next(), sc.next());
+          this.writeMessage("Green-component image created.");
+        });
     // A command that changes an image to its blue-grayscale representation
     knownCommands.put("blue-component",
-            sc -> model -> {
-              model.runCommand(new Grayscale(RGBColor::getBlue), sc.next(), sc.next());
-              this.writeMessage("Blue-component image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Grayscale(Color::getBlue), sc.next(), sc.next());
+          this.writeMessage("Blue-component image created.");
+        });
     // A command that changes an image to its value-grayscale representation
     knownCommands.put("value-component",
-            sc -> model -> {
-              model.runCommand(new Grayscale(RGBColor::getValue), sc.next(), sc.next());
-              this.writeMessage("Value-component image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Grayscale(Color::getValue), sc.next(), sc.next());
+          this.writeMessage("Value-component image created.");
+        });
     // A command that changes an image to its luma-grayscale representation
     knownCommands.put("luma-component",
-            sc -> model -> {
-              model.runCommand(new Grayscale(RGBColor::getLuma), sc.next(), sc.next());
-              this.writeMessage("Luma-component image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Grayscale(Color::getLuma), sc.next(), sc.next());
+          this.writeMessage("Luma-component image created.");
+        });
     // A command that changes an image to its intensity-grayscale representation
     knownCommands.put("intensity-component",
-            sc -> model -> {
-              model.runCommand(new Grayscale(RGBColor::getIntensity), sc.next(), sc.next());
-              this.writeMessage("Intensity-component image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Grayscale(Color::getIntensity), sc.next(), sc.next());
+          this.writeMessage("Intensity-component image created.");
+        });
     // A command that changes an image to be horizontally flipped
     knownCommands.put("horizontal-flip",
-            sc -> model -> {
-              model.runCommand(new HorizontalFlip(), sc.next(), sc.next());
-              this.writeMessage("Horizontally flipped image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new HorizontalFlip(), sc.next(), sc.next());
+          this.writeMessage("Horizontally flipped image created.");
+        });
     // A command that changes an image to be vertically flipped
     knownCommands.put("vertical-flip",
-            sc -> model -> {
-              model.runCommand(new VerticalFlip(), sc.next(), sc.next());
-              this.writeMessage("Vertically flipped image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new VerticalFlip(), sc.next(), sc.next());
+          this.writeMessage("Vertically flipped image created.");
+        });
     // A command that changes an image to be brightened or darkened
     knownCommands.put("brighten",
-            sc -> model -> {
-              model.runCommand(new Brighten(getInt(sc)), sc.next(), sc.next());
-              this.writeMessage("Brightness changed image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Brighten(getInt(sc)), sc.next(), sc.next());
+          this.writeMessage("Brightness changed image created.");
+        });
   }
 
   /**
@@ -198,7 +199,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
 
   /**
    * Parse an image file in the PPM format and create a 2D array of
-   * RGBColors that gets added to the model - with a specified String name.
+   * Colors that gets added to the model - with a specified String name.
    *
    * @param file the readable that we parse
    */
@@ -221,7 +222,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
     int height = sc.nextInt();
     int maxValue = sc.nextInt();
 
-    RGBColor[][] pane = new RGBColor[height][width];
+    Color[][] pane = new Color[height][width];
 
     for (int row = 0; row < height; row++) {
       for (int col = 0; col < width; col++) {
@@ -244,7 +245,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
 
     for (int row = 0; row < img.getHeight(); row += 1) {
       for (int col = 0; col < img.getWidth(); col += 1) {
-        RGBColor c = img.getColorAt(row, col);
+        Color c = img.getColorAt(row, col);
         lines.append(c.getRed()).append(System.lineSeparator());
         lines.append(c.getGreen()).append(System.lineSeparator());
         lines.append(c.getBlue()).append(System.lineSeparator());
@@ -255,9 +256,9 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
 
   // Processes the User instruction and checks if we have a command with the same name
   private void processCommand(String userInstruction, Scanner sc, ImageProcessingModel model)
-          throws IllegalStateException {
+      throws IllegalStateException {
     Function<Scanner, ImageProcessingCommand> cmd =
-            knownCommands.getOrDefault(userInstruction, null);
+        knownCommands.getOrDefault(userInstruction, null);
     if (cmd == null) {
       this.writeMessage("Unknown command, please try again. (╥﹏╥)");
     } else {
@@ -299,25 +300,25 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
   private void printMenu() throws IllegalStateException {
     writeMessage("Supported user instructions are: ");
     writeMessage(" ➤ load image-path image-name "
-            + "(Loads an image from the specified path and refers to it henceforth in the program "
-            + "by the given name)");
+        + "(Loads an image from the specified path and refers to it henceforth in the program "
+        + "by the given name)");
     writeMessage(" ➤ save image-path image-name "
-            + "(Saves the image with the given name to the specified path which includes "
-            + "the name of the file)");
+        + "(Saves the image with the given name to the specified path which includes "
+        + "the name of the file)");
     writeMessage(" ➤ (component name)-component image-name dest-image-name "
-            + "(Create a greyscale image with the (component name) component of the image with "
-            + "the given name."
-            + " [supported (component name): red, green, blue, value, luma, intensity])");
+        + "(Create a greyscale image with the (component name) component of the image with "
+        + "the given name."
+        + " [supported (component name): red, green, blue, value, luma, intensity])");
     writeMessage(" ➤ horizontal-flip image-name dest-image-name "
-            + "(Flip an image horizontally to create a new image, "
-            + "referred to henceforth by the given destination name)");
+        + "(Flip an image horizontally to create a new image, "
+        + "referred to henceforth by the given destination name)");
     writeMessage(" ➤ vertical-flip image-name dest-image-name "
-            + "(Flip an image vertically to create a new image, "
-            + "referred to henceforth by the given destination name)");
+        + "(Flip an image vertically to create a new image, "
+        + "referred to henceforth by the given destination name)");
     writeMessage(" ➤ brighten increment image-name dest-image-name "
-            + "(Brighten the image by the given increment to create a new image, referred to "
-            + "henceforth by the given destination name - the increment may be positive "
-            + "(brightening) or negative (darkening))");
+        + "(Brighten the image by the given increment to create a new image, referred to "
+        + "henceforth by the given destination name - the increment may be positive "
+        + "(brightening) or negative (darkening))");
     writeMessage(" ➤ menu (Print supported instruction list)");
     writeMessage(" ➤ q or quit (quit the program)");
   }

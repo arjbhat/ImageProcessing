@@ -19,8 +19,8 @@ public class ImageProcessingModelImpl implements ImageProcessingModel {
   }
 
   @Override
-  public void createImage(RGBColor[][] colors, String name, int maxValue)
-          throws IllegalArgumentException {
+  public void createImage(Color[][] colors, String name, int maxValue)
+      throws IllegalArgumentException {
     if (name == null) {
       throw new IllegalArgumentException("String name cannot be null.");
     }
@@ -52,6 +52,6 @@ public class ImageProcessingModelImpl implements ImageProcessingModel {
     if (name == null) {
       throw new IllegalArgumentException("String name cannot be null.");
     }
-    return images.get(name);
+    return new ObservableImage(images.get(name));
   }
 }

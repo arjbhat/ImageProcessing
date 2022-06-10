@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 import java.util.Objects;
 
+import model.Color;
 import model.ImageProcessingModel;
 import model.ImageState;
-import model.RGBColor;
 import model.macros.Macro;
 
 /**
@@ -19,25 +19,25 @@ public class MockModel implements ImageProcessingModel {
   }
 
   @Override
-  public void createImage(RGBColor[][] colors, String name, int maxValue)
-          throws IllegalArgumentException {
+  public void createImage(Color[][] colors, String name, int maxValue)
+      throws IllegalArgumentException {
     log.append(String.format("method: createImage image-name: %s maxValue: %d", name, maxValue))
-            .append("\n");
+        .append("\n");
   }
 
   @Override
   public void runCommand(Macro command, String target, String newName)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     log.append(String.format("method: runCommand image-name: %s dest-image-name: %s",
-                    target, newName))
-            .append("\n");
+            target, newName))
+        .append("\n");
     macroLog.add(command);
   }
 
   @Override
   public ImageState getImage(String name) throws IllegalArgumentException {
     log.append(String.format("method: getImage image-name: %s", name))
-            .append("\n");
+        .append("\n");
     return new ImageState() {
       @Override
       public int getMaxValue() {
@@ -55,7 +55,7 @@ public class MockModel implements ImageProcessingModel {
       }
 
       @Override
-      public RGBColor getColorAt(int row, int col) throws IllegalArgumentException {
+      public Color getColorAt(int row, int col) throws IllegalArgumentException {
         return null;
       }
     };

@@ -5,25 +5,32 @@ package model;
  * ImageTransform (where the transform method can be called on it).
  */
 public class ObservableImage implements ImageState {
+  private final ImageState state;
 
+  public ObservableImage(ImageState state) throws IllegalArgumentException {
+    if (state == null) {
+      throw new IllegalArgumentException("Image cannot be null.");
+    }
+    this.state = state;
+  }
 
   @Override
   public int getMaxValue() {
-    return 0;
+    return this.state.getMaxValue();
   }
 
   @Override
   public int getHeight() {
-    return 0;
+    return this.state.getHeight();
   }
 
   @Override
   public int getWidth() {
-    return 0;
+    return this.state.getWidth();
   }
 
   @Override
-  public RGBColor getColorAt(int row, int col) throws IllegalArgumentException {
-    return null;
+  public Color getColorAt(int row, int col) throws IllegalArgumentException {
+    return this.state.getColorAt(row, col);
   }
 }

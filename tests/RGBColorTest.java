@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import model.Color;
 import model.RGBColor;
 
 import static org.junit.Assert.assertEquals;
@@ -11,21 +12,21 @@ import static org.junit.Assert.fail;
  * Testing if all the methods in our RGB color system work
  */
 public class RGBColorTest {
-  private RGBColor red;
-  private RGBColor orange;
-  private RGBColor yellow;
-  private RGBColor lime;
-  private RGBColor blue;
-  private RGBColor indigo;
-  private RGBColor violet;
-  private RGBColor white;
-  private RGBColor black;
-  private RGBColor silver;
-  private RGBColor maroon;
-  private RGBColor olive;
-  private RGBColor green;
-  private RGBColor teal;
-  private RGBColor navy;
+  private Color red;
+  private Color orange;
+  private Color yellow;
+  private Color lime;
+  private Color blue;
+  private Color indigo;
+  private Color violet;
+  private Color white;
+  private Color black;
+  private Color silver;
+  private Color maroon;
+  private Color olive;
+  private Color green;
+  private Color teal;
+  private Color navy;
 
   /**
    * Let's start by initialising some colors
@@ -71,7 +72,7 @@ public class RGBColorTest {
   private void tryColor(int... args) {
     if (args.length == 3) {
       try {
-        RGBColor c = new RGBColor(args[0], args[1], args[2]);
+        Color c = new RGBColor(args[0], args[1], args[2]);
         fail("Unrepresentable color constructed");
       } catch (IllegalArgumentException e) {
         assertEquals("Color channel cannot be below 0.", e.getMessage());
@@ -79,7 +80,7 @@ public class RGBColorTest {
     }
     if (args.length == 4) {
       try {
-        RGBColor c = new RGBColor(args[0], args[1], args[2], args[3]);
+        Color c = new RGBColor(args[0], args[1], args[2], args[3]);
         fail("Unrepresentable color constructed");
       } catch (IllegalArgumentException e) {
         assertEquals("Color channel cannot be below 0.", e.getMessage());

@@ -13,5 +13,5 @@ public interface ColorFunction {
    * @param col   the column that the color is in
    * @return the new color that this color should be mapped to
    */
-  RGBColor apply(RGBColor color, int row, int col);
+  Color apply(Color color, int row, int col);
 }

@@ -1,7 +1,6 @@
 package model;
 
 public interface Color {
-
   /**
    * Get the red component of this color (between 0-255).
    *
@@ -26,37 +25,44 @@ public interface Color {
   /**
    * Get the transparency this color (between 0-255).
    *
-   * @return the blue channel of the color
+   * @return the transparency of the color.
    */
-  int getTransparency() {
-    return transparency;
-  }
+  int getTransparency();
 
   /**
    * Get the largest component of this color (between 0-255).
    *
    * @return the largest channel of the color
    */
-  int getValue() {
-    return Math.max(Math.max(red, green), blue);
-  }
+  int getValue();
 
   /**
    * Get the intensity of this color (average of the components).
    *
    * @return the intensity of the color
    */
-  int getIntensity() {
-    return (red + green + blue) / 3;
-  }
+  int getIntensity();
 
   /**
    * Get the weighted sum of the color using the
    *
    * @return the luminescence of the color
    */
-  int getLuma() {
-    return (int) (0.2126 * red + 0.7152 * green + 0.0722 * blue);
-  }
+  int getLuma();
 
+  /**
+   * Two RGBColors are equal if they have the same values for the red, green, and blue channels,
+   * and are equally transparent.
+   *
+   * @param other the object that we are comparing this color to
+   * @return true if the two colors are the same or false otherwise
+   */
+  boolean equals(Object other);
+
+  /**
+   * A hash that represents a specific color.
+   *
+   * @return a hash for that color
+   */
+  int hashCode();
 }

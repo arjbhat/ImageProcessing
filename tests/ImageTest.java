@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import model.Color;
 import model.Image;
 import model.RGBColor;
 
@@ -11,9 +12,9 @@ public class ImageTest extends TestHelper {
   @Test
   public void testIndexLargerThanMaxValue() {
     this.constructInvalidImage(img1arr, 50,
-            "Row: 0 Col: 1 has a color value larger than channel size.");
+        "Row: 0 Col: 1 has a color value larger than channel size.");
     this.constructInvalidImage(img2arr, 25,
-            "Row: 0 Col: 1 has a color value larger than channel size.");
+        "Row: 0 Col: 1 has a color value larger than channel size.");
   }
 
   @Test
@@ -29,7 +30,7 @@ public class ImageTest extends TestHelper {
   }
 
   // Abstraction for constructing invalid images
-  private void constructInvalidImage(RGBColor[][] arr, int maxVal, String error) {
+  private void constructInvalidImage(Color[][] arr, int maxVal, String error) {
     try {
       img1 = new Image(arr, maxVal);
       fail("Shouldn't be able to construct this image, but it did.");
@@ -93,7 +94,7 @@ public class ImageTest extends TestHelper {
   // Abstraction for getting invalid color from image
   private void getInvalidColor(Image img, int row, int col) {
     try {
-      RGBColor color = img.getColorAt(row, col);
+      Color color = img.getColorAt(row, col);
       fail("We should not be able to get this color.");
     } catch (IllegalArgumentException e) {
       assertEquals("Invalid location.", e.getMessage());
@@ -114,10 +115,10 @@ public class ImageTest extends TestHelper {
     }
 
     // Trying a grayscale function
-    Image img1Value = this.imageAsComponent(img1, RGBColor::getValue);
+    Image img1Value = this.imageAsComponent(img1, Color::getValue);
 
     Image newValueImg1 = img1.transform((c, y, x)
-            -> new RGBColor(c.getValue(), c.getValue(), c.getValue()));
+        -> new RGBColor(c.getValue(), c.getValue(), c.getValue()));
 
     // new image is the same as the one we created
     assertEquals(img1Value, newValueImg1);
@@ -129,7 +130,7 @@ public class ImageTest extends TestHelper {
     Image img1HorFlip = this.imageHorizontal(img1);
 
     Image newHorFlipImg1 = img1.transform((c, y, x)
-            -> img1.getColorAt(y, img1.getWidth() - x - 1));
+        -> img1.getColorAt(y, img1.getWidth() - x - 1));
 
     // new image is the same as the one we created
     assertEquals(img1HorFlip, newHorFlipImg1);
@@ -141,20 +142,20 @@ public class ImageTest extends TestHelper {
     // and reduce it below 0 (color should throw this exception)
     try {
       Image valueTooHigh = img1.transform((c, y, x)
-              -> new RGBColor(1000, 1000, 1000));
+          -> new RGBColor(1000, 1000, 1000));
       fail("We were able to set to a value above max value");
     } catch (IllegalArgumentException e) {
       assertEquals("Color channel cannot be set above max channel value.",
-              e.getMessage());
+          e.getMessage());
     }
 
     try {
       Image valueTooLow = img1.transform((c, y, x)
-              -> new RGBColor(-1000, -1000, -1000));
+          -> new RGBColor(-1000, -1000, -1000));
       fail("We were able to set to a value below 0");
     } catch (IllegalArgumentException e) {
       assertEquals("Color channel cannot be below 0.",
-              e.getMessage());
+          e.getMessage());
     }
   }
 

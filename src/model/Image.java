@@ -18,18 +18,18 @@ public class Image implements ImageTransform {
   //Reason: Cannot be 0 because 0 only represents black but can be any positive integer
   // because we can always change what white represents (and base our color scale accordingly)
   private final int maxValue;
-  //INVARIANT: Non-null RGBColor array
-  private final RGBColor[][] pane;
+  //INVARIANT: Non-null Color array
+  private final Color[][] pane;
 
   /**
-   * We can construct a new image by passing in a 2D array of RGBColors and the maximum value for
+   * We can construct a new image by passing in a 2D array of Colors and the maximum value for
    * each of the 3 channels.
    *
    * @param img the color array that we want to construct an image with
    */
-  public Image(RGBColor[][] img, int maxValue) throws IllegalArgumentException {
+  public Image(Color[][] img, int maxValue) throws IllegalArgumentException {
     if (img == null) {
-      throw new IllegalArgumentException("RGBColor array cannot be null.");
+      throw new IllegalArgumentException("Color array cannot be null.");
     }
     if (maxValue < 1) {
       throw new IllegalArgumentException("Invalid max value.");
@@ -43,14 +43,14 @@ public class Image implements ImageTransform {
       this.width = img[0].length;
     }
 
-    this.pane = new RGBColor[height][width];
+    this.pane = new Color[height][width];
 
     for (int row = 0; row < height; row += 1) {
       for (int col = 0; col < width; col += 1) {
-        RGBColor c = img[row][col];
+        Color c = img[row][col];
         if (c.getValue() > maxValue) {
           throw new IllegalArgumentException(
-                  "Row: " + row + " Col: " + col + " has a color value larger than channel size.");
+              "Row: " + row + " Col: " + col + " has a color value larger than channel size.");
         }
         pane[row][col] = c;
       }
@@ -58,7 +58,7 @@ public class Image implements ImageTransform {
   }
 
   // So we don't have to make a copy unnecessarily - every time we transform the image.
-  private Image(RGBColor[][] pane, int height, int width, int maxValue) {
+  private Image(Color[][] pane, int height, int width, int maxValue) {
     this.pane = pane;
     this.height = height;
     this.width = width;
@@ -81,7 +81,7 @@ public class Image implements ImageTransform {
   }
 
   @Override
-  public RGBColor getColorAt(int row, int col) throws IllegalArgumentException {
+  public Color getColorAt(int row, int col) throws IllegalArgumentException {
     if (row < 0 || col < 0 || row >= height || col >= width) {
       throw new IllegalArgumentException("Invalid location.");
     }
@@ -93,13 +93,13 @@ public class Image implements ImageTransform {
     if (map == null) {
       throw new IllegalArgumentException("Function cannot be null.");
     }
-    RGBColor[][] newPane = new RGBColor[height][width];
+    Color[][] newPane = new Color[height][width];
     for (int row = 0; row < height; row += 1) {
       for (int col = 0; col < width; col += 1) {
-        RGBColor c = map.apply(this.pane[row][col], row, col);
+        Color c = map.apply(this.pane[row][col], row, col);
         if (c.getValue() > maxValue) {
           throw new IllegalArgumentException("Color channel cannot be set above "
-                  + "max channel value.");
+              + "max channel value.");
         }
         newPane[row][col] = c;
       }
@@ -123,8 +123,8 @@ public class Image implements ImageTransform {
 
     Image that = (Image) obj;
     if (!(this.height == that.getHeight()
-            && this.width == that.getWidth()
-            && this.maxValue == that.getMaxValue())) {
+        && this.width == that.getWidth()
+        && this.maxValue == that.getMaxValue())) {
       return false;
     }
     for (int row = 0; row < height; row += 1) {

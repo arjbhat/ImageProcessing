@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import controller.ImageProcessingControllerImpl;
+import model.Color;
 import model.ImageProcessingModel;
-import model.RGBColor;
 import model.macros.Brighten;
 import model.macros.Grayscale;
 import model.macros.HorizontalFlip;
@@ -107,31 +107,31 @@ public class ImageProcessingControllerImplTest extends TestHelper {
   @Test
   public void testControllerToModel() {
     UserIO[] interactions = new UserIO[]{
-            inputs("load res/arjun.ppm arj"),
-            prints("method: createImage image-name: arj maxValue: 255"),
-            inputs("red-component arj red-arj"),
-            prints("method: runCommand image-name: arj dest-image-name: red-arj"),
-            inputs("green-component arj green-arj"),
-            prints("method: runCommand image-name: arj dest-image-name: green-arj"),
-            inputs("blue-component arj blue-arj"),
-            prints("method: runCommand image-name: arj dest-image-name: blue-arj"),
-            inputs("value-component arj value-arj"),
-            prints("method: runCommand image-name: arj dest-image-name: value-arj"),
-            inputs("luma-component arj luma-arj"),
-            prints("method: runCommand image-name: arj dest-image-name: luma-arj"),
-            inputs("intensity-component arj intensity-arj"),
-            prints("method: runCommand image-name: arj dest-image-name: intensity-arj"),
-            inputs("horizontal-flip arj horizontal-arj"),
-            prints("method: runCommand image-name: arj dest-image-name: horizontal-arj"),
-            inputs("vertical-flip arj vertical-arj"),
-            prints("method: runCommand image-name: arj dest-image-name: vertical-arj"),
-            inputs("brighten 10 arj brighten-arj"),
-            prints("method: runCommand image-name: arj dest-image-name: brighten-arj"),
-            inputs("brighten -11 arj brighten-arj"),
-            prints("method: runCommand image-name: arj dest-image-name: brighten-arj"),
-            inputs("save res/out.ppm arj"),
-            prints("method: getImage image-name: arj"),
-            inputs("q")
+        inputs("load res/arjun.ppm arj"),
+        prints("method: createImage image-name: arj maxValue: 255"),
+        inputs("red-component arj red-arj"),
+        prints("method: runCommand image-name: arj dest-image-name: red-arj"),
+        inputs("green-component arj green-arj"),
+        prints("method: runCommand image-name: arj dest-image-name: green-arj"),
+        inputs("blue-component arj blue-arj"),
+        prints("method: runCommand image-name: arj dest-image-name: blue-arj"),
+        inputs("value-component arj value-arj"),
+        prints("method: runCommand image-name: arj dest-image-name: value-arj"),
+        inputs("luma-component arj luma-arj"),
+        prints("method: runCommand image-name: arj dest-image-name: luma-arj"),
+        inputs("intensity-component arj intensity-arj"),
+        prints("method: runCommand image-name: arj dest-image-name: intensity-arj"),
+        inputs("horizontal-flip arj horizontal-arj"),
+        prints("method: runCommand image-name: arj dest-image-name: horizontal-arj"),
+        inputs("vertical-flip arj vertical-arj"),
+        prints("method: runCommand image-name: arj dest-image-name: vertical-arj"),
+        inputs("brighten 10 arj brighten-arj"),
+        prints("method: runCommand image-name: arj dest-image-name: brighten-arj"),
+        inputs("brighten -11 arj brighten-arj"),
+        prints("method: runCommand image-name: arj dest-image-name: brighten-arj"),
+        inputs("save res/out.ppm arj"),
+        prints("method: getImage image-name: arj"),
+        inputs("q")
     };
 
     StringBuilder modelLog = new StringBuilder();
@@ -143,35 +143,35 @@ public class ImageProcessingControllerImplTest extends TestHelper {
 
     assertEquals(expected, modelLog.toString());
     assertTrue(macroLog.get(0) instanceof Grayscale);
-    assertEquals(this.imageAsComponent(img1, RGBColor::getRed),
-            macroLog.get(0).execute(img1));
+    assertEquals(this.imageAsComponent(img1, Color::getRed),
+        macroLog.get(0).execute(img1));
     assertTrue(macroLog.get(1) instanceof Grayscale);
-    assertEquals(this.imageAsComponent(img1, RGBColor::getGreen),
-            macroLog.get(1).execute(img1));
+    assertEquals(this.imageAsComponent(img1, Color::getGreen),
+        macroLog.get(1).execute(img1));
     assertTrue(macroLog.get(2) instanceof Grayscale);
-    assertEquals(this.imageAsComponent(img1, RGBColor::getBlue),
-            macroLog.get(2).execute(img1));
+    assertEquals(this.imageAsComponent(img1, Color::getBlue),
+        macroLog.get(2).execute(img1));
     assertTrue(macroLog.get(3) instanceof Grayscale);
-    assertEquals(this.imageAsComponent(img1, RGBColor::getValue),
-            macroLog.get(3).execute(img1));
+    assertEquals(this.imageAsComponent(img1, Color::getValue),
+        macroLog.get(3).execute(img1));
     assertTrue(macroLog.get(4) instanceof Grayscale);
-    assertEquals(this.imageAsComponent(img1, RGBColor::getLuma),
-            macroLog.get(4).execute(img1));
+    assertEquals(this.imageAsComponent(img1, Color::getLuma),
+        macroLog.get(4).execute(img1));
     assertTrue(macroLog.get(5) instanceof Grayscale);
-    assertEquals(this.imageAsComponent(img1, RGBColor::getIntensity),
-            macroLog.get(5).execute(img1));
+    assertEquals(this.imageAsComponent(img1, Color::getIntensity),
+        macroLog.get(5).execute(img1));
     assertTrue(macroLog.get(6) instanceof HorizontalFlip);
     assertEquals(this.imageHorizontal(img1),
-            macroLog.get(6).execute(img1));
+        macroLog.get(6).execute(img1));
     assertTrue(macroLog.get(7) instanceof VerticalFlip);
     assertEquals(this.imageVertical(img1),
-            macroLog.get(7).execute(img1));
+        macroLog.get(7).execute(img1));
     assertTrue(macroLog.get(8) instanceof Brighten);
     assertEquals(this.imageBrightness(img1, 10),
-            macroLog.get(8).execute(img1));
+        macroLog.get(8).execute(img1));
     assertTrue(macroLog.get(9) instanceof Brighten);
     assertEquals(this.imageBrightness(img1, -11),
-            macroLog.get(9).execute(img1));
+        macroLog.get(9).execute(img1));
   }
 
   private void testFile(String path, String contents) {
@@ -210,34 +210,34 @@ public class ImageProcessingControllerImplTest extends TestHelper {
 
   private String[] welcomeMessage() {
     return new String[]{"✿ ✿ ✿ Welcome to the Image Processing program! ✿ ✿ ✿",
-            "   By: Arjun Bhat & Alexander Chang-Davidson\n",
-            "[Type menu to read support user instructions.]"};
+        "   By: Arjun Bhat & Alexander Chang-Davidson\n",
+        "[Type menu to read support user instructions.]"};
   }
 
   private String[] printMenu() throws IllegalStateException {
     return new String[]{"Supported user instructions are: ",
-            " ➤ load image-path image-name ",
-            "(Loads an image from the specified path and refers to it henceforth in the program ",
-            "by the given name)",
-            " ➤ save image-path image-name ",
-            "(Saves the image with the given name to the specified path which includes ",
-            "the name of the file)",
-            " ➤ (component name)-component image-name dest-image-name ",
-            "(Create a greyscale image with the (component name) component of the image with ",
-            "the given name.",
-            " [supported (component name): red, green, blue, value, luma, intensity])",
-            " ➤ horizontal-flip image-name dest-image-name ",
-            "(Flip an image horizontally to create a new image, ",
-            "referred to henceforth by the given destination name)",
-            " ➤ vertical-flip image-name dest-image-name ",
-            "(Flip an image vertically to create a new image, ",
-            "referred to henceforth by the given destination name)",
-            " ➤ brighten increment image-name dest-image-name ",
-            "(Brighten the image by the given increment to create a new image, referred to ",
-            "henceforth by the given destination name - the increment may be positive ",
-            "(brightening) or negative (darkening))",
-            " ➤ menu (Print supported instruction list)",
-            " ➤ q or quit (quit the program)"};
+        " ➤ load image-path image-name ",
+        "(Loads an image from the specified path and refers to it henceforth in the program ",
+        "by the given name)",
+        " ➤ save image-path image-name ",
+        "(Saves the image with the given name to the specified path which includes ",
+        "the name of the file)",
+        " ➤ (component name)-component image-name dest-image-name ",
+        "(Create a greyscale image with the (component name) component of the image with ",
+        "the given name.",
+        " [supported (component name): red, green, blue, value, luma, intensity])",
+        " ➤ horizontal-flip image-name dest-image-name ",
+        "(Flip an image horizontally to create a new image, ",
+        "referred to henceforth by the given destination name)",
+        " ➤ vertical-flip image-name dest-image-name ",
+        "(Flip an image vertically to create a new image, ",
+        "referred to henceforth by the given destination name)",
+        " ➤ brighten increment image-name dest-image-name ",
+        "(Brighten the image by the given increment to create a new image, referred to ",
+        "henceforth by the given destination name - the increment may be positive ",
+        "(brightening) or negative (darkening))",
+        " ➤ menu (Print supported instruction list)",
+        " ➤ q or quit (quit the program)"};
   }
 
   private String[] farewellMessage() {
