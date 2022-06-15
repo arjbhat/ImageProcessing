@@ -1,7 +1,5 @@
 package model.macros;
 
-import java.util.function.Function;
-
 import model.ImageTransform;
 import model.RGBColor;
 
@@ -23,16 +21,18 @@ public class Brighten implements Macro {
   }
 
   /**
-   * Brightens or darkens all pixels by the increment. (clamping at max and min value)
+   * Brightens or darkens all pixels by the increment.
+   *
+   * @param img the image that we're working on
+   * @return a new image that has undergone the transformation
+   * @throws IllegalArgumentException if the image passed in is null
    */
   @Override
-  public ImageTransform execute(ImageTransform img) {
-    int max = img.getMaxValue();
-    Function<Integer, Integer> minMax = num -> Math.max(Math.min(num + n, max), 0);
-
+  public ImageTransform execute(ImageTransform img) throws IllegalArgumentException {
+    if (img == null) {
+      throw new IllegalArgumentException("Image cannot be null.");
+    }
     return img.transform((c, y, x)
-        -> new RGBColor(minMax.apply(c.getRed()),
-        minMax.apply(c.getGreen()),
-        minMax.apply(c.getBlue())));
+            -> new RGBColor(c.getRed() + n, c.getGreen() + n, c.getBlue() + n));
   }
 }

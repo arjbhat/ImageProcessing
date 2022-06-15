@@ -50,7 +50,7 @@ public abstract class TestHelper {
     c6 = new RGBColor(100, 100, 100);
     img0 = new Image(new Color[][]{}, 1);
     img1arr = new Color[][]{{c1, c2}, {c3, c4}, {c5, c6}};
-    img1 = new Image(img1arr, 127);
+    img1 = new Image(img1arr, 255);
     img2arr = new Color[][]{{c1, c2, c3}, {c4, c5, c6}};
     img2 = new Image(img2arr, 255);
     model = new ImageProcessingModelImpl();

@@ -19,13 +19,26 @@ public class Image implements ImageTransform {
   // because we can always change what white represents (and base our color scale accordingly)
   private final int maxValue;
   // INVARIANT: Non-null Color array
+  // INVARIANT: All rows are non-null
+  // INVARIANT: All rows have length this.width
   private final Color[][] pane;
+
+  /**
+   * We can construct a new image by passing in a 2D array of Colors.
+   *
+   * @param img the color grid that we want to construct an image with
+   * @throws IllegalArgumentException if the img is invalid
+   */
+  public Image(Color[][] img) {
+    this(img, 255);
+  }
 
   /**
    * We can construct a new image by passing in a 2D array of Colors and the maximum value for
    * each of the 3 channels.
    *
-   * @param img the color array that we want to construct an image with
+   * @param img the color grid that we want to construct an image with
+   * @throws IllegalArgumentException if the img is invalid or the maxValue is not positive
    */
   public Image(Color[][] img, int maxValue) throws IllegalArgumentException {
     if (img == null) {
@@ -37,7 +50,7 @@ public class Image implements ImageTransform {
     this.height = img.length;
     this.maxValue = maxValue;
 
-    if (height == 0) {
+    if (height == 0 || img[0] == null) {
       this.width = 0;
     } else {
       this.width = img[0].length;
@@ -46,13 +59,19 @@ public class Image implements ImageTransform {
     this.pane = new Color[height][width];
 
     for (int row = 0; row < height; row += 1) {
+      if (img[row] == null) {
+        throw new IllegalArgumentException("Pixel row cannot be null.");
+      }
+      if (img[row].length != this.width) {
+        throw new IllegalArgumentException("Color grid is not rectangular.");
+      }
       for (int col = 0; col < width; col += 1) {
         Color c = img[row][col];
-        if (c.getValue() > maxValue) {
-          throw new IllegalArgumentException(
-              "Row: " + row + " Col: " + col + " has a color value larger than channel size.");
+        if (c == null) {
+          throw new IllegalArgumentException("Pixel color cannot be null.");
         }
-        this.pane[row][col] = c;
+        this.pane[row][col] = new RGBColor(clamp(c.getRed()),
+                clamp(c.getGreen()), clamp(c.getBlue()));
       }
     }
   }
@@ -97,14 +116,18 @@ public class Image implements ImageTransform {
     for (int row = 0; row < height; row += 1) {
       for (int col = 0; col < width; col += 1) {
         Color c = map.apply(this.pane[row][col], row, col);
-        if (c.getValue() > maxValue) {
-          throw new IllegalArgumentException("Color channel cannot be set above "
-              + "max channel value.");
+        if (c == null) {
+          throw new IllegalArgumentException("Pixel color cannot be null.");
         }
-        newPane[row][col] = c;
+        newPane[row][col] = new RGBColor(clamp(c.getRed()),
+                clamp(c.getGreen()), clamp(c.getBlue()));
       }
     }
     return new Image(newPane, height, width, maxValue);
+  }
+
+  private int clamp(int n) {
+    return Math.max(Math.min(n, maxValue), 0);
   }
 
   @Override
@@ -118,8 +141,8 @@ public class Image implements ImageTransform {
 
     Image that = (Image) obj;
     if (!(this.height == that.getHeight()
-        && this.width == that.getWidth()
-        && this.maxValue == that.getMaxValue())) {
+            && this.width == that.getWidth()
+            && this.maxValue == that.getMaxValue())) {
       return false;
     }
     for (int row = 0; row < height; row += 1) {
@@ -131,7 +154,7 @@ public class Image implements ImageTransform {
     }
     return true;
   }
-  
+
   @Override
   public int hashCode() {
     return Objects.hash(height, width, maxValue, Arrays.deepHashCode(pane));

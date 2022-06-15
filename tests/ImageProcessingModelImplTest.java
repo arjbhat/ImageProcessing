@@ -6,7 +6,7 @@ import model.Color;
 import model.ImageState;
 import model.ImageTransform;
 import model.macros.Brighten;
-import model.macros.Grayscale;
+import model.macros.Component;
 import model.macros.HorizontalFlip;
 import model.macros.Macro;
 import model.macros.VerticalFlip;
@@ -52,11 +52,11 @@ public class ImageProcessingModelImplTest extends TestHelper {
   public void createImageExceptions() {
     assertNotNull(model);
     this.createImageException(null, "arjun", 255,
-        "Color array cannot be null.");
+            "Color array cannot be null.");
     this.createImageException(img1arr, "twoByThree", 10,
-        "Row: 0 Col: 1 has a color value larger than channel size.");
+            "Row: 0 Col: 1 has a color value larger than channel size.");
     this.createImageException(img1arr, null, 255,
-        "String name cannot be null.");
+            "String name cannot be null.");
   }
 
   private void createImageException(Color[][] arr, String name, int maxValue, String exe) {
@@ -129,7 +129,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
 
   private void testGrayscaleCommand(String oldName, String newName, ImageState expected,
                                     Function<Color, Integer> func) {
-    this.testMacro(oldName, newName, new Grayscale(func), this.imageAsComponent(expected, func));
+    this.testMacro(oldName, newName, new Component(func), this.imageAsComponent(expected, func));
   }
 
   private void testBrightnessCommand(String oldName, String newName, ImageState expected, int n) {
@@ -170,11 +170,11 @@ public class ImageProcessingModelImplTest extends TestHelper {
     model.createImage(img1arr, "twoByThree", 127);
     assertNotNull(model.getImage("twoByThree"));
     this.runCommandException(null, "twoByThree", "threeByTwo",
-        "Macro cannot be null.");
+            "Macro cannot be null.");
     this.runCommandException(new Brighten(5), null, "brighterBy5",
-        "String target cannot be null.");
+            "String target cannot be null.");
     this.runCommandException(new Brighten(5), "twoByThree", null,
-        "New String name cannot be null.");
+            "New String name cannot be null.");
   }
 
   private void runCommandException(Macro command, String target, String newName, String exe) {

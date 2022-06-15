@@ -1,7 +1,10 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import controller.ImageProcessingController;
-import controller.ImageProcessingControllerImpl;
+import controller.ImageProcessingControllerImplPro;
 import model.ImageProcessingModel;
 import model.ImageProcessingModelImpl;
 import view.ImageProcessingView;
@@ -16,11 +19,22 @@ public class ImageProcessingProgram {
    *
    * @param args Arguments passed from the commandline
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
+    FileReader file = null;
+    for (int i = 0; i < args.length; i++) {
+      if ("-file".equals(args[i]) && args.length > i + 1) {
+        String fileName = args[++i];
+        file = new FileReader(fileName);
+      }
+    }
+
     ImageProcessingModel model = new ImageProcessingModelImpl();
-    Readable input = new InputStreamReader(System.in);
+    Readable input = file == null ? new InputStreamReader(System.in) : file;
     ImageProcessingView output = new ImageProcessingViewImpl();
-    ImageProcessingController controller = new ImageProcessingControllerImpl(model, output, input);
+    ImageProcessingController controller = new ImageProcessingControllerImplPro(model, output, input);
     controller.control();
+    if (file != null) {
+      file.close();
+    }
   }
 }

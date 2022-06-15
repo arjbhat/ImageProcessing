@@ -27,11 +27,11 @@ public interface Color {
   int getBlue();
 
   /**
-   * Get the transparency this color.
+   * Get the alpha value of this color.
    *
-   * @return the transparency of the color.
+   * @return the alpha value of the color
    */
-  int getTransparency();
+  int getAlpha();
 
   /**
    * Get the largest component of this color.

@@ -1,22 +1,26 @@
 package controller;
 
-import java.io.BufferedWriter;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.function.Function;
+
+import javax.imageio.ImageIO;
 
 import model.Color;
 import model.ImageProcessingModel;
 import model.ImageState;
 import model.RGBColor;
 import model.macros.Brighten;
-import model.macros.Grayscale;
+import model.macros.Component;
 import model.macros.HorizontalFlip;
 import model.macros.VerticalFlip;
 import view.ImageProcessingView;
@@ -36,6 +40,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
   private final ImageProcessingView output;
   //INVARIANT: Non-null Map
   private final Map<String, Function<Scanner, ImageProcessingCommand>> knownCommands;
+  private final List<String> commandMenu;
 
   /**
    * In order to construct an image processing controller we need a model, readable, and a view.
@@ -46,8 +51,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
    * @throws IllegalArgumentException if the model, readable, or view are null
    */
   public ImageProcessingControllerImpl(ImageProcessingModel model, ImageProcessingView output,
-                                       Readable input)
-      throws IllegalArgumentException {
+                                       Readable input) throws IllegalArgumentException {
     // We ensure that none of the arguments are null
     if (model == null) {
       throw new IllegalArgumentException("Model cannot be null.");
@@ -64,101 +68,81 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
     this.output = output;
 
     // and make a hashmap of commands
-    knownCommands = new HashMap<>();
+    this.knownCommands = new HashMap<>();
+    this.commandMenu = this.loadMenu();
     // that we load commands into
     this.loadCommands();
   }
 
   // loads all the commands that the model can be operated on with
   // this makes it easy for the user to add features in the future
-  private void loadCommands() {
+  protected void loadCommands() {
     // Command to load the file in the model
-    knownCommands.put("load",
-        sc -> {
-          String fileName = sc.next();
-          String imgName = sc.next();
-          return model -> {
-            try (FileReader file = new FileReader(fileName)) {
-              this.parsePPM(file, imgName, model);
-              this.writeMessage("File is loaded.");
-            } catch (IOException e) {
-              throw new IllegalArgumentException("Cannot load file.");
-            }
-          };
-        });
+    addCommand("load",
+            sc -> model -> this.loadImg(model, sc.next(), sc.next()));
     // Command to save the file from the model
-    knownCommands.put("save",
-        sc -> {
-          String fileName = sc.next();
-          String imgName = sc.next();
-          return model -> {
-            ImageState img = model.getImage(imgName);
-            try (FileWriter file = new FileWriter(fileName);
-                 BufferedWriter writer = new BufferedWriter(file);
-                 PrintWriter print = new PrintWriter(writer)) {
-              print.append(toPPM(img));
-              this.writeMessage("File is saved.");
-            } catch (IOException e) {
-              throw new IllegalArgumentException("Cannot save file.");
-            }
-          };
-        });
+    addCommand("save",
+            sc -> model -> this.saveImg(model, sc.next(), sc.next()));
     // A command that changes an image to its red-grayscale representation
-    knownCommands.put("red-component",
-        sc -> model -> {
-          model.runCommand(new Grayscale(Color::getRed), sc.next(), sc.next());
-          this.writeMessage("Red-component image created.");
-        });
+    addCommand("red-component",
+            sc -> model -> {
+              model.runCommand(new Component(Color::getRed), sc.next(), sc.next());
+              this.writeMessage("Red-component image created.");
+            });
     // A command that changes an image to its green-grayscale representation
-    knownCommands.put("green-component",
-        sc -> model -> {
-          model.runCommand(new Grayscale(Color::getGreen), sc.next(), sc.next());
-          this.writeMessage("Green-component image created.");
-        });
+    addCommand("green-component",
+            sc -> model -> {
+              model.runCommand(new Component(Color::getGreen), sc.next(), sc.next());
+              this.writeMessage("Green-component image created.");
+            });
     // A command that changes an image to its blue-grayscale representation
-    knownCommands.put("blue-component",
-        sc -> model -> {
-          model.runCommand(new Grayscale(Color::getBlue), sc.next(), sc.next());
-          this.writeMessage("Blue-component image created.");
-        });
+    addCommand("blue-component",
+            sc -> model -> {
+              model.runCommand(new Component(Color::getBlue), sc.next(), sc.next());
+              this.writeMessage("Blue-component image created.");
+            });
     // A command that changes an image to its value-grayscale representation
-    knownCommands.put("value-component",
-        sc -> model -> {
-          model.runCommand(new Grayscale(Color::getValue), sc.next(), sc.next());
-          this.writeMessage("Value-component image created.");
-        });
+    addCommand("value-component",
+            sc -> model -> {
+              model.runCommand(new Component(Color::getValue), sc.next(), sc.next());
+              this.writeMessage("Value-component image created.");
+            });
     // A command that changes an image to its luma-grayscale representation
-    knownCommands.put("luma-component",
-        sc -> model -> {
-          model.runCommand(new Grayscale(Color::getLuma), sc.next(), sc.next());
-          this.writeMessage("Luma-component image created.");
-        });
+    addCommand("luma-component",
+            sc -> model -> {
+              model.runCommand(new Component(Color::getLuma), sc.next(), sc.next());
+              this.writeMessage("Luma-component image created.");
+            });
     // A command that changes an image to its intensity-grayscale representation
-    knownCommands.put("intensity-component",
-        sc -> model -> {
-          model.runCommand(new Grayscale(Color::getIntensity), sc.next(), sc.next());
-          this.writeMessage("Intensity-component image created.");
-        });
+    addCommand("intensity-component",
+            sc -> model -> {
+              model.runCommand(new Component(Color::getIntensity), sc.next(), sc.next());
+              this.writeMessage("Intensity-component image created.");
+            });
     // A command that changes an image to be horizontally flipped
-    knownCommands.put("horizontal-flip",
-        sc -> model -> {
-          model.runCommand(new HorizontalFlip(), sc.next(), sc.next());
-          this.writeMessage("Horizontally flipped image created.");
-        });
+    addCommand("horizontal-flip",
+            sc -> model -> {
+              model.runCommand(new HorizontalFlip(), sc.next(), sc.next());
+              this.writeMessage("Horizontally flipped image created.");
+            });
     // A command that changes an image to be vertically flipped
-    knownCommands.put("vertical-flip",
-        sc -> model -> {
-          model.runCommand(new VerticalFlip(), sc.next(), sc.next());
-          this.writeMessage("Vertically flipped image created.");
-        });
+    addCommand("vertical-flip",
+            sc -> model -> {
+              model.runCommand(new VerticalFlip(), sc.next(), sc.next());
+              this.writeMessage("Vertically flipped image created.");
+            });
     // A command that changes an image to be brightened or darkened
-    knownCommands.put("brighten",
-        sc -> model -> {
-          model.runCommand(new Brighten(getInt(sc)), sc.next(), sc.next());
-          this.writeMessage("Brightness changed image created.");
-        });
+    addCommand("brighten",
+            sc -> model -> {
+              model.runCommand(new Brighten(getInt(sc)), sc.next(), sc.next());
+              this.writeMessage("Brightness changed image created.");
+            });
   }
-  
+
+  protected void addCommand(String name, Function<Scanner, ImageProcessingCommand> command) {
+    knownCommands.put(name, command);
+  }
+
   @Override
   public void control() throws IllegalStateException {
     Scanner sc = new Scanner(input);
@@ -181,6 +165,8 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
         quit = true;
       } else if (userInstruction.equals("menu")) {
         this.printMenu();
+      } else if (userInstruction.startsWith("#")) {
+        // comment passthrough
       } else {
         processCommand(userInstruction, line, model);
       }
@@ -196,7 +182,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
    *
    * @param file the readable that we parse
    */
-  private void parsePPM(Readable file, String name, ImageProcessingModel model) {
+  protected void parsePPM(Readable file, String name, ImageProcessingModel model) {
     Scanner sc = new Scanner(file);
     StringBuilder lines = new StringBuilder();
     while (sc.hasNextLine()) {
@@ -208,7 +194,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
     sc = new Scanner(lines.toString());
 
     if (!sc.next().equals("P3")) {
-      throw new IllegalArgumentException("Invalid PPM file: plain RAW file should begin with P3");
+      throw new IllegalArgumentException("Invalid file format.");
     }
 
     int width = sc.nextInt();
@@ -219,17 +205,14 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
 
     for (int row = 0; row < height; row++) {
       for (int col = 0; col < width; col++) {
-        int r = sc.nextInt();
-        int g = sc.nextInt();
-        int b = sc.nextInt();
-        pane[row][col] = new RGBColor(r, g, b);
+        pane[row][col] = new RGBColor(sc.nextInt(), sc.nextInt(), sc.nextInt());
       }
     }
     model.createImage(pane, name, maxValue);
   }
 
   // Converts an ImageState to PPM format so that it can be written to a file
-  private String toPPM(ImageState img) {
+  protected String toPPM(ImageState img) {
     StringBuilder lines = new StringBuilder();
     lines.append("P3").append(System.lineSeparator());
     lines.append(img.getWidth()).append(" ");
@@ -247,11 +230,74 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
     return lines.toString();
   }
 
+  private void loadImg(ImageProcessingModel model, String fileName, String imgName) {
+    File source = new File(fileName);
+    try (FileReader file = new FileReader(source)) {
+      BufferedImage img = ImageIO.read(source);
+      if (img == null) {
+        this.parsePPM(file, imgName, model);
+      } else {
+        Color[][] pane = new Color[img.getHeight()][img.getWidth()];
+        for (int row = 0; row < pane.length; row += 1) {
+          for (int col = 0; col < pane[row].length; col += 1) {
+            int color = img.getRGB(col, row);
+            int alpha = (color >> 24) & 0xff;
+            int r = (color >> 16) & 0xff;
+            int g = (color >> 8) & 0xff;
+            int b = color & 0xff;
+            pane[row][col] = new RGBColor(r, g, b, alpha);
+          }
+        }
+        model.createImage(pane, imgName, 255);
+      }
+
+      this.writeMessage("File is loaded.");
+    } catch (IOException | NoSuchElementException e) {
+      throw new IllegalArgumentException("Failed to load file.");
+    }
+  }
+
+  private void saveImg(ImageProcessingModel model, String fileName, String imgName) {
+    ImageState img = model.getImage(imgName);
+    if (fileName.endsWith(".ppm") || fileName.endsWith(".PPM")) {
+      try (FileWriter file = new FileWriter(fileName)) {
+        file.write(toPPM(img));
+      } catch (IOException e) {
+        throw new IllegalArgumentException("Failed to save file.");
+      }
+    } else {
+      if (!this.saveImageFile(img, fileName)) {
+        throw new IllegalArgumentException("Failed to save file.");
+      }
+    }
+    this.writeMessage("File is saved.");
+  }
+
+  private boolean saveImageFile(ImageState img, String fileName) {
+    String extension = fileName.contains(".") ?
+            fileName.substring(fileName.lastIndexOf(".") + 1) : fileName;
+    BufferedImage buff = new BufferedImage(img.getWidth(), img.getHeight(),
+            extension.equals("png") || extension.equals("PNG") ? BufferedImage.TYPE_INT_ARGB :
+                    BufferedImage.TYPE_INT_RGB);
+    for (int row = 0; row < img.getHeight(); row += 1) {
+      for (int col = 0; col < img.getWidth(); col += 1) {
+        Color c = img.getColorAt(row, col);
+        buff.setRGB(col, row, (c.getAlpha() << 24)
+                + (c.getRed() << 16) + (c.getGreen() << 8) + c.getBlue());
+      }
+    }
+    try {
+      return ImageIO.write(buff, extension, new File(fileName));
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
   // Processes the User instruction and checks if we have a command with the same name
   private void processCommand(String userInstruction, Scanner sc, ImageProcessingModel model)
-      throws IllegalStateException {
+          throws IllegalStateException {
     Function<Scanner, ImageProcessingCommand> cmd =
-        knownCommands.getOrDefault(userInstruction, null);
+            knownCommands.getOrDefault(userInstruction, null);
     if (cmd == null) {
       this.writeMessage("Unknown command, please try again. (╥﹏╥)");
     } else {
@@ -267,7 +313,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
   }
 
   // Sends a message to the view
-  private void writeMessage(String message) throws IllegalStateException {
+  protected void writeMessage(String message) throws IllegalStateException {
     try {
       output.renderMessage(message + System.lineSeparator());
     } catch (IOException e) {
@@ -276,7 +322,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
   }
 
   // Throws an exception if the scanner input is not an integer
-  private int getInt(Scanner sc) throws IllegalArgumentException {
+  protected int getInt(Scanner sc) throws IllegalArgumentException {
     try {
       return sc.nextInt();
     } catch (NoSuchElementException e) {
@@ -292,28 +338,36 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
 
   private void printMenu() throws IllegalStateException {
     writeMessage("Supported user instructions are: ");
-    writeMessage(" ➤ load image-path image-name "
-        + "(Loads an image from the specified path and refers to it henceforth in the program "
-        + "by the given name)");
-    writeMessage(" ➤ save image-path image-name "
-        + "(Saves the image with the given name to the specified path which includes "
-        + "the name of the file)");
-    writeMessage(" ➤ (component name)-component image-name dest-image-name "
-        + "(Create a greyscale image with the (component name) component of the image with "
-        + "the given name."
-        + " [supported (component name): red, green, blue, value, luma, intensity])");
-    writeMessage(" ➤ horizontal-flip image-name dest-image-name "
-        + "(Flip an image horizontally to create a new image, "
-        + "referred to henceforth by the given destination name)");
-    writeMessage(" ➤ vertical-flip image-name dest-image-name "
-        + "(Flip an image vertically to create a new image, "
-        + "referred to henceforth by the given destination name)");
-    writeMessage(" ➤ brighten increment image-name dest-image-name "
-        + "(Brighten the image by the given increment to create a new image, referred to "
-        + "henceforth by the given destination name - the increment may be positive "
-        + "(brightening) or negative (darkening))");
+    for (String msg : this.commandMenu) {
+      writeMessage(" ➤ " + msg);
+    }
     writeMessage(" ➤ menu (Print supported instruction list)");
     writeMessage(" ➤ q or quit (quit the program)");
+  }
+
+  protected List<String> loadMenu() {
+    List<String> list = new ArrayList<>();
+    list.add("load image-path image-name "
+            + "(Loads an image from the specified path and refers to it henceforth in the program "
+            + "by the given name)");
+    list.add("save image-path image-name "
+            + "(Saves the image with the given name to the specified path which includes "
+            + "the name of the file)");
+    list.add("(component name)-component image-name dest-image-name "
+            + "(Create a greyscale image with the (component name) component of the image with "
+            + "the given name."
+            + " [supported (component name): red, green, blue, value, luma, intensity])");
+    list.add("horizontal-flip image-name dest-image-name "
+            + "(Flip an image horizontally to create a new image, "
+            + "referred to henceforth by the given destination name)");
+    list.add("vertical-flip image-name dest-image-name "
+            + "(Flip an image vertically to create a new image, "
+            + "referred to henceforth by the given destination name)");
+    list.add("brighten increment image-name dest-image-name "
+            + "(Brighten the image by the given increment to create a new image, referred to "
+            + "henceforth by the given destination name - the increment may be positive "
+            + "(brightening) or negative (darkening))");
+    return list;
   }
 
   private void farewellMessage() throws IllegalStateException {

@@ -9,6 +9,8 @@ import model.macros.Macro;
  * An implementation of the ImageProcessingModel. It stores the images on a map and works with them.
  */
 public class ImageProcessingModelImpl implements ImageProcessingModel {
+  // INVARIANT: keys cannot be null
+  // INVARIANT: values cannot be null
   private final Map<String, ImageTransform> images;
 
   /**
@@ -20,7 +22,7 @@ public class ImageProcessingModelImpl implements ImageProcessingModel {
 
   @Override
   public void createImage(Color[][] colors, String name, int maxValue)
-      throws IllegalArgumentException {
+          throws IllegalArgumentException {
     if (name == null) {
       throw new IllegalArgumentException("String name cannot be null.");
     }
@@ -41,7 +43,11 @@ public class ImageProcessingModelImpl implements ImageProcessingModel {
     if (!this.images.containsKey(target)) {
       throw new IllegalArgumentException("Unknown image.");
     }
-    this.images.put(newName, command.execute(this.images.get(target)));
+    ImageTransform result = command.execute(this.images.get(target));
+    if (result == null) {
+      throw new IllegalArgumentException("Macro did not return an image");
+    }
+    this.images.put(newName, result);
   }
 
   @Override

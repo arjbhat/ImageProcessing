@@ -12,6 +12,12 @@ import static org.junit.Assert.fail;
  * Tests for an observable image.
  */
 public class ObservableImageTest extends TestHelper {
+  @Before
+  public void initObsImg() {
+    model.createImage(img1arr, "obsTest", 127);
+    obsInput = model.getImage("obsTest");
+    observableImage = new ObservableImage(img1);
+  }
 
   @Test
   public void testNullInput() {
@@ -22,11 +28,6 @@ public class ObservableImageTest extends TestHelper {
     }
   }
 
-  @Before
-  public void initObsImg() {
-    model.createImage(img1arr, "obsTest", 127);
-    obsInput = model.getImage("obsTest");
-  }
 
   @Test
   public void castingFailure() {
@@ -42,20 +43,24 @@ public class ObservableImageTest extends TestHelper {
   @Test
   public void getMaxValue() {
     assertEquals(127, obsInput.getMaxValue());
+    assertEquals(127, observableImage.getMaxValue());
   }
 
   @Test
   public void getHeight() {
     assertEquals(3, obsInput.getHeight());
+    assertEquals(3, observableImage.getHeight());
   }
 
   @Test
   public void getWidth() {
     assertEquals(2, obsInput.getWidth());
+    assertEquals(2, observableImage.getWidth());
   }
 
   @Test
   public void getColorAt() {
     assertEquals(img1, this.imageFromState(obsInput));
+    assertEquals(img1, this.imageFromState(observableImage));
   }
 }

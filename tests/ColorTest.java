@@ -6,6 +6,7 @@ import model.RGBColor;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
@@ -56,7 +57,7 @@ public class ColorTest {
    * than 0.
    */
   @Test
-  public void testConstructorExceptions() {
+  public void testConstructorMinValue() {
     this.red = null;
     // Try negative in each of the slots
     this.tryColor(-1, 0, 255);
@@ -67,7 +68,7 @@ public class ColorTest {
     this.tryColor(0, -1, 0, 255);
     this.tryColor(0, 0, -1, 255);
     this.tryColor(0, 0, 255, -1);
-    assertNull(this.red);
+    assertNotNull(this.red);
     // We can construct colors that have a value greater than 255.
     // it's the image that adds the constraints.
   }
@@ -76,17 +77,22 @@ public class ColorTest {
     if (args.length == 3) {
       try {
         this.red = new RGBColor(args[0], args[1], args[2]);
-        fail("Unrepresentable color constructed");
+        assertEquals(Math.max(args[0], 0), this.red.getRed());
+        assertEquals(Math.max(args[1], 0), this.red.getGreen());
+        assertEquals(Math.max(args[2], 0), this.red.getBlue());
       } catch (IllegalArgumentException e) {
-        assertEquals("Color channel cannot be below 0.", e.getMessage());
+        fail("We couldn't construct the color.");
       }
     }
     if (args.length == 4) {
       try {
         this.red = new RGBColor(args[0], args[1], args[2], args[3]);
-        fail("Unrepresentable color constructed");
+        assertEquals(Math.max(args[0], 0), this.red.getRed());
+        assertEquals(Math.max(args[1], 0), this.red.getGreen());
+        assertEquals(Math.max(args[2], 0), this.red.getBlue());
+        assertEquals(Math.max(args[3], 0), this.red.getAlpha());
       } catch (IllegalArgumentException e) {
-        assertEquals("Color channel cannot be below 0.", e.getMessage());
+        fail("We couldn't construct the color.");
       }
     }
   }
@@ -208,11 +214,11 @@ public class ColorTest {
   @Test
   public void getTransparency() {
     red = new RGBColor(255, 0, 0);
-    assertEquals(0, red.getTransparency());
+    assertEquals(255, red.getAlpha());
     red = new RGBColor(255, 0, 0, 10);
-    assertEquals(10, red.getTransparency());
+    assertEquals(10, red.getAlpha());
     red = new RGBColor(255, 0, 0, 20);
-    assertEquals(20, red.getTransparency());
+    assertEquals(20, red.getAlpha());
   }
 
   @Test
@@ -233,8 +239,8 @@ public class ColorTest {
     assertNotEquals(red.hashCode(), orange.hashCode());
     assertNotEquals(lime.hashCode(), green.hashCode());
     assertNotEquals(blue.hashCode(), indigo.hashCode());
-    assertEquals(8520226, red.hashCode());
-    assertEquals(1168576, lime.hashCode());
-    assertEquals(931426, blue.hashCode());
+    assertEquals(8520481, red.hashCode());
+    assertEquals(1168831, lime.hashCode());
+    assertEquals(931681, blue.hashCode());
   }
 }

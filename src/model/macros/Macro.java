@@ -12,6 +12,7 @@ public interface Macro {
    *
    * @param img the image that we're working on
    * @return a new image that has undergone the transformation
+   * @throws IllegalArgumentException if the image passed in is null
    */
-  ImageTransform execute(ImageTransform img);
+  ImageTransform execute(ImageTransform img) throws IllegalArgumentException;
 }
