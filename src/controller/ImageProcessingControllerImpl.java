@@ -166,7 +166,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
       } else if (userInstruction.equals("menu")) {
         this.printMenu();
       } else if (userInstruction.startsWith("#")) {
-        // comment passthrough
+        // comment pass-through
       } else {
         processCommand(userInstruction, line, model);
       }

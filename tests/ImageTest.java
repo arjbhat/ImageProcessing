@@ -142,9 +142,9 @@ public class ImageTest extends TestHelper {
     assertNotEquals(img1Value, img1);
 
     // Trying a flip function
-    ImageTransform img1HorFlip = this.imageHorizontal(img1);
+    ImageState img1HorFlip = this.imageHorizontal(img1);
 
-    ImageTransform newHorFlipImg1 = img1.transform((c, y, x)
+    ImageState newHorFlipImg1 = img1.transform((c, y, x)
             -> img1.getColorAt(y, img1.getWidth() - x - 1));
 
     // new image is the same as the one we created

@@ -1,7 +1,14 @@
 import org.junit.Before;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.StringReader;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
+
+import javax.imageio.ImageIO;
 
 import controller.ImageProcessingController;
 import controller.ImageProcessingControllerImpl;
@@ -14,6 +21,8 @@ import model.ImageTransform;
 import model.RGBColor;
 import view.ImageProcessingView;
 import view.ImageProcessingViewImpl;
+
+import static org.junit.Assert.fail;
 
 /**
  * Useful methods and fields for all sorts of image testing.
@@ -39,6 +48,10 @@ public abstract class TestHelper {
   protected ImageProcessingView newView1;
   protected ImageState observableImage;
   protected ImageState obsInput;
+  protected double[][] blur;
+  protected double[][] sharpen;
+  protected double[][] greyscale;
+  protected double[][] sepia;
 
   @Before
   public void initImages() {
@@ -66,7 +79,29 @@ public abstract class TestHelper {
     controller1 = new ImageProcessingControllerImpl(model, newView1, readInput1);
   }
 
-  protected ImageTransform imageAsComponent(ImageState img, Function<Color, Integer> component) {
+  @Before
+  public void initMatrices() {
+    blur = new double[][]{
+            {1 / 16., 1 / 8., 1 / 16.},
+            {1 / 8., 1 / 4., 1 / 8.},
+            {1 / 16., 1 / 8., 1 / 16.}};
+    sharpen = new double[][]{
+            {-1 / 8., -1 / 8., -1 / 8., -1 / 8., -1 / 8.},
+            {-1 / 8., 1 / 4., 1 / 4., 1 / 4., -1 / 8.},
+            {-1 / 8., 1 / 4., 1, 1 / 4., -1 / 8.},
+            {-1 / 8., 1 / 4., 1 / 4., 1 / 4., -1 / 8.},
+            {-1 / 8., -1 / 8., -1 / 8., -1 / 8., -1 / 8.}};
+    greyscale = new double[][]{
+            {0.393, 0.769, 0.189},
+            {0.393, 0.769, 0.189},
+            {0.393, 0.769, 0.189}};
+    sepia = new double[][]{
+            {0.393, 0.769, 0.189},
+            {0.349, 0.686, 0.168},
+            {0.272, 0.534, 0.131}};
+  }
+
+  protected ImageState imageAsComponent(ImageState img, Function<Color, Integer> component) {
     int height = img.getHeight();
     int width = img.getWidth();
     int maxValue = img.getMaxValue();
@@ -82,7 +117,7 @@ public abstract class TestHelper {
     return new Image(grayColorArr, maxValue);
   }
 
-  protected ImageTransform imageBrightness(ImageState img, int num) {
+  protected ImageState imageBrightness(ImageState img, int num) {
     int height = img.getHeight();
     int width = img.getWidth();
     int maxValue = img.getMaxValue();
@@ -101,7 +136,7 @@ public abstract class TestHelper {
     return new Image(colorArr, maxValue);
   }
 
-  protected ImageTransform imageHorizontal(ImageState img) {
+  protected ImageState imageHorizontal(ImageState img) {
     int height = img.getHeight();
     int width = img.getWidth();
     int maxValue = img.getMaxValue();
@@ -116,7 +151,7 @@ public abstract class TestHelper {
     return new Image(colorArr, maxValue);
   }
 
-  protected ImageTransform imageVertical(ImageState img) {
+  protected ImageState imageVertical(ImageState img) {
     int height = img.getHeight();
     int width = img.getWidth();
     int maxValue = img.getMaxValue();
@@ -131,7 +166,90 @@ public abstract class TestHelper {
     return new Image(colorArr, maxValue);
   }
 
-  protected ImageTransform imageFromState(ImageState s) {
+  protected ImageState imageMatrixTransform(ImageState img, double[][] matrix) {
+    if (matrix == null) {
+      throw new IllegalArgumentException("Matrix cannot be null.");
+    }
+    if (matrix.length != 3) {
+      throw new IllegalArgumentException("Matrix height must be a 3.");
+    }
+    for (double[] row : matrix) {
+      if (row == null) {
+        throw new IllegalArgumentException("Matrix row cannot be null.");
+      }
+      if (row.length != 3) {
+        throw new IllegalArgumentException("Matrix width must be 3");
+      }
+    }
+
+    int height = img.getHeight();
+    int width = img.getWidth();
+    int maxValue = img.getMaxValue();
+    Color[][] colorArr = new Color[height][width];
+
+    for (int row = 0; row < height; row += 1) {
+      for (int col = 0; col < width; col += 1) {
+        Color c = img.getColorAt(row, col);
+        colorArr[row][col] = new RGBColor(calcChannel(matrix[0], c),
+                calcChannel(matrix[1], c), calcChannel(matrix[2], c));
+      }
+    }
+
+    return new Image(colorArr, maxValue);
+  }
+
+  private int calcChannel(double[] row, Color c) {
+    return (int) (row[0] * c.getRed() + row[1] * c.getGreen() + row[2] * c.getBlue());
+  }
+
+  protected ImageState imageConvolve(ImageState img, double[][] kernel) {
+    if (kernel == null) {
+      throw new IllegalArgumentException("Kernel cannot be null.");
+    }
+    if (kernel.length % 2 == 0) {
+      throw new IllegalArgumentException("Invalid Kernel size.");
+    }
+    for (double[] row : kernel) {
+      if (row == null) {
+        throw new IllegalArgumentException("Kernel row cannot be null.");
+      }
+      if (row.length != kernel.length) {
+        throw new IllegalArgumentException("Kernel must be square");
+      }
+    }
+
+    int height = img.getHeight();
+    int width = img.getWidth();
+    int kernelCentre = kernel.length / 2;
+    int maxValue = img.getMaxValue();
+    Color[][] colorArr = new Color[height][width];
+
+    for (int row = 0; row < height; row += 1) {
+      for (int col = 0; col < width; col += 1) {
+        double r = 0;
+        double g = 0;
+        double b = 0;
+        for (int kRow = -kernelCentre; kRow < kernelCentre + 1; kRow += 1) {
+          for (int kCol = -kernelCentre; kCol < kernelCentre + 1; kCol += 1) {
+            int sumR = row + kRow;
+            int sumC = col + kCol;
+            if (sumR >= 0 && sumR < height && sumC >= 0 && sumC < width) {
+              Color sumColor = img.getColorAt(sumR, sumC);
+              double value = kernel[kRow + kernelCentre][kCol + kernelCentre];
+              r += sumColor.getRed() * value;
+              g += sumColor.getGreen() * value;
+              b += sumColor.getBlue() * value;
+            }
+          }
+        }
+        colorArr[row][col] = new RGBColor((int) r, (int) g, (int) b);
+      }
+    }
+
+    return new Image(colorArr, maxValue);
+  }
+
+  protected ImageState imageFromState(ImageState s) {
     int height = s.getHeight();
     int width = s.getWidth();
     int maxValue = s.getMaxValue();
@@ -144,5 +262,28 @@ public abstract class TestHelper {
     }
 
     return new Image(colorArr, maxValue);
+  }
+
+  protected ImageState fileToImage(String fileName) {
+    File source = new File(fileName);
+    BufferedImage img = null;
+    try {
+      img = ImageIO.read(source);
+      if (img == null) throw new IOException();
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Failed to read file.");
+    }
+    Color[][] pane = new Color[img.getHeight()][img.getWidth()];
+    for (int row = 0; row < pane.length; row += 1) {
+      for (int col = 0; col < pane[row].length; col += 1) {
+        int color = img.getRGB(col, row);
+        int alpha = (color >> 24) & 0xff;
+        int r = (color >> 16) & 0xff;
+        int g = (color >> 8) & 0xff;
+        int b = color & 0xff;
+        pane[row][col] = new RGBColor(r, g, b, alpha);
+      }
+    }
+    return new Image(pane);
   }
 }

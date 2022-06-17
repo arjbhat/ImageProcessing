@@ -3,12 +3,18 @@ import org.junit.Test;
 import java.util.function.Function;
 
 import model.Color;
+import model.Image;
 import model.ImageState;
 import model.ImageTransform;
+import model.RGBColor;
+import model.macros.Blur;
 import model.macros.Brighten;
 import model.macros.Component;
+import model.macros.Greyscale;
 import model.macros.HorizontalFlip;
 import model.macros.Macro;
+import model.macros.Sepia;
+import model.macros.Sharpen;
 import model.macros.VerticalFlip;
 
 import static org.junit.Assert.assertEquals;
@@ -23,7 +29,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
   @Test
   public void createImage() {
     // We added the image we had to the model.
-    model.createImage(img1arr, "twoByThree", 127);
+    model.createImage(img1arr, "twoByThree", 255);
     ImageState twoByThreeState = model.getImage("twoByThree");
     // Let's create an array with the image with received
     ImageState twoByThree = this.imageFromState(twoByThreeState);
@@ -39,7 +45,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
     assertEquals(img2, threeByTwo);
 
     // Let's see if we can override images (override with img1)
-    model.createImage(img1arr, "threeByTwo", 127);
+    model.createImage(img1arr, "threeByTwo", 255);
     ImageState newThreeByTwoState = model.getImage("threeByTwo");
     // Let's create an array with the image with received
     ImageState newThreeByTwo = this.imageFromState(newThreeByTwoState);
@@ -51,17 +57,29 @@ public class ImageProcessingModelImplTest extends TestHelper {
   @Test
   public void createImageExceptions() {
     assertNotNull(model);
-    this.createImageException(null, "arjun", 255,
-            "Color array cannot be null.");
-    this.createImageException(img1arr, "twoByThree", 10,
-            "Row: 0 Col: 1 has a color value larger than channel size.");
-    this.createImageException(img1arr, null, 255,
-            "String name cannot be null.");
+    this.createImageException(null, "arjun", "Color array cannot be null.");
+    this.createImageException(img1arr, null, "String name cannot be null.");
   }
 
-  private void createImageException(Color[][] arr, String name, int maxValue, String exe) {
+  // Setting the max value to 10, and seeing all colors be maxed at 10.
+  @Test
+  public void maxValueCap() {
+    model.createImage(img1arr, "twoByThree", 50);
+    ImageState cappedImage = model.getImage("twoByThree");
+    c1 = new RGBColor(0, 0, 0);
+    c2 = new RGBColor(50, 50, 25);
+    c3 = new RGBColor(50, 50, 25);
+    c4 = new RGBColor(50, 25, 50);
+    c5 = new RGBColor(25, 50, 50);
+    c6 = new RGBColor(50, 50, 50);
+    img1arr = new Color[][]{{c1, c2}, {c3, c4}, {c5, c6}};
+    ImageState expectedImage = new Image(img1arr, 50);
+    assertEquals(expectedImage, cappedImage);
+  }
+
+  private void createImageException(Color[][] arr, String name, String exe) {
     try {
-      model.createImage(arr, name, maxValue);
+      model.createImage(arr, name, 255);
       fail("Invalid image created.");
     } catch (IllegalArgumentException e) {
       assertEquals(exe, e.getMessage());
@@ -71,7 +89,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
   @Test
   public void runCommand() {
     // Let's load images first
-    model.createImage(img1arr, "twoByThree", 127);
+    model.createImage(img1arr, "twoByThree", 255);
     model.createImage(img2arr, "threeByTwo", 255);
 
     // and let's save these images that we loaded
@@ -102,6 +120,14 @@ public class ImageProcessingModelImplTest extends TestHelper {
     this.testHorizontalCommand("twoByThree", "horizontalFlipTwoByThree", img1);
     // Macro 9: Vertical Flip
     this.testVerticalCommand("twoByThree", "verticalFlipTwoByThree", img1);
+    // Macro 10: Blur
+    this.testBlurCommand("twoByThree", "blurTwoByThree", img1);
+    // Macro 11: Sharpen
+    this.testSharpenCommand("twoByThree", "sharpenTwoByThree", img1);
+    // Macro 12: Greyscale
+    this.testGreyscaleCommand("twoByThree", "greyscaleTwoByThree", img1);
+    // Macro 13: Sepia
+    this.testSepiaCommand("twoByThree", "sepiaTwoByThree", img1);
 
     // On Image 2:
     // Macro 1: RedGrayscale
@@ -125,6 +151,14 @@ public class ImageProcessingModelImplTest extends TestHelper {
     this.testHorizontalCommand("threeByTwo", "horizontalFlipThreeByTwo", img2);
     // Macro 9: Vertical Flip
     this.testVerticalCommand("threeByTwo", "verticalFlipThreeByTwo", img2);
+    // Macro 10: Blur
+    this.testBlurCommand("threeByTwo", "blurThreeByTwo", img2);
+    // Macro 11: Sharpen
+    this.testSharpenCommand("threeByTwo", "sharpenThreeByTwo", img2);
+    // Macro 12: Greyscale
+    this.testGreyscaleCommand("threeByTwo", "greyscaleThreeByTwo", img2);
+    // Macro 13: Sepia
+    this.testSepiaCommand("threeByTwo", "sepiaThreeByTwo", img2);
   }
 
   private void testGrayscaleCommand(String oldName, String newName, ImageState expected,
@@ -144,10 +178,27 @@ public class ImageProcessingModelImplTest extends TestHelper {
     this.testMacro(oldName, newName, new VerticalFlip(), this.imageVertical(expected));
   }
 
+  private void testBlurCommand(String oldName, String newName, ImageState expected) {
+    this.testMacro(oldName, newName, new Blur(), this.imageConvolve(expected, blur));
+  }
+
+  private void testSharpenCommand(String oldName, String newName, ImageState expected) {
+    this.testMacro(oldName, newName, new Sharpen(), this.imageConvolve(expected, sharpen));
+  }
+
+  private void testGreyscaleCommand(String oldName, String newName, ImageState expected) {
+    this.testMacro(oldName, newName, new Greyscale(),
+            this.imageMatrixTransform(expected, greyscale));
+  }
+
+  private void testSepiaCommand(String oldName, String newName, ImageState expected) {
+    this.testMacro(oldName, newName, new Sepia(), this.imageMatrixTransform(expected, sepia));
+  }
+
   private void testMacro(String oldName, String newName, Macro macro, ImageState expected) {
-    ImageTransform oldImg = this.imageFromState(model.getImage(oldName));
+    ImageState oldImg = this.imageFromState(model.getImage(oldName));
     model.runCommand(macro, oldName, newName);
-    ImageTransform newImg = this.imageFromState(model.getImage(newName));
+    ImageState newImg = this.imageFromState(model.getImage(newName));
     // Proof that there was no mutation on the original image
     assertNotEquals(oldImg, newImg);
     // But that the image new image produced is the one that we expect
@@ -156,7 +207,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
 
   @Test
   public void testRunCommand() {
-    model.createImage(img1arr, "twoByThree", 127);
+    model.createImage(img1arr, "twoByThree", 255);
     StringBuilder out = new StringBuilder();
     model.runCommand(img -> {
       out.append("called once");
@@ -167,7 +218,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
 
   @Test
   public void runCommandExceptions() {
-    model.createImage(img1arr, "twoByThree", 127);
+    model.createImage(img1arr, "twoByThree", 255);
     assertNotNull(model.getImage("twoByThree"));
     this.runCommandException(null, "twoByThree", "threeByTwo",
             "Macro cannot be null.");
@@ -187,9 +238,14 @@ public class ImageProcessingModelImplTest extends TestHelper {
   }
 
   @Test
+  public void macroInputExceptions() {
+
+  }
+
+  @Test
   public void getImage() {
     // Let's load images first
-    model.createImage(img1arr, "twoByThree", 127);
+    model.createImage(img1arr, "twoByThree", 255);
     model.createImage(img2arr, "threeByTwo", 255);
 
     // and let's save these images that we loaded

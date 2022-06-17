@@ -17,6 +17,9 @@ public class MatrixTransform implements Macro {
    * @throws IllegalArgumentException if the matrix is null or is not a 3x3
    */
   public MatrixTransform(double[][] matrix) throws IllegalArgumentException {
+    if (matrix == null) {
+      throw new IllegalArgumentException("Matrix cannot be null.");
+    }
     if (matrix.length != 3) {
       throw new IllegalArgumentException("Matrix height must be a 3.");
     }

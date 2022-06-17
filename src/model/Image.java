@@ -139,7 +139,7 @@ public class Image implements ImageTransform {
       return false;
     }
 
-    Image that = (Image) obj;
+    ImageState that = (ImageState) obj;
     if (!(this.height == that.getHeight()
             && this.width == that.getWidth()
             && this.maxValue == that.getMaxValue())) {

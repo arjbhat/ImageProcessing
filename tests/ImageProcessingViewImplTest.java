@@ -64,5 +64,4 @@ public class ImageProcessingViewImplTest extends TestHelper {
       assertEquals("Unable to successfully transmit output", e.getMessage());
     }
   }
-
 }
