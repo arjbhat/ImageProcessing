@@ -1,0 +1,105 @@
+load arjun.ppm arj
+# run all available commands
+red-component arj red-arj
+green-component arj green-arj
+blue-component arj blue-arj
+value-component arj value-arj
+luma-component arj luma-arj
+intensity-component arj intensity-arj
+vertical-flip arj vertical-arj
+horizontal-flip arj horizontal-arj
+brighten 50 arj bright-arj
+brighten -50 arj dark-arj
+sepia arj sepia-arj
+greyscale arj grey-arj
+sharpen arj sharp-arj
+blur arj blur-arj
+# load and save across file formats
+save arjun.jpg arj
+save arjun.jpeg arj
+save arjun.png arj
+save arjun.bmp arj
+load arjun.jpg arjJPG
+load arjun.jpeg arjJPEG
+load arjun.png arjPNG
+load arjun.bmp arjBMP
+save arjun.ppm arjJPG
+save arjun.ppm arjJPEG
+save arjun.ppm arjPNG
+save arjun.ppm arjBMP
+# save to ppm
+save arjunRedComponent.ppm red-arj
+save arjunGreenComponent.ppm green-arj
+save arjunBlueComponent.ppm blue-arj
+save arjunValueComponent.ppm value-arj
+save arjunLumaComponent.ppm luma-arj
+save arjunIntensityComponent.ppm intensity-arj
+save arjunVerticalFlip.ppm vertical-arj
+save arjunHorizontalFlip.ppm horizontal-arj
+save arjunBrighter.ppm bright-arj
+save arjunDarker.ppm dark-arj
+save arjunSepia.ppm sepia-arj
+save arjunGrey.ppm grey-arj
+save arjunSharp.ppm sharp-arj
+save arjunBlur.ppm blur-arj
+# save to jpg
+save arjunRedComponent.jpg red-arj
+save arjunGreenComponent.jpg green-arj
+save arjunBlueComponent.jpg blue-arj
+save arjunValueComponent.jpg value-arj
+save arjunLumaComponent.jpg luma-arj
+save arjunIntensityComponent.jpg intensity-arj
+save arjunVerticalFlip.jpg vertical-arj
+save arjunHorizontalFlip.jpg horizontal-arj
+save arjunBrighter.jpg bright-arj
+save arjunDarker.jpg dark-arj
+save arjunSepia.jpg sepia-arj
+save arjunGrey.jpg grey-arj
+save arjunSharp.jpg sharp-arj
+save arjunBlur.jpg blur-arj
+# save to jpeg
+save arjunRedComponent.jpeg red-arj
+save arjunGreenComponent.jpeg green-arj
+save arjunBlueComponent.jpeg blue-arj
+save arjunValueComponent.jpeg value-arj
+save arjunLumaComponent.jpeg luma-arj
+save arjunIntensityComponent.jpeg intensity-arj
+save arjunVerticalFlip.jpeg vertical-arj
+save arjunHorizontalFlip.jpeg horizontal-arj
+save arjunBrighter.jpeg bright-arj
+save arjunDarker.jpeg dark-arj
+save arjunSepia.jpeg sepia-arj
+save arjunGrey.jpeg grey-arj
+save arjunSharp.jpeg sharp-arj
+save arjunBlur.jpeg blur-arj
+# save to png
+save arjunRedComponent.png red-arj
+save arjunGreenComponent.png green-arj
+save arjunBlueComponent.png blue-arj
+save arjunValueComponent.png value-arj
+save arjunLumaComponent.png luma-arj
+save arjunIntensityComponent.png intensity-arj
+save arjunVerticalFlip.png vertical-arj
+save arjunHorizontalFlip.png horizontal-arj
+save arjunBrighter.png bright-arj
+save arjunDarker.png dark-arj
+save arjunSepia.png sepia-arj
+save arjunGrey.png grey-arj
+save arjunSharp.png sharp-arj
+save arjunBlur.png blur-arj
+# save to bmp
+save arjunRedComponent.bmp red-arj
+save arjunGreenComponent.bmp green-arj
+save arjunBlueComponent.bmp blue-arj
+save arjunValueComponent.bmp value-arj
+save arjunLumaComponent.bmp luma-arj
+save arjunIntensityComponent.bmp intensity-arj
+save arjunVerticalFlip.bmp vertical-arj
+save arjunHorizontalFlip.bmp horizontal-arj
+save arjunBrighter.bmp bright-arj
+save arjunDarker.bmp dark-arj
+save arjunSepia.bmp sepia-arj
+save arjunGrey.bmp grey-arj
+save arjunSharp.bmp sharp-arj
+save arjunBlur.bmp blur-arj
+quit

@@ -19,6 +19,6 @@ public class HorizontalFlip implements Macro {
       throw new IllegalArgumentException("Image cannot be null.");
     }
     return img.transform((c, y, x)
-            -> img.getColorAt(y, img.getWidth() - x - 1));
+        -> img.getColorAt(y, img.getWidth() - x - 1));
   }
 }

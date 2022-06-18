@@ -8,15 +8,19 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import controller.ImageProcessingController;
-import controller.ImageProcessingControllerImpl;
+import controller.ImageProcessingControllerImplPro;
 import model.Color;
 import model.ImageProcessingModel;
 import model.ImageProcessingModelImpl;
 import model.ImageState;
+import model.macros.Blur;
 import model.macros.Brighten;
 import model.macros.Component;
+import model.macros.Greyscale;
 import model.macros.HorizontalFlip;
 import model.macros.Macro;
+import model.macros.Sepia;
+import model.macros.Sharpen;
 import model.macros.VerticalFlip;
 import view.ImageProcessingView;
 import view.ImageProcessingViewImpl;
@@ -28,12 +32,12 @@ import static org.junit.Assert.fail;
 /**
  * Tests for the controller implementation.
  */
-public class ImageProcessingControllerImplTest extends AbstractControllerTest {
+public class ImageProcessingControllerImplProTest extends AbstractControllerTest {
 
   protected ImageProcessingController makeController(ImageProcessingModel model,
                                                      ImageProcessingView view,
                                                      Readable input) {
-    return new ImageProcessingControllerImpl(model, view, input);
+    return new ImageProcessingControllerImplPro(model, view, input);
   }
 
   // Testing user input to Controller
@@ -67,6 +71,14 @@ public class ImageProcessingControllerImplTest extends AbstractControllerTest {
         prints("method: runCommand image-name: img dest-image-name: brighten-img"),
         inputs("brighten -11 img brighten-img"),
         prints("method: runCommand image-name: img dest-image-name: brighten-img"),
+        inputs("sepia img sepia-img"),
+        prints("method: runCommand image-name: img dest-image-name: sepia-img"),
+        inputs("greyscale img greyscale-img"),
+        prints("method: runCommand image-name: img dest-image-name: greyscale-img"),
+        inputs("sharpen img sharp-img"),
+        prints("method: runCommand image-name: img dest-image-name: sharp-img"),
+        inputs("blur img blur-img"),
+        prints("method: runCommand image-name: img dest-image-name: blur-img"),
         inputs("save res/out.ppm img"),
         prints("method: getImage image-name: img"),
         inputs("q")
@@ -110,6 +122,18 @@ public class ImageProcessingControllerImplTest extends AbstractControllerTest {
     assertTrue(macroLog.get(9) instanceof Brighten);
     assertEquals(this.imageBrightness(img1, -11),
         macroLog.get(9).execute(img1));
+    assertTrue(macroLog.get(10) instanceof Sepia);
+    assertEquals(this.imageMatrixTransform(img1, sepia),
+        macroLog.get(10).execute(img1));
+    assertTrue(macroLog.get(11) instanceof Greyscale);
+    assertEquals(this.imageMatrixTransform(img1, greyscale),
+        macroLog.get(11).execute(img1));
+    assertTrue(macroLog.get(12) instanceof Sharpen);
+    assertEquals(this.imageConvolve(img1, sharpen),
+        macroLog.get(12).execute(img1));
+    assertTrue(macroLog.get(13) instanceof Blur);
+    assertEquals(this.imageConvolve(img1, blur),
+        macroLog.get(13).execute(img1));
 
     testFile("res/out.ppm", "P3\n" + "0 0\n" + "0\n");
   }
@@ -122,7 +146,11 @@ public class ImageProcessingControllerImplTest extends AbstractControllerTest {
         prints("method: renderMessage"),
         prints("method: renderMessage"), // type input
         inputs("menu"),
-        prints("method: renderMessage"), // 9 menu options
+        prints("method: renderMessage"), // 13 menu options
+        prints("method: renderMessage"),
+        prints("method: renderMessage"),
+        prints("method: renderMessage"),
+        prints("method: renderMessage"),
         prints("method: renderMessage"),
         prints("method: renderMessage"),
         prints("method: renderMessage"),
@@ -184,6 +212,18 @@ public class ImageProcessingControllerImplTest extends AbstractControllerTest {
         prints("method: renderMessage"), // confirmation
         prints("method: renderMessage"), // type input
         inputs("brighten -11 arj brighten-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("sepia arj sepia-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("greyscale arj grey-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("sharpen arj sharp-arj"),
+        prints("method: renderMessage"), // confirmation
+        prints("method: renderMessage"), // type input
+        inputs("blur arj blur-arj"),
         prints("method: renderMessage"), // confirmation
         prints("method: renderMessage"), // type input
         inputs("save res/out.ppm arj"),
@@ -846,7 +886,7 @@ public class ImageProcessingControllerImplTest extends AbstractControllerTest {
       fail("Could not write to file");
     }
     try (FileReader reader = new FileReader(testScript)) {
-      new ImageProcessingControllerImpl(model, view, reader).control();
+      new ImageProcessingControllerImplPro(model, view, reader).control();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -887,6 +927,18 @@ public class ImageProcessingControllerImplTest extends AbstractControllerTest {
             + "(Brighten the image by the given increment to create a new image, referred to "
             + "henceforth by the given destination name - the increment may be positive "
             + "(brightening) or negative (darkening))",
+        " ➤ blur image-name dest-image-name "
+            + "(Blue an image to create a new image, "
+            + "referred to henceforth by the given destination name)",
+        " ➤ sharpen image-name dest-image-name "
+            + "(Sharpen an image to create a new image, "
+            + "referred to henceforth by the given destination name)",
+        " ➤ greyscale image-name dest-image-name "
+            + "(Find the greyscale version an image to create a new image, "
+            + "referred to henceforth by the given destination name)",
+        " ➤ sepia image-name dest-image-name "
+            + "(Find the sepia version of an image to create a new image, "
+            + "referred to henceforth by the given destination name)",
         " ➤ menu (Print supported instruction list)",
         " ➤ q or quit (quit the program)"};
   }

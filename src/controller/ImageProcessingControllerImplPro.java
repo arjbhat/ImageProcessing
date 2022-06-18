@@ -27,42 +27,42 @@ public class ImageProcessingControllerImplPro extends ImageProcessingControllerI
   protected void loadCommands() {
     super.loadCommands();
     addCommand("blur",
-            sc -> model -> {
-              model.runCommand(new Blur(), sc.next(), sc.next());
-              this.writeMessage("Blurred image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Blur(), sc.next(), sc.next());
+          this.writeMessage("Blurred image created.");
+        });
     addCommand("sharpen",
-            sc -> model -> {
-              model.runCommand(new Sharpen(), sc.next(), sc.next());
-              this.writeMessage("Sharpened image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Sharpen(), sc.next(), sc.next());
+          this.writeMessage("Sharpened image created.");
+        });
     addCommand("greyscale",
-            sc -> model -> {
-              model.runCommand(new Greyscale(), sc.next(), sc.next());
-              this.writeMessage("Greyscale image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Greyscale(), sc.next(), sc.next());
+          this.writeMessage("Greyscale image created.");
+        });
     addCommand("sepia",
-            sc -> model -> {
-              model.runCommand(new Sepia(), sc.next(), sc.next());
-              this.writeMessage("Sepia image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Sepia(), sc.next(), sc.next());
+          this.writeMessage("Sepia image created.");
+        });
   }
 
   @Override
   protected List<String> loadMenu() {
     List<String> list = super.loadMenu();
     list.add("blur image-name dest-image-name "
-            + "(Blue an image to create a new image, "
-            + "referred to henceforth by the given destination name)");
+        + "(Blue an image to create a new image, "
+        + "referred to henceforth by the given destination name)");
     list.add("sharpen image-name dest-image-name "
-            + "(Sharpen an image to create a new image, "
-            + "referred to henceforth by the given destination name)");
+        + "(Sharpen an image to create a new image, "
+        + "referred to henceforth by the given destination name)");
     list.add("greyscale image-name dest-image-name "
-            + "(Find the greyscale version an image to create a new image, "
-            + "referred to henceforth by the given destination name)");
+        + "(Find the greyscale version an image to create a new image, "
+        + "referred to henceforth by the given destination name)");
     list.add("sepia image-name dest-image-name "
-            + "(Find the sepia version of an image to create a new image, "
-            + "referred to henceforth by the given destination name)");
+        + "(Find the sepia version of an image to create a new image, "
+        + "referred to henceforth by the given destination name)");
     return list;
   }
 }
