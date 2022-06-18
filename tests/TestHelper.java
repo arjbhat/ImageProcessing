@@ -78,23 +78,23 @@ public abstract class TestHelper {
   @Before
   public void initMatrices() {
     blur = new double[][]{
-            {1 / 16., 1 / 8., 1 / 16.},
-            {1 / 8., 1 / 4., 1 / 8.},
-            {1 / 16., 1 / 8., 1 / 16.}};
+        {1 / 16., 1 / 8., 1 / 16.},
+        {1 / 8., 1 / 4., 1 / 8.},
+        {1 / 16., 1 / 8., 1 / 16.}};
     sharpen = new double[][]{
-            {-1 / 8., -1 / 8., -1 / 8., -1 / 8., -1 / 8.},
-            {-1 / 8., 1 / 4., 1 / 4., 1 / 4., -1 / 8.},
-            {-1 / 8., 1 / 4., 1, 1 / 4., -1 / 8.},
-            {-1 / 8., 1 / 4., 1 / 4., 1 / 4., -1 / 8.},
-            {-1 / 8., -1 / 8., -1 / 8., -1 / 8., -1 / 8.}};
+        {-1 / 8., -1 / 8., -1 / 8., -1 / 8., -1 / 8.},
+        {-1 / 8., 1 / 4., 1 / 4., 1 / 4., -1 / 8.},
+        {-1 / 8., 1 / 4., 1, 1 / 4., -1 / 8.},
+        {-1 / 8., 1 / 4., 1 / 4., 1 / 4., -1 / 8.},
+        {-1 / 8., -1 / 8., -1 / 8., -1 / 8., -1 / 8.}};
     greyscale = new double[][]{
-            {0.393, 0.769, 0.189},
-            {0.393, 0.769, 0.189},
-            {0.393, 0.769, 0.189}};
+        {0.393, 0.769, 0.189},
+        {0.393, 0.769, 0.189},
+        {0.393, 0.769, 0.189}};
     sepia = new double[][]{
-            {0.393, 0.769, 0.189},
-            {0.349, 0.686, 0.168},
-            {0.272, 0.534, 0.131}};
+        {0.393, 0.769, 0.189},
+        {0.349, 0.686, 0.168},
+        {0.272, 0.534, 0.131}};
   }
 
   protected ImageState imageAsComponent(ImageState img, Function<Color, Integer> component) {
@@ -187,7 +187,7 @@ public abstract class TestHelper {
       for (int col = 0; col < width; col += 1) {
         Color c = img.getColorAt(row, col);
         colorArr[row][col] = new RGBColor(calcChannel(matrix[0], c),
-                calcChannel(matrix[1], c), calcChannel(matrix[2], c));
+            calcChannel(matrix[1], c), calcChannel(matrix[2], c));
       }
     }
 
@@ -265,7 +265,9 @@ public abstract class TestHelper {
     BufferedImage img = null;
     try {
       img = ImageIO.read(source);
-      if (img == null) throw new IOException();
+      if (img == null) {
+        throw new IOException();
+      }
     } catch (IOException e) {
       throw new IllegalArgumentException("Failed to read file.");
     }

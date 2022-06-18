@@ -11,7 +11,13 @@ import model.RGBColor;
 public class Convolve implements Macro {
   private final double[][] kernel;
 
-  public Convolve(double[][] kernel) {
+  /**
+   * Construct a convolution function from the given kernel.
+   *
+   * @param kernel the kernel to filter images with
+   * @throws IllegalArgumentException if the kernel is or contains null.
+   */
+  public Convolve(double[][] kernel) throws IllegalArgumentException {
     if (kernel == null) {
       throw new IllegalArgumentException("Kernel cannot be null.");
     }

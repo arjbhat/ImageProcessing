@@ -5,7 +5,6 @@ import java.util.function.Function;
 import model.Color;
 import model.Image;
 import model.ImageState;
-import model.ImageTransform;
 import model.RGBColor;
 import model.macros.Blur;
 import model.macros.Brighten;
@@ -188,7 +187,7 @@ public class ImageProcessingModelImplTest extends TestHelper {
 
   private void testGreyscaleCommand(String oldName, String newName, ImageState expected) {
     this.testMacro(oldName, newName, new Greyscale(),
-            this.imageMatrixTransform(expected, greyscale));
+        this.imageMatrixTransform(expected, greyscale));
   }
 
   private void testSepiaCommand(String oldName, String newName, ImageState expected) {
@@ -228,11 +227,11 @@ public class ImageProcessingModelImplTest extends TestHelper {
     model.createImage(img1arr, "twoByThree", 255);
     assertNotNull(model.getImage("twoByThree"));
     this.runCommandException(null, "twoByThree", "threeByTwo",
-            "Macro cannot be null.");
+        "Macro cannot be null.");
     this.runCommandException(new Brighten(5), null, "brighterBy5",
-            "String target cannot be null.");
+        "String target cannot be null.");
     this.runCommandException(new Brighten(5), "twoByThree", null,
-            "New String name cannot be null.");
+        "New String name cannot be null.");
   }
 
   private void runCommandException(Macro command, String target, String newName, String exe) {

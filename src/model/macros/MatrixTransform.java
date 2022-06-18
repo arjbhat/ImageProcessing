@@ -15,7 +15,7 @@ public class MatrixTransform implements Macro {
    * Constructs a matrix transformation macro with a 3x3 matrix.
    *
    * @param matrix a 3x3 matrix that we transform each pixel with
-   * @throws IllegalArgumentException if the matrix is null or is not a 3x3
+   * @throws IllegalArgumentException if the matrix is or contains null, or is not a 3x3
    */
   public MatrixTransform(double[][] matrix) throws IllegalArgumentException {
     if (matrix == null) {
@@ -48,10 +48,10 @@ public class MatrixTransform implements Macro {
       throw new IllegalArgumentException("Image cannot be null.");
     }
     return img.transform((c, y, x)
-            -> new RGBColor(calcChannel(matrix[0], c), // r'
-            calcChannel(matrix[1], c), // g'
-            calcChannel(matrix[2], c), // b'
-            c.getAlpha()));
+        -> new RGBColor(calcChannel(matrix[0], c), // r'
+        calcChannel(matrix[1], c), // g'
+        calcChannel(matrix[2], c), // b'
+        c.getAlpha()));
   }
 
   // calculates the value for a specific channel

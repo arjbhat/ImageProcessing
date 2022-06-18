@@ -29,8 +29,8 @@ public class ImageProcessingViewImplTest extends TestHelper {
 
   /**
    * Test if IOException thrown when the appendable is known to be broken.
-   * We make a broken appendable that always errors, provide it to the view and then try to transmit
-   * to it.
+   * We make a broken appendable that always errors, provide it to the view and then try to
+   * transmit to it.
    */
   @Test
   public void testAppendableFailing() {

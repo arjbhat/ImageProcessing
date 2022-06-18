@@ -128,7 +128,7 @@ public class ImageTest extends TestHelper {
     ImageState img1Value = this.imageAsComponent(img1, Color::getValue);
 
     ImageTransform newValueImg1 = img1.transform((c, y, x)
-            -> new RGBColor(c.getValue(), c.getValue(), c.getValue()));
+        -> new RGBColor(c.getValue(), c.getValue(), c.getValue()));
 
     // new image is the same as the one we created
     assertEquals(img1Value, newValueImg1);
@@ -140,7 +140,7 @@ public class ImageTest extends TestHelper {
     ImageState img1HorFlip = this.imageHorizontal(img1);
 
     ImageState newHorFlipImg1 = img1.transform((c, y, x)
-            -> img1.getColorAt(y, img1.getWidth() - x - 1));
+        -> img1.getColorAt(y, img1.getWidth() - x - 1));
 
     // new image is the same as the one we created
     assertEquals(img1HorFlip, newHorFlipImg1);
@@ -149,9 +149,9 @@ public class ImageTest extends TestHelper {
     assertNotEquals(img1HorFlip, img1);
 
     ImageState valueTooHigh = img1.transform((c, y, x)
-            -> new RGBColor(1000, 1000, 1000));
+        -> new RGBColor(1000, 1000, 1000));
     ImageState valueTooLow = img1.transform((c, y, x)
-            -> new RGBColor(-1000, -1000, -1000));
+        -> new RGBColor(-1000, -1000, -1000));
 
     c1 = new RGBColor(255, 255, 255);
     img1arr = new Color[][]{{c1, c1}, {c1, c1}, {c1, c1}};
@@ -220,13 +220,21 @@ public class ImageTest extends TestHelper {
     }
     // null in matrix row
     try {
-      Macro matrixTransform = new MatrixTransform(new double[][]{{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, null});
+      Macro matrixTransform = new MatrixTransform(new double[][]{
+          {0.0, 0.0, 0.0},
+          {0.0, 0.0, 0.0},
+          null
+      });
     } catch (IllegalArgumentException e) {
       assertEquals("Matrix row cannot be null.", e.getMessage());
     }
     // matrix width 2
     try {
-      Macro matrixTransform = new MatrixTransform(new double[][]{{0.0, 0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0, 0.0}});
+      Macro matrixTransform = new MatrixTransform(new double[][]{
+          {0.0, 0.0, 0.0},
+          {0.0, 0.0},
+          {0.0, 0.0, 0.0}
+      });
     } catch (IllegalArgumentException e) {
       assertEquals("Matrix width must be 3.", e.getMessage());
     }

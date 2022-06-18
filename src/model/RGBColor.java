@@ -96,9 +96,9 @@ public class RGBColor implements Color {
 
     Color that = (Color) obj;
     return this.getRed() == that.getRed()
-            && this.getBlue() == that.getBlue()
-            && this.getGreen() == that.getGreen()
-            && this.getAlpha() == that.getAlpha();
+        && this.getBlue() == that.getBlue()
+        && this.getGreen() == that.getGreen()
+        && this.getAlpha() == that.getAlpha();
   }
 
   @Override

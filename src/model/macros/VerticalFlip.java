@@ -19,6 +19,6 @@ public class VerticalFlip implements Macro {
       throw new IllegalArgumentException("Image cannot be null.");
     }
     return img.transform((c, y, x)
-            -> img.getColorAt(img.getHeight() - y - 1, x));
+        -> img.getColorAt(img.getHeight() - y - 1, x));
   }
 }

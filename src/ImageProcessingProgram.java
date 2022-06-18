@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,7 +30,8 @@ public class ImageProcessingProgram {
     ImageProcessingModel model = new ImageProcessingModelImpl();
     Readable input = file == null ? new InputStreamReader(System.in) : file;
     ImageProcessingView output = new ImageProcessingViewImpl();
-    ImageProcessingController controller = new ImageProcessingControllerImplPro(model, output, input);
+    ImageProcessingController controller =
+        new ImageProcessingControllerImplPro(model, output, input);
     controller.control();
     if (file != null) {
       file.close();
