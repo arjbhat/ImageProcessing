@@ -7,7 +7,6 @@ import java.io.StringReader;
 import java.util.Scanner;
 
 import controller.ImageProcessingController;
-import controller.ImageProcessingControllerImpl;
 import model.ImageProcessingModel;
 import view.ImageProcessingView;
 import view.ImageProcessingViewImpl;
@@ -16,6 +15,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+/**
+ * Abstractions for testing the image processing controller.
+ */
 public abstract class AbstractControllerTest extends TestHelper {
   protected static UserIO inputs(String in) {
     return (input, output) -> {

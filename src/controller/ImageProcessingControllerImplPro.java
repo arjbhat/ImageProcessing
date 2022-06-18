@@ -9,6 +9,10 @@ import model.macros.Sepia;
 import model.macros.Sharpen;
 import view.ImageProcessingView;
 
+/**
+ * An image processing controller with additional image manipulation commands. These include -
+ * blur, sharpen, greyscale, and sepia.
+ */
 public class ImageProcessingControllerImplPro extends ImageProcessingControllerImpl {
   /**
    * In order to construct an image processing controller we need a model, readable, and a view.
@@ -26,43 +30,47 @@ public class ImageProcessingControllerImplPro extends ImageProcessingControllerI
   @Override
   protected void loadCommands() {
     super.loadCommands();
+    // A command that changes an image to its blurred version
     addCommand("blur",
-        sc -> model -> {
-          model.runCommand(new Blur(), sc.next(), sc.next());
-          this.writeMessage("Blurred image created.");
-        });
+            sc -> model -> {
+              model.runCommand(new Blur(), sc.next(), sc.next());
+              this.writeMessage("Blurred image created.");
+            });
+    // A command that changes an image to its sharpened version
     addCommand("sharpen",
-        sc -> model -> {
-          model.runCommand(new Sharpen(), sc.next(), sc.next());
-          this.writeMessage("Sharpened image created.");
-        });
+            sc -> model -> {
+              model.runCommand(new Sharpen(), sc.next(), sc.next());
+              this.writeMessage("Sharpened image created.");
+            });
+    // A command that changes an image to its greyscale version
     addCommand("greyscale",
-        sc -> model -> {
-          model.runCommand(new Greyscale(), sc.next(), sc.next());
-          this.writeMessage("Greyscale image created.");
-        });
+            sc -> model -> {
+              model.runCommand(new Greyscale(), sc.next(), sc.next());
+              this.writeMessage("Greyscale image created.");
+            });
+    // A command that changes an image to its sepia version
     addCommand("sepia",
-        sc -> model -> {
-          model.runCommand(new Sepia(), sc.next(), sc.next());
-          this.writeMessage("Sepia image created.");
-        });
+            sc -> model -> {
+              model.runCommand(new Sepia(), sc.next(), sc.next());
+              this.writeMessage("Sepia image created.");
+            });
   }
 
   @Override
   protected List<String> loadMenu() {
     List<String> list = super.loadMenu();
     list.add("blur image-name dest-image-name "
-        + "(Blue an image to create a new image, "
-        + "referred to henceforth by the given destination name)");
+            + "(Blue an image to create a new image, "
+            + "referred to henceforth by the given destination name)");
     list.add("sharpen image-name dest-image-name "
-        + "(Sharpen an image to create a new image, "
-        + "referred to henceforth by the given destination name)");
+            + "(Sharpen an image to create a new image, "
+            + "referred to henceforth by the given destination name)");
     list.add("greyscale image-name dest-image-name "
-        + "(Find the greyscale version an image to create a new image, "
-        + "referred to henceforth by the given destination name)");
+            + "(Find the greyscale version an image to create a new image, "
+            + "referred to henceforth by the given destination name)");
     list.add("sepia image-name dest-image-name "
-        + "(Find the sepia version of an image to create a new image, "
-        + "referred to henceforth by the given destination name)");
+            + "(Find the sepia version of an image to create a new image, "
+            + "referred to henceforth by the given destination name)");
     return list;
   }
 }

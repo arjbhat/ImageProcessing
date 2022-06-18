@@ -71,7 +71,7 @@ public class Image implements ImageTransform {
           throw new IllegalArgumentException("Pixel color cannot be null.");
         }
         this.pane[row][col] = new RGBColor(clamp(c.getRed()),
-            clamp(c.getGreen()), clamp(c.getBlue()));
+                clamp(c.getGreen()), clamp(c.getBlue()));
       }
     }
   }
@@ -120,7 +120,7 @@ public class Image implements ImageTransform {
           throw new IllegalArgumentException("Pixel color cannot be null.");
         }
         newPane[row][col] = new RGBColor(clamp(c.getRed()),
-            clamp(c.getGreen()), clamp(c.getBlue()));
+                clamp(c.getGreen()), clamp(c.getBlue()));
       }
     }
     return new Image(newPane, height, width, maxValue);
@@ -141,8 +141,8 @@ public class Image implements ImageTransform {
 
     ImageState that = (ImageState) obj;
     if (!(this.height == that.getHeight()
-        && this.width == that.getWidth()
-        && this.maxValue == that.getMaxValue())) {
+            && this.width == that.getWidth()
+            && this.maxValue == that.getMaxValue())) {
       return false;
     }
     for (int row = 0; row < height; row += 1) {

@@ -9,9 +9,9 @@ public class Greyscale extends MatrixTransform {
    */
   public Greyscale() {
     super(new double[][]{
-        {0.393, 0.769, 0.189},
-        {0.393, 0.769, 0.189},
-        {0.393, 0.769, 0.189}
+            {0.393, 0.769, 0.189},
+            {0.393, 0.769, 0.189},
+            {0.393, 0.769, 0.189}
     });
   }
 }

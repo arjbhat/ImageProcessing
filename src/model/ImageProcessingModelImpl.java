@@ -22,7 +22,7 @@ public class ImageProcessingModelImpl implements ImageProcessingModel {
 
   @Override
   public void createImage(Color[][] colors, String name, int maxValue)
-      throws IllegalArgumentException {
+          throws IllegalArgumentException {
     if (name == null) {
       throw new IllegalArgumentException("String name cannot be null.");
     }

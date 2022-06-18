@@ -33,6 +33,6 @@ public class Brighten implements Macro {
       throw new IllegalArgumentException("Image cannot be null.");
     }
     return img.transform((c, y, x)
-        -> new RGBColor(c.getRed() + n, c.getGreen() + n, c.getBlue() + n));
+            -> new RGBColor(c.getRed() + n, c.getGreen() + n, c.getBlue() + n));
   }
 }
