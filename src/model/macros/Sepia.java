@@ -1,8 +1,12 @@
 package model.macros;
 
+/**
+ * This macro creates a sepia image by doing a matrix (3x3) transformation on each pixel.
+ */
 public class Sepia extends MatrixTransform {
+
   /**
-   * Constructs a Sepia macro.
+   * Constructs a sepia macro.
    */
   public Sepia() {
     super(new double[][]{

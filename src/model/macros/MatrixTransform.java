@@ -5,7 +5,8 @@ import model.ImageTransform;
 import model.RGBColor;
 
 /**
- * The macro that transforms an image based on a matrix.
+ * The macro that transforms an image based on a matrix. This can be used to change the colors in
+ * an image (to produce a greyscale or sepia image).
  */
 public class MatrixTransform implements Macro {
   private final double[][] matrix;

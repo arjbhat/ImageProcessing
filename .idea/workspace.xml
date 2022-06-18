@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" name="Changes" comment="Finished with the implementation.&#10;TODO:&#10;1. Javadocs&#10;2. README&#10;3. Testing Model&#10;4. Testing Controller">
+    <list default="true" id="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" name="Changes" comment="Testing is left">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ImageProcessingProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ImageProcessingProgram.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Image.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/macros/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/Component.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/macros/Blur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/Blur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/macros/Convolve.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/Convolve.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/macros/Greyscale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/Greyscale.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/macros/MatrixTransform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/MatrixTransform.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/macros/VerticalFlip.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/VerticalFlip.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/macros/Sepia.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/Sepia.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/macros/Sharpen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/Sharpen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/ImageProcessingModelImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ImageProcessingModelImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ImageProcessingViewImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ImageProcessingViewImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ImageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ImageTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/TestHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/TestHelper.java" afterDir="false" />
     </list>
     <list id="41394856-0f21-404c-b24e-88639faf93b6" name="Changes by ac-dc" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -91,7 +88,7 @@
       <recent name="model" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ImageProcessingModelImplTest">
+  <component name="RunManager" selected="JUnit.ImageTest">
     <configuration name="ImageProcessingModelImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Assignment4" />
       <option name="PACKAGE_NAME" value="" />
@@ -142,10 +139,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ImageTest" />
         <item itemvalue="JUnit.ImageProcessingModelImplTest" />
         <item itemvalue="JUnit.ImageProcessingModelImplTest.maxValueCap" />
         <item itemvalue="JUnit.ImageProcessingModelImplTest.runCommand" />
-        <item itemvalue="JUnit.ImageTest" />
         <item itemvalue="JUnit.ImageTest.testImageHashcode" />
       </list>
     </recent_temporary>
@@ -188,7 +185,8 @@
       <workItem from="1655404597343" duration="11343000" />
       <workItem from="1655427508688" duration="222000" />
       <workItem from="1655427740969" duration="33000" />
-      <workItem from="1655474996931" duration="1661000" />
+      <workItem from="1655474996931" duration="2422000" />
+      <workItem from="1655569707190" duration="2930000" />
     </task>
     <task id="LOCAL-00001" summary="Added files in and created the structure for the MVC.">
       <created>1654553094082</created>
@@ -211,7 +209,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654650725819</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Testing is left">
+      <created>1655478039949</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1655478039949</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -235,7 +240,8 @@
     <MESSAGE value="Did some testing." />
     <MESSAGE value="Fucking wanna kill myself." />
     <MESSAGE value="Finished with the implementation.&#10;TODO:&#10;1. Javadocs&#10;2. README&#10;3. Testing Model&#10;4. Testing Controller" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished with the implementation.&#10;TODO:&#10;1. Javadocs&#10;2. README&#10;3. Testing Model&#10;4. Testing Controller" />
+    <MESSAGE value="Testing is left" />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing is left" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

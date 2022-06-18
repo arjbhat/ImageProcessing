@@ -1,8 +1,11 @@
 package model.macros;
 
+/**
+ * This macro creates a greyscale image by doing a matrix (3x3) transformation on each pixel.
+ */
 public class Greyscale extends MatrixTransform {
   /**
-   * Constructs a grayscale macro.
+   * Constructs a grayscale macro - similar to finding the luma component.
    */
   public Greyscale() {
     super(new double[][]{

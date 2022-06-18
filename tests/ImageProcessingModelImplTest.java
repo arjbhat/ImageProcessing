@@ -238,11 +238,6 @@ public class ImageProcessingModelImplTest extends TestHelper {
   }
 
   @Test
-  public void macroInputExceptions() {
-
-  }
-
-  @Test
   public void getImage() {
     // Let's load images first
     model.createImage(img1arr, "twoByThree", 255);

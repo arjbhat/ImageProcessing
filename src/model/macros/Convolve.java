@@ -5,7 +5,8 @@ import model.ImageTransform;
 import model.RGBColor;
 
 /**
- * Represents a convolution, filtering an image based on a kernel.
+ * Represents a convolution, filtering an image based on a kernel. It is used to change an image
+ * by changing each pixel based on the surrounding pixels.
  */
 public class Convolve implements Macro {
   private final double[][] kernel;
