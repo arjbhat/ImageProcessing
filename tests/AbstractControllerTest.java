@@ -130,6 +130,33 @@ public abstract class AbstractControllerTest extends TestHelper {
     }
   }
 
+  protected void testFileEqual(String path1, String path2) {
+    File file1 = new File(path1);
+    File file2 = new File(path2);
+    file1.deleteOnExit();
+    file2.deleteOnExit();
+    assertTrue(file1.exists());
+    assertTrue(file1.isFile());
+    assertTrue(file2.exists());
+    assertTrue(file2.isFile());
+    try (FileReader read1 = new FileReader(path1);
+         FileReader read2 = new FileReader(path2)) {
+      Scanner sc1 = new Scanner(read1);
+      StringBuilder file1Contents = new StringBuilder();
+      while (sc1.hasNextLine()) {
+        file1Contents.append(sc1.nextLine()).append(System.lineSeparator());
+      }
+      Scanner sc2 = new Scanner(read2);
+      StringBuilder file2Contents = new StringBuilder();
+      while (sc2.hasNextLine()) {
+        file2Contents.append(sc2.nextLine()).append(System.lineSeparator());
+      }
+      assertEquals(file1Contents.toString(), file2Contents.toString());
+    } catch (IOException e) {
+      fail("Can't find file");
+    }
+  }
+
   protected interface UserIO {
     void apply(StringBuilder sb1, StringBuilder sb2);
   }

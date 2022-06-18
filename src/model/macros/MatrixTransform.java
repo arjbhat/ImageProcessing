@@ -48,9 +48,10 @@ public class MatrixTransform implements Macro {
       throw new IllegalArgumentException("Image cannot be null.");
     }
     return img.transform((c, y, x)
-            -> new RGBColor(calcChannel(matrix[0], c), // r'
-            calcChannel(matrix[1], c), // g'
-            calcChannel(matrix[2], c))); // b'
+        -> new RGBColor(calcChannel(matrix[0], c), // r'
+        calcChannel(matrix[1], c), // g'
+        calcChannel(matrix[2], c), // b'
+        c.getAlpha()));
   }
 
   // calculates the value for a specific channel

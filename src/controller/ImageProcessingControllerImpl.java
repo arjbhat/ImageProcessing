@@ -79,64 +79,64 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
   protected void loadCommands() {
     // Command to load the file in the model
     addCommand("load",
-            sc -> model -> this.loadImg(model, sc.next(), sc.next()));
+        sc -> model -> this.loadImg(model, sc.next(), sc.next()));
     // Command to save the file from the model
     addCommand("save",
-            sc -> model -> this.saveImg(model, sc.next(), sc.next()));
+        sc -> model -> this.saveImg(model, sc.next(), sc.next()));
     // A command that changes an image to its red-grayscale representation
     addCommand("red-component",
-            sc -> model -> {
-              model.runCommand(new Component(Color::getRed), sc.next(), sc.next());
-              this.writeMessage("Red-component image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Component(Color::getRed), sc.next(), sc.next());
+          this.writeMessage("Red-component image created.");
+        });
     // A command that changes an image to its green-grayscale representation
     addCommand("green-component",
-            sc -> model -> {
-              model.runCommand(new Component(Color::getGreen), sc.next(), sc.next());
-              this.writeMessage("Green-component image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Component(Color::getGreen), sc.next(), sc.next());
+          this.writeMessage("Green-component image created.");
+        });
     // A command that changes an image to its blue-grayscale representation
     addCommand("blue-component",
-            sc -> model -> {
-              model.runCommand(new Component(Color::getBlue), sc.next(), sc.next());
-              this.writeMessage("Blue-component image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Component(Color::getBlue), sc.next(), sc.next());
+          this.writeMessage("Blue-component image created.");
+        });
     // A command that changes an image to its value-grayscale representation
     addCommand("value-component",
-            sc -> model -> {
-              model.runCommand(new Component(Color::getValue), sc.next(), sc.next());
-              this.writeMessage("Value-component image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Component(Color::getValue), sc.next(), sc.next());
+          this.writeMessage("Value-component image created.");
+        });
     // A command that changes an image to its luma-grayscale representation
     addCommand("luma-component",
-            sc -> model -> {
-              model.runCommand(new Component(Color::getLuma), sc.next(), sc.next());
-              this.writeMessage("Luma-component image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Component(Color::getLuma), sc.next(), sc.next());
+          this.writeMessage("Luma-component image created.");
+        });
     // A command that changes an image to its intensity-grayscale representation
     addCommand("intensity-component",
-            sc -> model -> {
-              model.runCommand(new Component(Color::getIntensity), sc.next(), sc.next());
-              this.writeMessage("Intensity-component image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Component(Color::getIntensity), sc.next(), sc.next());
+          this.writeMessage("Intensity-component image created.");
+        });
     // A command that changes an image to be horizontally flipped
     addCommand("horizontal-flip",
-            sc -> model -> {
-              model.runCommand(new HorizontalFlip(), sc.next(), sc.next());
-              this.writeMessage("Horizontally flipped image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new HorizontalFlip(), sc.next(), sc.next());
+          this.writeMessage("Horizontally flipped image created.");
+        });
     // A command that changes an image to be vertically flipped
     addCommand("vertical-flip",
-            sc -> model -> {
-              model.runCommand(new VerticalFlip(), sc.next(), sc.next());
-              this.writeMessage("Vertically flipped image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new VerticalFlip(), sc.next(), sc.next());
+          this.writeMessage("Vertically flipped image created.");
+        });
     // A command that changes an image to be brightened or darkened
     addCommand("brighten",
-            sc -> model -> {
-              model.runCommand(new Brighten(getInt(sc)), sc.next(), sc.next());
-              this.writeMessage("Brightness changed image created.");
-            });
+        sc -> model -> {
+          model.runCommand(new Brighten(getInt(sc)), sc.next(), sc.next());
+          this.writeMessage("Brightness changed image created.");
+        });
   }
 
   protected void addCommand(String name, Function<Scanner, ImageProcessingCommand> command) {
@@ -275,15 +275,17 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
 
   private boolean saveImageFile(ImageState img, String fileName) {
     String extension = fileName.contains(".") ?
-            fileName.substring(fileName.lastIndexOf(".") + 1) : fileName;
+        fileName.substring(fileName.lastIndexOf(".") + 1) : fileName;
+    boolean isPNG = extension.equals("png") || extension.equals("PNG");
+    boolean isBMP = extension.equals("bmp") || extension.equals("BMP");
     BufferedImage buff = new BufferedImage(img.getWidth(), img.getHeight(),
-            extension.equals("png") || extension.equals("PNG") ? BufferedImage.TYPE_INT_ARGB :
-                    BufferedImage.TYPE_INT_RGB);
+        isPNG ? BufferedImage.TYPE_INT_ARGB : isBMP ? BufferedImage.TYPE_INT_BGR
+            : BufferedImage.TYPE_INT_RGB);
     for (int row = 0; row < img.getHeight(); row += 1) {
       for (int col = 0; col < img.getWidth(); col += 1) {
         Color c = img.getColorAt(row, col);
         buff.setRGB(col, row, (c.getAlpha() << 24)
-                + (c.getRed() << 16) + (c.getGreen() << 8) + c.getBlue());
+            | (c.getRed() << 16) | (c.getGreen() << 8) | c.getBlue());
       }
     }
     try {
@@ -295,9 +297,9 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
 
   // Processes the User instruction and checks if we have a command with the same name
   private void processCommand(String userInstruction, Scanner sc, ImageProcessingModel model)
-          throws IllegalStateException {
+      throws IllegalStateException {
     Function<Scanner, ImageProcessingCommand> cmd =
-            knownCommands.getOrDefault(userInstruction, null);
+        knownCommands.getOrDefault(userInstruction, null);
     if (cmd == null) {
       this.writeMessage("Unknown command, please try again. (╥﹏╥)");
     } else {
@@ -348,25 +350,25 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
   protected List<String> loadMenu() {
     List<String> list = new ArrayList<>();
     list.add("load image-path image-name "
-            + "(Loads an image from the specified path and refers to it henceforth in the program "
-            + "by the given name)");
+        + "(Loads an image from the specified path and refers to it henceforth in the program "
+        + "by the given name)");
     list.add("save image-path image-name "
-            + "(Saves the image with the given name to the specified path which includes "
-            + "the name of the file)");
+        + "(Saves the image with the given name to the specified path which includes "
+        + "the name of the file)");
     list.add("(component name)-component image-name dest-image-name "
-            + "(Create a greyscale image with the (component name) component of the image with "
-            + "the given name."
-            + " [supported (component name): red, green, blue, value, luma, intensity])");
+        + "(Create a greyscale image with the (component name) component of the image with "
+        + "the given name."
+        + " [supported (component name): red, green, blue, value, luma, intensity])");
     list.add("horizontal-flip image-name dest-image-name "
-            + "(Flip an image horizontally to create a new image, "
-            + "referred to henceforth by the given destination name)");
+        + "(Flip an image horizontally to create a new image, "
+        + "referred to henceforth by the given destination name)");
     list.add("vertical-flip image-name dest-image-name "
-            + "(Flip an image vertically to create a new image, "
-            + "referred to henceforth by the given destination name)");
+        + "(Flip an image vertically to create a new image, "
+        + "referred to henceforth by the given destination name)");
     list.add("brighten increment image-name dest-image-name "
-            + "(Brighten the image by the given increment to create a new image, referred to "
-            + "henceforth by the given destination name - the increment may be positive "
-            + "(brightening) or negative (darkening))");
+        + "(Brighten the image by the given increment to create a new image, referred to "
+        + "henceforth by the given destination name - the increment may be positive "
+        + "(brightening) or negative (darkening))");
     return list;
   }
 

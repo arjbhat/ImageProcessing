@@ -38,6 +38,7 @@ public class Component implements Macro {
       throw new IllegalArgumentException("Image cannot be null.");
     }
     return img.transform((c, y, x)
-            -> new RGBColor(getChannel.apply(c), getChannel.apply(c), getChannel.apply(c)));
+        -> new RGBColor(getChannel.apply(c), getChannel.apply(c), getChannel.apply(c),
+        c.getAlpha()));
   }
 }

@@ -63,7 +63,7 @@ public class Convolve implements Macro {
         }
       }
 
-      return new RGBColor((int) r, (int) g, (int) b);
+      return new RGBColor((int) r, (int) g, (int) b, c.getAlpha());
     });
   }
 }
