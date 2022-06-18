@@ -2,10 +2,8 @@ import org.junit.Before;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 import javax.imageio.ImageIO;
@@ -21,8 +19,6 @@ import model.ImageTransform;
 import model.RGBColor;
 import view.ImageProcessingView;
 import view.ImageProcessingViewImpl;
-
-import static org.junit.Assert.fail;
 
 /**
  * Useful methods and fields for all sorts of image testing.

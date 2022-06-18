@@ -196,6 +196,13 @@ public class ImageProcessingModelImplTest extends TestHelper {
   }
 
   private void testMacro(String oldName, String newName, Macro macro, ImageState expected) {
+    try {
+      macro.execute(null);
+      fail("Macro should not execute with a null image.");
+    } catch (IllegalArgumentException e) {
+      assertEquals("Image cannot be null.", e.getMessage());
+    }
+
     ImageState oldImg = this.imageFromState(model.getImage(oldName));
     model.runCommand(macro, oldName, newName);
     ImageState newImg = this.imageFromState(model.getImage(newName));

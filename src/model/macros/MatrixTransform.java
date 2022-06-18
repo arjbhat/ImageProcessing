@@ -22,14 +22,14 @@ public class MatrixTransform implements Macro {
       throw new IllegalArgumentException("Matrix cannot be null.");
     }
     if (matrix.length != 3) {
-      throw new IllegalArgumentException("Matrix height must be a 3.");
+      throw new IllegalArgumentException("Matrix height must be 3.");
     }
     for (double[] row : matrix) {
       if (row == null) {
         throw new IllegalArgumentException("Matrix row cannot be null.");
       }
       if (row.length != 3) {
-        throw new IllegalArgumentException("Matrix width must be 3");
+        throw new IllegalArgumentException("Matrix width must be 3.");
       }
     }
     this.matrix = matrix;

@@ -5,6 +5,10 @@ import model.Image;
 import model.ImageState;
 import model.ImageTransform;
 import model.RGBColor;
+import model.macros.Component;
+import model.macros.Convolve;
+import model.macros.Macro;
+import model.macros.MatrixTransform;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -16,15 +20,6 @@ import static org.junit.Assert.fail;
  * Testing for Images.
  */
 public class ImageTest extends TestHelper {
-
-  @Test
-  public void testIndexLargerThanMaxValue() {
-    assertNotNull(img1arr);
-    this.constructInvalidImage(img1arr, 50,
-            "Row: 0 Col: 1 has a color value larger than channel size.");
-    this.constructInvalidImage(img2arr, 25,
-            "Row: 0 Col: 1 has a color value larger than channel size.");
-  }
 
   @Test
   public void testNegativeMaxValue() {
@@ -153,26 +148,91 @@ public class ImageTest extends TestHelper {
     // image is not mutated
     assertNotEquals(img1HorFlip, img1);
 
-    // Now we try to change the brightness by a factor of 1000 without using the appropriate macro
-    // and reduce it below 0 (color should throw this exception)
+    ImageState valueTooHigh = img1.transform((c, y, x)
+            -> new RGBColor(1000, 1000, 1000));
+    ImageState valueTooLow = img1.transform((c, y, x)
+            -> new RGBColor(-1000, -1000, -1000));
+
+    c1 = new RGBColor(255, 255, 255);
+    img1arr = new Color[][]{{c1, c1}, {c1, c1}, {c1, c1}};
+    ImageState expectedImage1 = new Image(img1arr, 255);
+    assertEquals(expectedImage1, valueTooHigh);
+
+    c2 = new RGBColor(0, 0, 0);
+    img2arr = new Color[][]{{c2, c2}, {c2, c2}, {c2, c2}};
+    ImageState expectedImage2 = new Image(img2arr, 255);
+    assertEquals(expectedImage2, valueTooLow);
+  }
+
+  @Test
+  public void macroExceptions() {
+    // Component
     try {
-      ImageTransform valueTooHigh = img1.transform((c, y, x)
-              -> new RGBColor(1000, 1000, 1000));
-      fail("We were able to set to a value above max value");
+      Macro component = new Component(null);
     } catch (IllegalArgumentException e) {
-      assertEquals("Color channel cannot be set above max channel value.",
-              e.getMessage());
+      assertEquals("Get channel function cannot be null.", e.getMessage());
     }
 
+    // Convolve
+    // null kernel
     try {
-      ImageTransform valueTooLow = img1.transform((c, y, x)
-              -> new RGBColor(-1000, -1000, -1000));
-      fail("We were able to set to a value below 0");
+      Macro convolve = new Convolve(null);
     } catch (IllegalArgumentException e) {
-      assertEquals("Color channel cannot be below 0.",
-              e.getMessage());
+      assertEquals("Kernel cannot be null.", e.getMessage());
     }
+    // even kernel size
+    try {
+      Macro convolve = new Convolve(new double[][]{{}, {}});
+    } catch (IllegalArgumentException e) {
+      assertEquals("Invalid Kernel size.", e.getMessage());
+    }
+    // null in kernel row
+    try {
+      Macro convolve = new Convolve(new double[][]{{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, null});
+    } catch (IllegalArgumentException e) {
+      assertEquals("Kernel row cannot be null.", e.getMessage());
+    }
+    // kernel not a square
+    try {
+      Macro convolve = new Convolve(new double[][]{{0.0, 0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}});
+    } catch (IllegalArgumentException e) {
+      assertEquals("Kernel must be square.", e.getMessage());
+    }
+
+    // Matrix Transform
+    // null matrix
+    try {
+      Macro matrixTransform = new MatrixTransform(null);
+    } catch (IllegalArgumentException e) {
+      assertEquals("Matrix cannot be null.", e.getMessage());
+    }
+    // matrix height 2
+    try {
+      Macro matrixTransform = new MatrixTransform(new double[][]{{}, {}});
+    } catch (IllegalArgumentException e) {
+      assertEquals("Matrix height must be 3.", e.getMessage());
+    }
+    // matrix height 4
+    try {
+      Macro matrixTransform = new MatrixTransform(new double[][]{{}, {}, {}, {}});
+    } catch (IllegalArgumentException e) {
+      assertEquals("Matrix height must be 3.", e.getMessage());
+    }
+    // null in matrix row
+    try {
+      Macro matrixTransform = new MatrixTransform(new double[][]{{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, null});
+    } catch (IllegalArgumentException e) {
+      assertEquals("Matrix row cannot be null.", e.getMessage());
+    }
+    // matrix width 2
+    try {
+      Macro matrixTransform = new MatrixTransform(new double[][]{{0.0, 0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0, 0.0}});
+    } catch (IllegalArgumentException e) {
+      assertEquals("Matrix width must be 3.", e.getMessage());
+    }
+
   }
+
 
   @Test
   public void testImageEquals() {
@@ -190,7 +250,7 @@ public class ImageTest extends TestHelper {
     assertEquals(img1.hashCode(), new Image(img1arr, 255).hashCode());
     assertEquals(img2.hashCode(), img2.hashCode());
     assertEquals(img2.hashCode(), new Image(img2arr, 255).hashCode());
-    assertEquals(-502773005, img1.hashCode());
-    assertEquals(-567695158, img2.hashCode());
+    assertEquals(-494666157, img1.hashCode());
+    assertEquals(-559592278, img2.hashCode());
   }
 }

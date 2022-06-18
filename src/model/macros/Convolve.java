@@ -23,7 +23,7 @@ public class Convolve implements Macro {
         throw new IllegalArgumentException("Kernel row cannot be null.");
       }
       if (row.length != kernel.length) {
-        throw new IllegalArgumentException("Kernel must be square");
+        throw new IllegalArgumentException("Kernel must be square.");
       }
     }
     this.kernel = kernel;

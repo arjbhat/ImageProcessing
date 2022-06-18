@@ -14,7 +14,7 @@ import static org.junit.Assert.fail;
 public class ObservableImageTest extends TestHelper {
   @Before
   public void initObsImg() {
-    model.createImage(img1arr, "obsTest", 127);
+    model.createImage(img1arr, "obsTest", 255);
     obsInput = model.getImage("obsTest");
     observableImage = new ObservableImage(img1);
   }
@@ -42,8 +42,8 @@ public class ObservableImageTest extends TestHelper {
 
   @Test
   public void getMaxValue() {
-    assertEquals(127, obsInput.getMaxValue());
-    assertEquals(127, observableImage.getMaxValue());
+    assertEquals(255, obsInput.getMaxValue());
+    assertEquals(255, observableImage.getMaxValue());
   }
 
   @Test

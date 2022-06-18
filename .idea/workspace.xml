@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" name="Changes" comment="Testing is left">
+    <list default="true" id="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" name="Changes" comment="Yo mama so fat...">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/macros/Blur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/Blur.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/macros/Convolve.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/Convolve.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/macros/Greyscale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/Greyscale.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/macros/MatrixTransform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/MatrixTransform.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/macros/Sepia.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/Sepia.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/macros/Sharpen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/macros/Sharpen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/ImageProcessingModelImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ImageProcessingModelImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ImageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ImageTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ObservableImageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ObservableImageTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/TestHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/TestHelper.java" afterDir="false" />
     </list>
     <list id="41394856-0f21-404c-b24e-88639faf93b6" name="Changes by ac-dc" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -88,22 +87,31 @@
       <recent name="model" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ImageTest">
-    <configuration name="ImageProcessingModelImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.All in Assignment4">
+    <configuration name="ImageProcessingProgram" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ImageProcessingProgram" />
       <module name="Assignment4" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ImageProcessingModelImplTest" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ImageProcessingModelImplTest.maxValueCap" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="All in Assignment4" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Assignment4" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ImageProcessingModelImplTest" />
-      <option name="METHOD_NAME" value="maxValueCap" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImageProcessingControllerImplTest and 3 more" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Assignment4" />
+      <option name="TEST_OBJECT" value="pattern" />
+      <patterns>
+        <pattern testClass="ImageProcessingControllerImplTest" />
+        <pattern testClass="ImageProcessingModelImplTest" />
+        <pattern testClass="ImageProcessingViewImplTest" />
+        <pattern testClass="ObservableImageTest" />
+      </patterns>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -118,20 +126,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ImageTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ImageTest.macroExceptions" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Assignment4" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="ImageTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ImageTest.testImageHashcode" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Assignment4" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ImageTest" />
-      <option name="METHOD_NAME" value="testImageHashcode" />
+      <option name="METHOD_NAME" value="macroExceptions" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -139,11 +138,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ImageTest" />
-        <item itemvalue="JUnit.ImageProcessingModelImplTest" />
-        <item itemvalue="JUnit.ImageProcessingModelImplTest.maxValueCap" />
+        <item itemvalue="JUnit.All in Assignment4" />
+        <item itemvalue="JUnit.ImageProcessingControllerImplTest and 3 more" />
         <item itemvalue="JUnit.ImageProcessingModelImplTest.runCommand" />
-        <item itemvalue="JUnit.ImageTest.testImageHashcode" />
+        <item itemvalue="JUnit.ImageTest.macroExceptions" />
+        <item itemvalue="Application.ImageProcessingProgram" />
       </list>
     </recent_temporary>
   </component>
@@ -186,7 +185,7 @@
       <workItem from="1655427508688" duration="222000" />
       <workItem from="1655427740969" duration="33000" />
       <workItem from="1655474996931" duration="2422000" />
-      <workItem from="1655569707190" duration="2930000" />
+      <workItem from="1655569707190" duration="8436000" />
     </task>
     <task id="LOCAL-00001" summary="Added files in and created the structure for the MVC.">
       <created>1654553094082</created>
@@ -216,7 +215,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655478039949</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Yo mama so fat...">
+      <created>1655580417498</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1655580417498</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -241,7 +247,8 @@
     <MESSAGE value="Fucking wanna kill myself." />
     <MESSAGE value="Finished with the implementation.&#10;TODO:&#10;1. Javadocs&#10;2. README&#10;3. Testing Model&#10;4. Testing Controller" />
     <MESSAGE value="Testing is left" />
-    <option name="LAST_COMMIT_MESSAGE" value="Testing is left" />
+    <MESSAGE value="Yo mama so fat..." />
+    <option name="LAST_COMMIT_MESSAGE" value="Yo mama so fat..." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
