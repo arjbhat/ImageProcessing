@@ -41,8 +41,6 @@ public class Downscale implements Macro {
     ImageTransform newImage = new Image(this.emptyImage(this.height, this.width),
         img.getMaxValue());
 
-    //TODO: Get this chonky logic checked by Alexander.
-    //TODO: SOME WEIRD BUG WITH NOT BEING ABLE TO GET 640 from Arjun.ppm (can't downsize to same size?)
     return newImage.transform((c, y, x) -> {
       double row = (y * img.getHeight()) / (double) (this.height);
       double col = (x * img.getWidth()) / (double) (this.width);
@@ -74,12 +72,12 @@ public class Downscale implements Macro {
     return (int) a + 1;
   }
 
-  private int channelCalculation(double x, double y, ImageTransform img,
+  private int channelCalculation(double y, double x, ImageTransform img,
                                  Function<Color, Integer> getChannel) {
-    int cA = getChannel.apply(img.getColorAt(this.floor(x), this.floor(y)));
-    int cB = getChannel.apply(img.getColorAt(this.ceiling(x), this.floor(y)));
-    int cC = getChannel.apply(img.getColorAt(this.floor(x), this.ceiling(y)));
-    int cD = getChannel.apply(img.getColorAt(this.ceiling(x), this.ceiling(y)));
+    int cA = getChannel.apply(img.getColorAt(this.floor(y), this.floor(x)));
+    int cB = getChannel.apply(img.getColorAt(this.floor(y), this.ceiling(x)));
+    int cC = getChannel.apply(img.getColorAt(this.ceiling(y), this.floor(x)));
+    int cD = getChannel.apply(img.getColorAt(this.ceiling(y), this.ceiling(x)));
 
     double m = (cB * (x - this.floor(x)) + cA * (this.ceiling(x) - x));
     double n = (cD * (x - this.floor(x)) + cC * (this.ceiling(x) - x));
