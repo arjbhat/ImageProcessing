@@ -102,7 +102,8 @@ public class Image implements ImageTransform {
   @Override
   public Color getColorAt(int row, int col) throws IllegalArgumentException {
     if (row < 0 || col < 0 || row >= height || col >= width) {
-      throw new IllegalArgumentException("Invalid location.");
+      throw new IllegalArgumentException("Cannot get color from invalid location. "
+          + "Row: " + row + " Col: " + col);
     }
     return pane[row][col];
   }

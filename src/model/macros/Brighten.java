@@ -11,7 +11,7 @@ public class Brighten implements Macro {
   private final int n;
 
   /**
-   * The macro that will brighten or darken the image based on the increment provided.
+   * Constructs the macro that will brighten or darken the image based on the increment provided.
    *
    * @param n the increment or decrement to change the brightness of the image
    * @throws IllegalArgumentException if an integer is not inputted
