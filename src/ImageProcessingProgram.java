@@ -21,24 +21,33 @@ public class ImageProcessingProgram {
    * @param args Arguments passed from the commandline
    */
   public static void main(String[] args) throws IOException {
-    ImageProcessingGUI frame = new ImageProcessingGUIFrame();
+    FileReader file = null;
+    boolean gui = true;
+    for (int i = 0; i < args.length; i++) {
+      if ("-file".equals(args[i]) && args.length > i + 1) {
+        String fileName = args[++i];
+        file = new FileReader(fileName);
+      } else if ("-text".equals(args[i])) {
+        gui = false;
+      }
+    }
+    if (file != null) {
+      gui = false;
+    }
 
-//    FileReader file = null;
-//    for (int i = 0; i < args.length; i++) {
-//      if ("-file".equals(args[i]) && args.length > i + 1) {
-//        String fileName = args[++i];
-//        file = new FileReader(fileName);
-//      }
-//    }
-//
-//    ImageProcessingModel model = new ImageProcessingModelImpl();
-//    Readable input = file == null ? new InputStreamReader(System.in) : file;
-//    ImageProcessingView output = new ImageProcessingViewImpl();
-//    ImageProcessingController controller =
-//        new ImageProcessingControllerImplProMax(model, output, input);
-//    controller.control();
-//    if (file != null) {
-//      file.close();
-//    }
+    ImageProcessingModel model = new ImageProcessingModelImpl();
+    Readable input = file == null ? new InputStreamReader(System.in) : file;
+    ImageProcessingView output = new ImageProcessingViewImpl();
+    ImageProcessingGUI view = new ImageProcessingGUIFrame();
+    ImageProcessingController controller;
+    if (gui) {
+      controller = new ImageProcessingControllerImplProMax(model, view);
+    } else {
+      controller = new ImageProcessingControllerImplProMax(model, output, input);
+    }
+    controller.control();
+    if (file != null) {
+      file.close();
+    }
   }
 }

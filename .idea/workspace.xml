@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" name="Changes" comment="Testing">
+    <list default="true" id="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" name="Changes" comment="getImageNames">
+      <change afterPath="$PROJECT_DIR$/src/model/macros/Mask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/JHistogram.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/ImageProcessingModelImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/ImageProcessingModelImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/ImageProcessingState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/ImageProcessingState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ImageProcessingProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ImageProcessingProgram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImplProMax.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImplProMax.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Features.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Features.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/ImageProcessingGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ImageProcessingGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/ImageProcessingGUIFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ImageProcessingGUIFrame.java" afterDir="false" />
     </list>
     <list id="41394856-0f21-404c-b24e-88639faf93b6" name="Changes by ac-dc" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -210,7 +216,8 @@
       <workItem from="1655591180962" duration="4317000" />
       <workItem from="1655661639808" duration="1034000" />
       <workItem from="1655676277971" duration="15138000" />
-      <workItem from="1655738533553" duration="14658000" />
+      <workItem from="1655738533553" duration="15696000" />
+      <workItem from="1655777639380" duration="32012000" />
     </task>
     <task id="LOCAL-00001" summary="Added files in and created the structure for the MVC.">
       <created>1654553094082</created>
@@ -254,7 +261,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655587185058</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="getImageNames">
+      <created>1655771106553</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1655771106553</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -281,7 +295,8 @@
     <MESSAGE value="Testing is left" />
     <MESSAGE value="Yo mama so fat..." />
     <MESSAGE value="Testing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Testing" />
+    <MESSAGE value="getImageNames" />
+    <option name="LAST_COMMIT_MESSAGE" value="getImageNames" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

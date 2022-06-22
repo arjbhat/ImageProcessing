@@ -16,6 +16,7 @@ import java.util.function.Function;
 import javax.imageio.ImageIO;
 
 import model.Color;
+import model.Image;
 import model.ImageProcessingModel;
 import model.ImageState;
 import model.RGBColor;
@@ -33,7 +34,7 @@ import view.ImageProcessingView;
  */
 public class ImageProcessingControllerImpl implements ImageProcessingController {
   //INVARIANT: Non-null Image Processing Model
-  private final ImageProcessingModel model;
+  protected final ImageProcessingModel model;
   //INVARIANT: Non-null Readable
   private final Readable input;
   //INVARIANT: Non-null Image Processing View
@@ -72,6 +73,16 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
     this.commandMenu = this.loadMenu();
     // that we load commands into
     this.loadCommands();
+  }
+
+  protected void toImage(ImageState img, BufferedImage dest) {
+    for (int row = 0; row < img.getHeight(); row += 1) {
+      for (int col = 0; col < img.getWidth(); col += 1) {
+        Color c = img.getColorAt(row, col);
+        dest.setRGB(col, row, (c.getAlpha() << 24)
+            | (c.getRed() << 16) | (c.getGreen() << 8) | c.getBlue());
+      }
+    }
   }
 
   // loads all the commands that the model can be operated on with
@@ -141,6 +152,10 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
 
   protected void addCommand(String name, Function<Scanner, ImageProcessingCommand> command) {
     knownCommands.put(name, command);
+  }
+
+  protected Function<Scanner, ImageProcessingCommand> getCommand(String name) {
+    return knownCommands.getOrDefault(name, null);
   }
 
   @Override
@@ -281,13 +296,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
     BufferedImage buff = new BufferedImage(img.getWidth(), img.getHeight(),
         isPNG ? BufferedImage.TYPE_INT_ARGB : isBMP ? BufferedImage.TYPE_INT_BGR
             : BufferedImage.TYPE_INT_RGB);
-    for (int row = 0; row < img.getHeight(); row += 1) {
-      for (int col = 0; col < img.getWidth(); col += 1) {
-        Color c = img.getColorAt(row, col);
-        buff.setRGB(col, row, (c.getAlpha() << 24)
-            | (c.getRed() << 16) | (c.getGreen() << 8) | c.getBlue());
-      }
-    }
+    toImage(img, buff);
     try {
       return ImageIO.write(buff, extension, new File(fileName));
     } catch (IOException e) {
@@ -298,20 +307,25 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
   // Processes the User instruction and checks if we have a command with the same name
   private void processCommand(String userInstruction, Scanner sc, ImageProcessingModel model)
       throws IllegalStateException {
-    Function<Scanner, ImageProcessingCommand> cmd =
-        knownCommands.getOrDefault(userInstruction, null);
-    if (cmd == null) {
-      this.writeMessage("Unknown command, please try again. (╥﹏╥)");
-    } else {
-      try {
-        ImageProcessingCommand c = cmd.apply(sc);
-        c.run(model);
-      } catch (NoSuchElementException e) {
-        this.writeMessage("Command failed: not enough arguments provided");
-      } catch (IllegalArgumentException e) {
-        this.writeMessage("Command failed: " + e.getMessage());
-      }
+    try {
+      this.runCommand(userInstruction, sc, model);
+    } catch (NoSuchElementException e) {
+      this.writeMessage("Command failed: not enough arguments provided");
+    } catch (IllegalArgumentException e) {
+      this.writeMessage("Command failed: " + e.getMessage());
     }
+
+  }
+
+  protected void runCommand(String instruction, Scanner sc, ImageProcessingModel model)
+      throws IllegalArgumentException {
+    Function<Scanner, ImageProcessingCommand> cmd =
+        knownCommands.getOrDefault(instruction, null);
+    if (cmd == null) {
+      throw new IllegalArgumentException("Unknown command, please try again. (╥﹏╥)");
+    }
+    ImageProcessingCommand c = cmd.apply(sc);
+    c.run(model);
   }
 
   // Sends a message to the view
