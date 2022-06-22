@@ -107,7 +107,7 @@ public class ImageTest extends TestHelper {
       Color color = img.getColorAt(row, col);
       fail("We should not be able to get this color.");
     } catch (IllegalArgumentException e) {
-      assertEquals("Invalid location.", e.getMessage());
+      assertEquals("Cannot get color from invalid location.", e.getMessage());
     }
   }
 

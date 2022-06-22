@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import model.Color;
@@ -59,5 +60,11 @@ public class MockModel implements ImageProcessingModel {
         return null;
       }
     };
+  }
+
+  @Override
+  public List<String> getImageNames() {
+    log.append("method: getImageNames");
+    return null;
   }
 }

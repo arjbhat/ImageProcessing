@@ -16,7 +16,6 @@ import java.util.function.Function;
 import javax.imageio.ImageIO;
 
 import model.Color;
-import model.Image;
 import model.ImageProcessingModel;
 import model.ImageState;
 import model.RGBColor;
@@ -322,7 +321,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
     Function<Scanner, ImageProcessingCommand> cmd =
         knownCommands.getOrDefault(instruction, null);
     if (cmd == null) {
-      throw new IllegalArgumentException("Unknown command, please try again. (╥﹏╥)");
+      throw new IllegalArgumentException("Unknown command, please try again.");
     }
     ImageProcessingCommand c = cmd.apply(sc);
     c.run(model);
@@ -347,8 +346,8 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
   }
 
   private void welcomeMessage() throws IllegalStateException {
-    writeMessage("✿ ✿ ✿ Welcome to the Image Processing program! ✿ ✿ ✿");
-    writeMessage("   By: Arjun Bhat & Alexander Chang-Davidson\n");
+    writeMessage("Welcome to the Image Processing program!");
+    writeMessage("By: Arjun Bhat & Alexander Chang-Davidson\n");
     writeMessage("[Type menu to read support user instructions.]");
   }
 
@@ -387,6 +386,6 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
   }
 
   private void farewellMessage() throws IllegalStateException {
-    writeMessage("Thank you for using this program! (っ◕‿◕)っ");
+    writeMessage("Thank you for using this program!");
   }
 }

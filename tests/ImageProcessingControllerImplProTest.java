@@ -803,7 +803,7 @@ public class ImageProcessingControllerImplProTest extends AbstractControllerTest
         prints(this.welcomeMessage()),
         inputs(""),
         prints("Type instruction:"),
-        prints("Unknown command, please try again. (╥﹏╥)"),
+        prints("Command failed: Unknown command, please try again."),
         prints("Type instruction:"),
         inputs("value-component"),
         prints("Command failed: not enough arguments provided"),
@@ -851,7 +851,7 @@ public class ImageProcessingControllerImplProTest extends AbstractControllerTest
         prints(this.welcomeMessage()),
         inputs(""),
         prints("Type instruction:"),
-        prints("Unknown command, please try again. (╥﹏╥)"),
+        prints("Command failed: Unknown command, please try again."),
         prints("Type instruction:"),
         inputs("value-component"),
         prints("Command failed: not enough arguments provided"),
@@ -900,8 +900,8 @@ public class ImageProcessingControllerImplProTest extends AbstractControllerTest
   }
 
   private String[] welcomeMessage() {
-    return new String[]{"✿ ✿ ✿ Welcome to the Image Processing program! ✿ ✿ ✿",
-        "   By: Arjun Bhat & Alexander Chang-Davidson\n",
+    return new String[]{"Welcome to the Image Processing program!",
+        "By: Arjun Bhat & Alexander Chang-Davidson\n",
         "[Type menu to read support user instructions.]"};
   }
 
@@ -944,6 +944,6 @@ public class ImageProcessingControllerImplProTest extends AbstractControllerTest
   }
 
   private String[] farewellMessage() {
-    return new String[]{"Thank you for using this program! (っ◕‿◕)っ"};
+    return new String[]{"Thank you for using this program!"};
   }
 }

@@ -34,9 +34,9 @@ public class Downscale implements Macro {
     if (img == null) {
       throw new IllegalArgumentException("Image cannot be null.");
     }
-    if (height <= 0 || img.getHeight() <= height || width <= 0 || img.getWidth() <= width) {
+    if (height <= 0 || img.getHeight() < height || width <= 0 || img.getWidth() < width) {
       throw new IllegalArgumentException("Dest-image's height and width must both be " +
-          "greater than 0 and less than the original's.");
+          "greater than 0 and less than or equal to the original's.");
     }
     ImageTransform newImage = new Image(this.emptyImage(this.height, this.width),
         img.getMaxValue());
@@ -68,16 +68,24 @@ public class Downscale implements Macro {
     return (int) a;
   }
 
+  private int ceiling(double a, int max) {
+    return Integer.min(this.ceiling(a), max);
+  }
+
   private int ceiling(double a) {
     return (int) a + 1;
   }
 
   private int channelCalculation(double y, double x, ImageTransform img,
                                  Function<Color, Integer> getChannel) {
-    int cA = getChannel.apply(img.getColorAt(this.floor(y), this.floor(x)));
-    int cB = getChannel.apply(img.getColorAt(this.floor(y), this.ceiling(x)));
-    int cC = getChannel.apply(img.getColorAt(this.ceiling(y), this.floor(x)));
-    int cD = getChannel.apply(img.getColorAt(this.ceiling(y), this.ceiling(x)));
+    int cA = getChannel.apply(img.getColorAt(this.floor(y),
+        this.floor(x)));
+    int cB = getChannel.apply(img.getColorAt(this.floor(y),
+        this.ceiling(x, img.getWidth() - 1)));
+    int cC = getChannel.apply(img.getColorAt(this.ceiling(y, img.getHeight() - 1),
+        this.floor(x)));
+    int cD = getChannel.apply(img.getColorAt(this.ceiling(y, img.getHeight() - 1),
+        this.ceiling(x, img.getWidth() - 1)));
 
     double m = (cB * (x - this.floor(x)) + cA * (this.ceiling(x) - x));
     double n = (cD * (x - this.floor(x)) + cC * (this.ceiling(x) - x));

@@ -5,15 +5,17 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class JHistogram extends JPanel {
   private final int[] red;
   private final int[] green;
   private final int[] blue;
   private final int[] intensity;
+  private final JLabel yKey;
   private BufferedImage img;
-  private int maxFequency;
+  private int maxFrequency;
+  private final boolean logarithmic;
 
   public JHistogram() {
     this(256, 256);
@@ -25,11 +27,12 @@ public class JHistogram extends JPanel {
     this.blue = new int[256];
     this.intensity = new int[256];
     this.setPreferredSize(new Dimension(width, height));
+    this.logarithmic = false;
   }
 
   public void setImage(BufferedImage img) {
     this.img = img;
-    this.maxFequency = 0;
+    this.maxFrequency = 0;
     for (int i = 0; i < red.length; i += 1) {
       red[i] = 0;
       green[i] = 0;
@@ -53,16 +56,16 @@ public class JHistogram extends JPanel {
     }
 
     for (int value : red) {
-      maxFequency = Integer.max(value, maxFequency);
+      maxFrequency = Integer.max(value, maxFrequency);
     }
     for (int value : green) {
-      maxFequency = Integer.max(value, maxFequency);
+      maxFrequency = Integer.max(value, maxFrequency);
     }
     for (int value : blue) {
-      maxFequency = Integer.max(value, maxFequency);
+      maxFrequency = Integer.max(value, maxFrequency);
     }
     for (int value : intensity) {
-      maxFequency = Integer.max(value, maxFequency);
+      maxFrequency = Integer.max(value, maxFrequency);
     }
   }
 
@@ -75,8 +78,10 @@ public class JHistogram extends JPanel {
     g.setColor(c);
     for (int index = 0; index < source.length; index += 1) {
       int xPos = (index * totalWidth) / (source.length - 1);
-      int yPos = (int) ((Math.log(source[index] + 1) * totalHeight)
-          / Math.ceil(Math.log(maxFequency + 1)));
+      int yPos = logarithmic
+          ? (int) ((Math.log(source[index] + 1) * totalHeight) // log-scale
+          / Math.ceil(Math.log(maxFrequency + 1)))
+          : source[index] * totalHeight / maxFrequency;
 
       g.drawLine(prevX, totalHeight - prevY, xPos, totalHeight - yPos);
 
@@ -98,7 +103,7 @@ public class JHistogram extends JPanel {
     this.drawLine(g, Color.MAGENTA, intensity);
   }
 
-  public int getMaxFequency() {
-    return maxFequency;
+  public int getMaxFrequency() {
+    return maxFrequency;
   }
 }

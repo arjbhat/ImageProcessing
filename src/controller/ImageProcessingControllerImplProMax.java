@@ -110,7 +110,8 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
 
   @Override
   public void runDownscale(String newName, int height, int width) {
-    this.doCommand("downscale", newName, height + " " + width + " " + currentImage);
+    this.doCommand("downscale", newName, height + " " + width + " "
+        + currentImage);
   }
 
   private void doCommand(String commandName, String newName, String args) {

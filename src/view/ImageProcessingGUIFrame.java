@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -74,29 +73,35 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
     this.setVisible(true); // makes the frame visible
   }
 
+  @Override
   public void addImage(String imageName) {
     if (!imagesList.contains(imageName)) {
       this.imagesList.addElement(imageName);
     }
   }
 
+  @Override
   public void selectImage(String imageName, BufferedImage img) {
     this.imageSelection.setSelectedIndex(this.imagesList.indexOf(imageName));
     this.imageSlot.setIcon(new ImageIcon(img));
-    this.downScaleText.setText("New dimensions must be smaller than " + img.getWidth()
+    this.downScaleText.setText("New dimensions can be at most " + img.getWidth()
         + "x" + img.getHeight());
-    this.downScaleWidth.setMaximum(img.getWidth() - 1);
-    this.downScaleHeight.setMaximum(img.getHeight() - 1);
+    this.downScaleWidth.setMaximum(img.getWidth());
+    this.downScaleHeight.setMaximum(img.getHeight());
+    this.downScaleWidth.setValue(img.getWidth());
+    this.downScaleHeight.setValue(img.getHeight());
     this.histogram.setImage(img);
     this.histogramKey.setText(String.format("Y axis: frequency in logarithmic scale 0 to %d",
-        histogram.getMaxFequency()));
+        histogram.getMaxFrequency()));
   }
 
+  @Override
   public void displayError(String err) {
     JOptionPane.showMessageDialog(this, err, "Some Went Wrong",
         JOptionPane.WARNING_MESSAGE);
   }
 
+  @Override
   public void addFeatures(Features f) {
     //TODO: WRITE COMMENT
     loadButton.addActionListener(e -> {
@@ -172,7 +177,6 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
     commandSelector.addActionListener(a -> {
       commandLayout.show(commands, (String) commandSelector.getSelectedItem());
     });
-
 
     commands.add(this.brightnessCard(), "brighten");
     commandSelector.addItem("brighten");
@@ -309,6 +313,6 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
 
   @Override
   public void renderMessage(String message) throws IOException {
-
+    // Do nothing here.
   }
 }
