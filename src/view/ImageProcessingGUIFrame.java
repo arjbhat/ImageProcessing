@@ -28,7 +28,6 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
   private final SpinnerNumberModel downScaleHeight;
   private final SpinnerNumberModel downScaleWidth;
   private final JHistogram histogram;
-  private final JLabel histogramKey;
 
   /**
    * Constructs the GUI frame with all the buttons and panes that the user can operate on images
@@ -64,9 +63,7 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
     this.applyButton = new JButton("Apply");
 
     // histogram
-    this.histogramKey = new JLabel("Y axis: frequency in logarithmic scale 0 to 0");
-    this.histogram = new JHistogram(400, 200);
-
+    this.histogram = new JHistogram(400, 350);
 
     this.add(this.makeContents());
 
@@ -75,7 +72,7 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
 
   @Override
   public void addImage(String imageName) {
-    if (!imagesList.contains(imageName)) {
+    if (imageName != null && !imagesList.contains(imageName)) {
       this.imagesList.addElement(imageName);
     }
   }
@@ -91,8 +88,6 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
     this.downScaleWidth.setValue(img.getWidth());
     this.downScaleHeight.setValue(img.getHeight());
     this.histogram.setImage(img);
-    this.histogramKey.setText(String.format("Y axis: frequency in logarithmic scale 0 to %d",
-        histogram.getMaxFrequency()));
   }
 
   @Override
@@ -110,8 +105,8 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
           "jpg", "jpeg", "png", "bmp", "ppm");
       fileChooser.setFileFilter(filter);
       int signal = fileChooser.showOpenDialog(this);
-      String newName = JOptionPane.showInputDialog("Please give the image a name");
       if (signal == JFileChooser.APPROVE_OPTION) {
+        String newName = JOptionPane.showInputDialog("Please give the image a name");
         File file = fileChooser.getSelectedFile();
         f.load(file.getAbsolutePath(), newName);
       }
@@ -220,6 +215,7 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
     return brightenCard;
   }
 
+
   private JPanel downScaleCard() {
     JPanel downScaleCard = new JPanel();
     JPanel widthPanel = new JPanel();
@@ -256,27 +252,7 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
     return namePanel;
   }
 
-  private JPanel histogramView() {
-    JPanel histogramPanel = new JPanel();
-    histogramPanel.setPreferredSize(new Dimension(400, 320));
-
-    JPanel keyPanel = new JPanel();
-    keyPanel.setPreferredSize(new Dimension(350, 120));
-    keyPanel.setLayout(new BoxLayout(keyPanel, BoxLayout.Y_AXIS));
-
-    keyPanel.add(new JLabel("Key:"));
-    keyPanel.add(new JLabel("Red: red component"));
-    keyPanel.add(new JLabel("Green: green component"));
-    keyPanel.add(new JLabel("Blue: blue component"));
-    keyPanel.add(new JLabel("Magenta: intensity component"));
-    keyPanel.add(new JLabel("X axis: value from 0 to 255"));
-    keyPanel.add(histogramKey);
-
-    histogramPanel.add(keyPanel);
-    histogramPanel.add(histogram);
-    return histogramPanel;
-  }
-
+  // create the panel with load, save, and command buttons - along with the histogram
   private JPanel rightSide() {
     JPanel rightSide = new JPanel();
     rightSide.setLayout(new BoxLayout(rightSide, BoxLayout.Y_AXIS));
@@ -286,15 +262,16 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
     loadButtons.add(saveButton);
     loadButtons.setBackground(BACKGROUND_COLOR);
 
-    rightSide.add(this.histogramView());
+    rightSide.add(this.histogram);
     rightSide.add(this.spacer(300, 30));
     rightSide.add(this.commandSelectorView());
-    rightSide.add(this.spacer(300, 20));
+    rightSide.add(this.spacer(300, 10));
     rightSide.add(loadButtons);
 
     return rightSide;
   }
 
+  // bring all the panels together (image side and command side)
   private JPanel makeContents() {
     JPanel contents = new JPanel();
     contents.setBackground(BACKGROUND_COLOR);
@@ -304,6 +281,7 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
     return contents;
   }
 
+  // the spacing for our GUI (between panels)
   private JPanel spacer(int width, int height) {
     JPanel space = new JPanel();
     space.setBackground(BACKGROUND_COLOR);
@@ -311,6 +289,12 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
     return space;
   }
 
+  /**
+   * Do nothing. A GUI does not support any messages (other than errors).
+   *
+   * @param message the message to be transmitted
+   * @throws IOException N/A
+   */
   @Override
   public void renderMessage(String message) throws IOException {
     // Do nothing here.

@@ -41,14 +41,15 @@ public class Mask implements Macro {
 
     // new edited image
     ImageTransform editedImage = macro.execute(img);
-    if (editedImage.getHeight() != maskImage.getHeight() || editedImage.getWidth() != maskImage.getWidth()) {
+    if (editedImage == null || editedImage.getHeight() != maskImage.getHeight()
+        || editedImage.getWidth() != maskImage.getWidth()) {
       throw new IllegalArgumentException("Resulting image dimensions must be the same " +
           "as image dimensions.");
     }
 
     return img.transform((c, y, x) -> {
       // if mask is black then
-      if (maskImage.getColorAt(y, x).equals(new RGBColor(0, 0, 0))) {
+      if (new RGBColor(0, 0, 0).equals(maskImage.getColorAt(y, x))) {
         // choose the color from the edited image
         return editedImage.getColorAt(y, x);
       } else {

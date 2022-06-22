@@ -85,6 +85,9 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
 
   @Override
   public void save(String filePath) {
+    if (view == null) {
+      throw new IllegalStateException("GUI method called in text mode.");
+    }
     try {
       this.runCommand("save", new Scanner(filePath + " " + currentImage), model);
     } catch (IllegalArgumentException e) {
@@ -94,6 +97,12 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
 
   @Override
   public void select(String name) {
+    if (view == null) {
+      throw new IllegalStateException("GUI method called in text mode.");
+    }
+    if (name == null) {
+      throw new IllegalArgumentException("Trying to select a null name.");
+    }
     view.selectImage(name, toBufferedImage(name));
     this.currentImage = name;
   }
@@ -115,7 +124,10 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
   }
 
   private void doCommand(String commandName, String newName, String args) {
-    if (newName.isBlank()) {
+    if (view == null) {
+      throw new IllegalStateException("GUI method called in text mode.");
+    }
+    if (newName == null || newName.isBlank()) {
       newName = currentImage;
     }
     if (newName == null || newName.contains(" ")) {

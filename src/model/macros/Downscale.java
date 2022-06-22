@@ -21,10 +21,12 @@ public class Downscale implements Macro {
    *
    * @param height of the dest image
    * @param width  of the dest image
-   * @throws IllegalArgumentException if image is null or height and width of dest image are greater
-   *                                  than the originals
+   * @throws IllegalArgumentException if height or width of dest image is not positive
    */
   public Downscale(int height, int width) throws IllegalArgumentException {
+    if (height <= 0 || width <= 0) {
+      throw new IllegalArgumentException("Cannot downscale to non-positive dimensions.");
+    }
     this.height = height;
     this.width = width;
   }
@@ -34,9 +36,9 @@ public class Downscale implements Macro {
     if (img == null) {
       throw new IllegalArgumentException("Image cannot be null.");
     }
-    if (height <= 0 || img.getHeight() < height || width <= 0 || img.getWidth() < width) {
-      throw new IllegalArgumentException("Dest-image's height and width must both be " +
-          "greater than 0 and less than or equal to the original's.");
+    if (img.getHeight() < height || img.getWidth() < width) {
+      throw new IllegalArgumentException("Dest-image's height and width must be " +
+          "less than or equal to the original's.");
     }
     ImageTransform newImage = new Image(this.emptyImage(this.height, this.width),
         img.getMaxValue());
