@@ -31,6 +31,14 @@ public class Downscale implements Macro {
     this.width = width;
   }
 
+  /**
+   * Downscale the given image to the height and width constructed with.
+   *
+   * @param img the image that we're working on
+   * @return the smaller image
+   * @throws IllegalArgumentException if the image is null, or the image is smaller than the given
+   *                                  dimensions constructed with
+   */
   @Override
   public ImageTransform execute(ImageTransform img) throws IllegalArgumentException {
     if (img == null) {

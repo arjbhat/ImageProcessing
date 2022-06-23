@@ -29,6 +29,15 @@ public class Mask implements Macro {
     this.maskImage = maskImage;
   }
 
+  /**
+   * Apply the macro constructed with to the given image and produce an image showing the new image
+   * pixels in only parts where the mask image was black.
+   *
+   * @param img the image that we're working on
+   * @return the partially transformed image
+   * @throws IllegalArgumentException if the image is null or the image before or after are
+   *                                  different dimensions from the mask
+   */
   @Override
   public ImageTransform execute(ImageTransform img) throws IllegalArgumentException {
     if (img == null) {

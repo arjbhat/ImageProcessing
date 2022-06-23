@@ -47,7 +47,16 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
     this.view = null;
   }
 
-  public ImageProcessingControllerImplProMax(ImageProcessingModel model, ImageProcessingGUI view) {
+  /**
+   * Construct the controller in GUI mode, which will exit from the scripting as soon as
+   * possible if control is run, and listen to events from the GUI.
+   *
+   * @param model the Image Processing model that we work on
+   * @param view  the view that we relay information with
+   * @throws IllegalArgumentException if the model or view is null.
+   */
+  public ImageProcessingControllerImplProMax(ImageProcessingModel model, ImageProcessingGUI view)
+      throws IllegalArgumentException {
     super(model, view, new StringReader("q"));
     this.view = view;
     view.addFeatures(this);

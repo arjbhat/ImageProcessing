@@ -50,8 +50,12 @@ public class JHistogram extends JPanel {
    * Set the image that the histogram is made for.
    *
    * @param img the buffered image that we want a histogram for
+   * @throws IllegalArgumentException if the image is null
    */
   public void setImage(BufferedImage img) {
+    if (img == null) {
+      throw new IllegalArgumentException("Histogram given null image");
+    }
     this.img = img;
     this.maxFrequency = 0;
     for (int i = 0; i < red.length; i += 1) {
