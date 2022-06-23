@@ -5,7 +5,7 @@ package view;
  */
 public interface Features {
   /**
-   * Processes actions when the user wants to load an image from a given file to a given name.
+   * Load an image from a given file to a given name.
    *
    * @param filePath the path to the file
    * @param imgName  the name for the image

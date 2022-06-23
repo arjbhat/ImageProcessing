@@ -12,12 +12,6 @@ public class MockGUI implements ImageProcessingGUI {
   }
 
   @Override
-  public void addImage(String imageName) {
-    log.append(String.format("method: addImage image-name: %s", imageName))
-        .append(System.lineSeparator());
-  }
-
-  @Override
   public void selectImage(String imageName, BufferedImage img) {
     log.append(String.format("method: selectImage image-name: %s image: %dx%d",
             imageName, img.getWidth(), img.getHeight()))

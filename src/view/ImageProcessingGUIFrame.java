@@ -73,14 +73,10 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
   }
 
   @Override
-  public void addImage(String imageName) {
+  public void selectImage(String imageName, BufferedImage img) {
     if (imageName != null && !imagesList.contains(imageName)) {
       this.imagesList.addElement(imageName);
     }
-  }
-
-  @Override
-  public void selectImage(String imageName, BufferedImage img) {
     this.imageSelection.setSelectedIndex(this.imagesList.indexOf(imageName));
     this.imageSlot.setIcon(new ImageIcon(img));
     this.downScaleText.setText("New dimensions can be at most " + img.getWidth()

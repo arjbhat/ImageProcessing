@@ -197,11 +197,10 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
     }
     try {
       this.loadImg(model, filePath, imgName);
+      view.selectImage(imgName, toBufferedImage(imgName));
     } catch (IllegalArgumentException e) {
       view.displayError(e.getMessage());
     }
-    view.addImage(imgName);
-    view.selectImage(imgName, toBufferedImage(imgName));
     this.currentImage = imgName;
   }
 
@@ -266,12 +265,11 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
     }
     try {
       this.runCommand(commandName, new Scanner(args + " " + newName), model);
+      view.selectImage(newName, toBufferedImage(newName));
     } catch (IllegalArgumentException e) {
       view.displayError(e.getMessage());
       return;
     }
-    view.addImage(newName);
-    view.selectImage(newName, toBufferedImage(newName));
     this.currentImage = newName;
   }
 
