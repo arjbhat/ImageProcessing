@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" name="Changes" comment="getImageNames">
-      <change afterPath="$PROJECT_DIR$/src/model/macros/Mask.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/JHistogram.java" afterDir="false" />
+    <list default="true" id="fbe9fedc-1eb3-43b6-8b4c-2b31bdec9da0" name="Changes" comment="Done with GUI">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ImageProcessingProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ImageProcessingProgram.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImplPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImplPro.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImplProMax.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ImageProcessingControllerImplProMax.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/Features.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Features.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/ImageProcessingGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ImageProcessingGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/ImageProcessingGUIFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ImageProcessingGUIFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ImageProcessingControllerImplProTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ImageProcessingControllerImplProTest.java" afterDir="false" />
     </list>
     <list id="41394856-0f21-404c-b24e-88639faf93b6" name="Changes by ac-dc" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -91,36 +87,45 @@
       <recent name="model" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ImageProcessingProgram">
-    <configuration name="GUIFrame" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="view.GUIFrame" />
-      <module name="Assignment4" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="view.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ImageProcessingProgram" type="Application" factoryName="Application" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.AbstractControllerTest and 7 more (2)">
+    <configuration name="ImageProcessingProgram" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ImageProcessingProgram" />
       <module name="Assignment4" />
+      <option name="PROGRAM_PARAMETERS" value="-text" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="view.ImageProcessingViewGUITutorial" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="view.ImageProcessingViewGUITutorial" />
+    <configuration name="AbstractControllerTest and 7 more (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Assignment4" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="view.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <option name="TEST_OBJECT" value="pattern" />
+      <patterns>
+        <pattern testClass="AbstractControllerTest" />
+        <pattern testClass="ColorTest" />
+        <pattern testClass="ImageProcessingControllerImplProTest" />
+        <pattern testClass="ImageProcessingControllerImplTest" />
+        <pattern testClass="ImageProcessingModelImplTest" />
+        <pattern testClass="ImageProcessingViewImplTest" />
+        <pattern testClass="ImageTest" />
+        <pattern testClass="ObservableImageTest" />
+      </patterns>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AbstractControllerTest and 7 more (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Assignment4" />
+      <option name="TEST_OBJECT" value="pattern" />
+      <patterns>
+        <pattern testClass="AbstractControllerTest" />
+        <pattern testClass="ColorTest" />
+        <pattern testClass="ImageProcessingControllerImplProTest" />
+        <pattern testClass="ImageProcessingControllerImplTest" />
+        <pattern testClass="ImageProcessingModelImplTest" />
+        <pattern testClass="ImageProcessingViewImplTest" />
+        <pattern testClass="ImageTest" />
+        <pattern testClass="ObservableImageTest" />
+      </patterns>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -150,26 +155,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ImageProcessingControllerImplTest and 3 more" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Assignment4" />
-      <option name="TEST_OBJECT" value="pattern" />
-      <patterns>
-        <pattern testClass="ImageProcessingControllerImplTest" />
-        <pattern testClass="ImageProcessingModelImplTest" />
-        <pattern testClass="ImageProcessingViewImplTest" />
-        <pattern testClass="ObservableImageTest" />
-      </patterns>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.view.ImageProcessingViewGUITutorial" />
-        <item itemvalue="Application.GUIFrame" />
+        <item itemvalue="JUnit.AbstractControllerTest and 7 more (2)" />
+        <item itemvalue="Application.ImageProcessingProgram" />
         <item itemvalue="JUnit.AbstractControllerTest and 7 more" />
+        <item itemvalue="JUnit.AbstractControllerTest and 7 more (1)" />
         <item itemvalue="JUnit.All in Assignment4" />
-        <item itemvalue="JUnit.ImageProcessingControllerImplTest and 3 more" />
       </list>
     </recent_temporary>
   </component>
@@ -217,7 +209,8 @@
       <workItem from="1655661639808" duration="1034000" />
       <workItem from="1655676277971" duration="15138000" />
       <workItem from="1655738533553" duration="15696000" />
-      <workItem from="1655777639380" duration="32012000" />
+      <workItem from="1655777639380" duration="34834000" />
+      <workItem from="1655913817980" duration="21973000" />
     </task>
     <task id="LOCAL-00001" summary="Added files in and created the structure for the MVC.">
       <created>1654553094082</created>
@@ -268,7 +261,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655771106553</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Done with GUI">
+      <created>1655873624143</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1655873624143</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -296,7 +296,8 @@
     <MESSAGE value="Yo mama so fat..." />
     <MESSAGE value="Testing" />
     <MESSAGE value="getImageNames" />
-    <option name="LAST_COMMIT_MESSAGE" value="getImageNames" />
+    <MESSAGE value="Done with GUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Done with GUI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -60,13 +60,13 @@ public class ImageProcessingControllerImplPro extends ImageProcessingControllerI
   protected List<String> loadMenu() {
     List<String> list = super.loadMenu();
     list.add("blur image-name dest-image-name "
-        + "(Blue an image to create a new image, "
+        + "(Blur an image to create a new image, "
         + "referred to henceforth by the given destination name)");
     list.add("sharpen image-name dest-image-name "
         + "(Sharpen an image to create a new image, "
         + "referred to henceforth by the given destination name)");
     list.add("greyscale image-name dest-image-name "
-        + "(Find the greyscale version an image to create a new image, "
+        + "(Find the greyscale version of an image to create a new image, "
         + "referred to henceforth by the given destination name)");
     list.add("sepia image-name dest-image-name "
         + "(Find the sepia version of an image to create a new image, "

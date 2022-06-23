@@ -38,9 +38,9 @@ public class ImageProcessingProgram {
     ImageProcessingModel model = new ImageProcessingModelImpl();
     Readable input = file == null ? new InputStreamReader(System.in) : file;
     ImageProcessingView output = new ImageProcessingViewImpl();
-    ImageProcessingGUI view = new ImageProcessingGUIFrame();
     ImageProcessingController controller;
     if (gui) {
+      ImageProcessingGUI view = new ImageProcessingGUIFrame();
       controller = new ImageProcessingControllerImplProMax(model, view);
     } else {
       controller = new ImageProcessingControllerImplProMax(model, output, input);

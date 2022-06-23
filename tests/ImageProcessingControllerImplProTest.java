@@ -928,13 +928,13 @@ public class ImageProcessingControllerImplProTest extends AbstractControllerTest
             + "henceforth by the given destination name - the increment may be positive "
             + "(brightening) or negative (darkening))",
         " ➤ blur image-name dest-image-name "
-            + "(Blue an image to create a new image, "
+            + "(Blur an image to create a new image, "
             + "referred to henceforth by the given destination name)",
         " ➤ sharpen image-name dest-image-name "
             + "(Sharpen an image to create a new image, "
             + "referred to henceforth by the given destination name)",
         " ➤ greyscale image-name dest-image-name "
-            + "(Find the greyscale version an image to create a new image, "
+            + "(Find the greyscale version of an image to create a new image, "
             + "referred to henceforth by the given destination name)",
         " ➤ sepia image-name dest-image-name "
             + "(Find the sepia version of an image to create a new image, "
