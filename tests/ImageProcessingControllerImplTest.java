@@ -111,7 +111,7 @@ public class ImageProcessingControllerImplTest extends AbstractControllerTest {
     assertEquals(this.imageBrightness(img1, -11),
         macroLog.get(9).execute(img1));
 
-    testFile("res/out.ppm", "P3\n" + "0 0\n" + "0\n");
+    testFile("res/out.ppm", "P3\n" + "1 1\n" + "255\n" + "0\n0\n0\n");
   }
 
   @Test

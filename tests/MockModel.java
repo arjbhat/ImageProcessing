@@ -5,6 +5,7 @@ import java.util.Objects;
 import model.Color;
 import model.ImageProcessingModel;
 import model.ImageState;
+import model.RGBColor;
 import model.macros.Macro;
 
 /**
@@ -42,22 +43,22 @@ public class MockModel implements ImageProcessingModel {
     return new ImageState() {
       @Override
       public int getMaxValue() {
-        return 0;
+        return 255;
       }
 
       @Override
       public int getHeight() {
-        return 0;
+        return 1;
       }
 
       @Override
       public int getWidth() {
-        return 0;
+        return 1;
       }
 
       @Override
       public Color getColorAt(int row, int col) throws IllegalArgumentException {
-        return null;
+        return new RGBColor(0, 0, 0);
       }
     };
   }

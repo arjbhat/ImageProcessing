@@ -135,7 +135,7 @@ public class ImageProcessingControllerImplProTest extends AbstractControllerTest
     assertEquals(this.imageConvolve(img1, blur),
         macroLog.get(13).execute(img1));
 
-    testFile("res/out.ppm", "P3\n" + "0 0\n" + "0\n");
+    testFile("res/out.ppm", "P3\n" + "1 1\n" + "255\n" + "0\n0\n0\n");
   }
 
   @Test

@@ -189,7 +189,12 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
     if (name == null) {
       throw new IllegalArgumentException("Trying to select a null name.");
     }
-    view.selectImage(name, toBufferedImage(name));
+    try {
+      view.selectImage(name, toBufferedImage(name));
+    } catch (IllegalArgumentException e) {
+      view.displayError(e.getMessage());
+      return;
+    }
     this.currentImage = name;
   }
 
