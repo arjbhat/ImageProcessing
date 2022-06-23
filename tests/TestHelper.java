@@ -17,6 +17,7 @@ import model.ImageProcessingModelImpl;
 import model.ImageState;
 import model.ImageTransform;
 import model.RGBColor;
+import model.macros.Macro;
 import view.ImageProcessingView;
 import view.ImageProcessingViewImpl;
 
@@ -98,6 +99,9 @@ public abstract class TestHelper {
   }
 
   protected ImageState imageAsComponent(ImageState img, Function<Color, Integer> component) {
+    if (img == null) {
+      throw new IllegalArgumentException("Image cannot be null.");
+    }
     int height = img.getHeight();
     int width = img.getWidth();
     int maxValue = img.getMaxValue();
@@ -114,6 +118,9 @@ public abstract class TestHelper {
   }
 
   protected ImageState imageBrightness(ImageState img, int num) {
+    if (img == null) {
+      throw new IllegalArgumentException("Image cannot be null.");
+    }
     int height = img.getHeight();
     int width = img.getWidth();
     int maxValue = img.getMaxValue();
@@ -133,6 +140,9 @@ public abstract class TestHelper {
   }
 
   protected ImageState imageHorizontal(ImageState img) {
+    if (img == null) {
+      throw new IllegalArgumentException("Image cannot be null.");
+    }
     int height = img.getHeight();
     int width = img.getWidth();
     int maxValue = img.getMaxValue();
@@ -148,6 +158,9 @@ public abstract class TestHelper {
   }
 
   protected ImageState imageVertical(ImageState img) {
+    if (img == null) {
+      throw new IllegalArgumentException("Image cannot be null.");
+    }
     int height = img.getHeight();
     int width = img.getWidth();
     int maxValue = img.getMaxValue();
@@ -163,6 +176,9 @@ public abstract class TestHelper {
   }
 
   protected ImageState imageMatrixTransform(ImageState img, double[][] matrix) {
+    if (img == null) {
+      throw new IllegalArgumentException("Image cannot be null.");
+    }
     if (matrix == null) {
       throw new IllegalArgumentException("Matrix cannot be null.");
     }
@@ -199,6 +215,9 @@ public abstract class TestHelper {
   }
 
   protected ImageState imageConvolve(ImageState img, double[][] kernel) {
+    if (img == null) {
+      throw new IllegalArgumentException("Image cannot be null.");
+    }
     if (kernel == null) {
       throw new IllegalArgumentException("Kernel cannot be null.");
     }
@@ -245,24 +264,113 @@ public abstract class TestHelper {
     return new Image(colorArr, maxValue);
   }
 
-  protected ImageState imageFromState(ImageState s) {
-    int height = s.getHeight();
-    int width = s.getWidth();
-    int maxValue = s.getMaxValue();
-    Color[][] colorArr = new Color[height][width];
+  protected ImageState imageDownscale(ImageState img, int height, int width) {
+    if (img == null) {
+      throw new IllegalArgumentException("Image cannot be null.");
+    }
+    if (height <= 0 || width <= 0) {
+      throw new IllegalArgumentException("Cannot downscale to non-positive dimensions.");
+    }
+    if (img.getHeight() < height || img.getWidth() < width) {
+      throw new IllegalArgumentException("Dest-image's height and width must be " +
+          "less than or equal to the original's.");
+    }
+    Color[][] colorArr = new RGBColor[height][width];
 
-    for (int row = 0; row < height; row += 1) {
-      for (int col = 0; col < width; col += 1) {
-        colorArr[row][col] = s.getColorAt(row, col);
+    for (int y = 0; y < height; y += 1) {
+      for (int x = 0; x < width; x += 1) {
+        double row = (y * img.getHeight()) / (double) (height);
+        double col = (x * img.getWidth()) / (double) (width);
+        int r = this.channelCalculation(row, col, img, Color::getRed);
+        int g = this.channelCalculation(row, col, img, Color::getGreen);
+        int b = this.channelCalculation(row, col, img, Color::getBlue);
+        colorArr[y][x] = new RGBColor(r, g, b);
       }
     }
 
-    return new Image(colorArr, maxValue);
+    return new Image(colorArr, img.getMaxValue());
   }
+
+  private int floor(double a) {
+    return (int) a;
+  }
+
+  private int ceiling(double a, int max) {
+    return Integer.min(this.ceiling(a), max);
+  }
+
+  private int ceiling(double a) {
+    return (int) a + 1;
+  }
+
+  private int channelCalculation(double y, double x, ImageState img,
+                                 Function<Color, Integer> getChannel) {
+    int cA = getChannel.apply(img.getColorAt(this.floor(y),
+        this.floor(x)));
+    int cB = getChannel.apply(img.getColorAt(this.floor(y),
+        this.ceiling(x, img.getWidth() - 1)));
+    int cC = getChannel.apply(img.getColorAt(this.ceiling(y, img.getHeight() - 1),
+        this.floor(x)));
+    int cD = getChannel.apply(img.getColorAt(this.ceiling(y, img.getHeight() - 1),
+        this.ceiling(x, img.getWidth() - 1)));
+
+    double m = (cB * (x - this.floor(x)) + cA * (this.ceiling(x) - x));
+    double n = (cD * (x - this.floor(x)) + cC * (this.ceiling(x) - x));
+
+    return (int) (n * (y - this.floor(y)) + m * (this.ceiling(y) - y));
+  }
+
+  private ImageState imageMask(ImageTransform img, ImageState maskImg, Macro macro) {
+    if (img == null) {
+      throw new IllegalArgumentException("Image cannot be null.");
+    }
+    if (maskImg == null) {
+      throw new IllegalArgumentException("Image cannot be null.");
+    }
+    if (macro == null) {
+      throw new IllegalArgumentException("Macro cannot be null.");
+    }
+    if (img.getHeight() != maskImg.getHeight() || img.getWidth() != maskImg.getWidth()) {
+      throw new IllegalArgumentException("Mask image dimensions must be the same " +
+          "as image dimensions.");
+    }
+    ImageState editedImage = macro.execute(img);
+    Color[][] colorArr = new Color[img.getHeight()][img.getWidth()];
+
+    for (int y = 0; y < img.getHeight(); y += 1) {
+      for (int x = 0; x < img.getWidth(); x += 1) {
+        // if mask is black then
+        if (new RGBColor(0, 0, 0).equals(maskImg.getColorAt(y, x))) {
+          // choose the color from the edited image
+          colorArr[y][x] = editedImage.getColorAt(y, x);
+        } else {
+          // stick to the original color
+          colorArr[y][x] = img.getColorAt(y, x);
+        }
+      }
+    }
+
+    return new Image(colorArr, img.getMaxValue());
+  }
+
+//  protected ImageState imageFromState(ImageState s) {
+//    int height = s.getHeight();
+//    int width = s.getWidth();
+//    int maxValue = s.getMaxValue();
+//    Color[][] colorArr = new Color[height][width];
+//
+//    for (int row = 0; row < height; row += 1) {
+//      for (int col = 0; col < width; col += 1) {
+//        colorArr[row][col] = s.getColorAt(row, col);
+//      }
+//    }
+//
+//    return new Image(colorArr, maxValue);
+//  }
 
   protected ImageState fileToImage(String fileName) {
     File source = new File(fileName);
-    BufferedImage img = null;
+    BufferedImage img;
     try {
       img = ImageIO.read(source);
       if (img == null) {

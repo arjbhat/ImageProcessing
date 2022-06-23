@@ -9,9 +9,11 @@ import model.RGBColor;
 import model.macros.Blur;
 import model.macros.Brighten;
 import model.macros.Component;
+import model.macros.Downscale;
 import model.macros.Greyscale;
 import model.macros.HorizontalFlip;
 import model.macros.Macro;
+import model.macros.Mask;
 import model.macros.Sepia;
 import model.macros.Sharpen;
 import model.macros.VerticalFlip;
@@ -29,25 +31,25 @@ public class ImageProcessingModelImplTest extends TestHelper {
   public void createImage() {
     // We added the image we had to the model.
     model.createImage(img1arr, "twoByThree", 255);
-    ImageState twoByThreeState = model.getImage("twoByThree");
+
     // Let's create an array with the image with received
-    ImageState twoByThree = this.imageFromState(twoByThreeState);
+    ImageState twoByThree = model.getImage("twoByThree");
     assertNotEquals(img2, twoByThree);
     assertEquals(img1, twoByThree);
 
     // We added the image2 we had to the model.
     model.createImage(img2arr, "threeByTwo", 255);
-    ImageState threeByTwoState = model.getImage("threeByTwo");
+
     // Let's create an array with the image with received
-    ImageState threeByTwo = this.imageFromState(threeByTwoState);
+    ImageState threeByTwo = model.getImage("threeByTwo");
     assertNotEquals(img1, threeByTwo);
     assertEquals(img2, threeByTwo);
 
     // Let's see if we can override images (override with img1)
     model.createImage(img1arr, "threeByTwo", 255);
-    ImageState newThreeByTwoState = model.getImage("threeByTwo");
+
     // Let's create an array with the image with received
-    ImageState newThreeByTwo = this.imageFromState(newThreeByTwoState);
+    ImageState newThreeByTwo = model.getImage("threeByTwo");
     assertEquals(img1, newThreeByTwo);
     assertNotEquals(img2, newThreeByTwo);
     // And we successfully overrode the old file name :)!
@@ -92,8 +94,8 @@ public class ImageProcessingModelImplTest extends TestHelper {
     model.createImage(img2arr, "threeByTwo", 255);
 
     // and let's save these images that we loaded
-    assertNotNull(this.imageFromState(model.getImage("twoByThree")));
-    assertNotNull(this.imageFromState(model.getImage("threeByTwo")));
+    assertNotNull(model.getImage("twoByThree"));
+    assertNotNull(model.getImage("threeByTwo"));
 
     // Time to test Macros!
 
@@ -127,6 +129,17 @@ public class ImageProcessingModelImplTest extends TestHelper {
     this.testGreyscaleCommand("twoByThree", "greyscaleTwoByThree", img1);
     // Macro 13: Sepia
     this.testSepiaCommand("twoByThree", "sepiaTwoByThree", img1);
+    // Macro 14: Downscale
+    this.testDownscaleCommand("twoByThree", "downscaleTwoByThree", img1,
+        2, 2);
+    this.testDownscaleCommand("twoByThree", "downscaleTwoByThree", img1,
+        2, 1);
+    this.testDownscaleCommand("twoByThree", "downscaleTwoByThree", img1,
+        1, 2);
+    this.testDownscaleCommand("twoByThree", "downscaleTwoByThree", img1,
+        1, 1);
+    // Macro 15: Mask
+
 
     // On Image 2:
     // Macro 1: RedGrayscale
@@ -158,6 +171,17 @@ public class ImageProcessingModelImplTest extends TestHelper {
     this.testGreyscaleCommand("threeByTwo", "greyscaleThreeByTwo", img2);
     // Macro 13: Sepia
     this.testSepiaCommand("threeByTwo", "sepiaThreeByTwo", img2);
+    // Macro 14: Downscale
+    this.testDownscaleCommand("threeByTwo", "downscaleThreeByTwo", img2,
+        2, 2);
+    this.testDownscaleCommand("threeByTwo", "downscaleThreeByTwo", img2,
+        2, 1);
+    this.testDownscaleCommand("threeByTwo", "downscaleThreeByTwo", img2,
+        2, 1);
+    this.testDownscaleCommand("threeByTwo", "downscaleThreeByTwo", img2,
+        1, 1);
+    // The following commands are those supported by the Mask
+    
   }
 
   private void testGrayscaleCommand(String oldName, String newName, ImageState expected,
@@ -194,6 +218,15 @@ public class ImageProcessingModelImplTest extends TestHelper {
     this.testMacro(oldName, newName, new Sepia(), this.imageMatrixTransform(expected, sepia));
   }
 
+  private void testDownscaleCommand(String oldName, String newName, ImageState expected, int height, int width) {
+    this.testMacro(oldName, newName, new Downscale(height, width), this.imageDownscale(expected, height, width));
+  }
+
+  private void testMaskCommand(String oldName, String maskImage, String newName, ImageState expected, Macro macro) {
+    ImageState maskImg = model.getImage(maskImage);
+    this.testMacro(oldName, newName, new Mask(macro, maskImg), expected);
+  }
+
   private void testMacro(String oldName, String newName, Macro macro, ImageState expected) {
     try {
       macro.execute(null);
@@ -202,9 +235,9 @@ public class ImageProcessingModelImplTest extends TestHelper {
       assertEquals("Image cannot be null.", e.getMessage());
     }
 
-    ImageState oldImg = this.imageFromState(model.getImage(oldName));
+    ImageState oldImg = model.getImage(oldName);
     model.runCommand(macro, oldName, newName);
-    ImageState newImg = this.imageFromState(model.getImage(newName));
+    ImageState newImg = model.getImage(newName);
     // Proof that there was no mutation on the original image
     assertNotEquals(oldImg, newImg);
     // But that the image new image produced is the one that we expect
@@ -250,8 +283,8 @@ public class ImageProcessingModelImplTest extends TestHelper {
     model.createImage(img2arr, "threeByTwo", 255);
 
     // and let's save these images that we loaded
-    ImageState twoByThree = this.imageFromState(model.getImage("twoByThree"));
-    ImageState threeByTwo = this.imageFromState(model.getImage("threeByTwo"));
+    ImageState twoByThree = model.getImage("twoByThree");
+    ImageState threeByTwo = model.getImage("threeByTwo");
 
     // to see that they're what we expected
     assertEquals(img1, twoByThree);

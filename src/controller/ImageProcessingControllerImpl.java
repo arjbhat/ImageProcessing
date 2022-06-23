@@ -244,7 +244,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
     return lines.toString();
   }
 
-  private void loadImg(ImageProcessingModel model, String fileName, String imgName) {
+  protected void loadImg(ImageProcessingModel model, String fileName, String imgName) {
     File source = new File(fileName);
     try (FileReader file = new FileReader(source)) {
       BufferedImage img = ImageIO.read(source);
@@ -271,7 +271,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
     }
   }
 
-  private void saveImg(ImageProcessingModel model, String fileName, String imgName) {
+  protected void saveImg(ImageProcessingModel model, String fileName, String imgName) {
     ImageState img = model.getImage(imgName);
     if (fileName.endsWith(".ppm") || fileName.endsWith(".PPM")) {
       try (FileWriter file = new FileWriter(fileName)) {

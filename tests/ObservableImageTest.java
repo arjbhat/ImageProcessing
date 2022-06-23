@@ -60,7 +60,7 @@ public class ObservableImageTest extends TestHelper {
 
   @Test
   public void getColorAt() {
-    assertEquals(img1, this.imageFromState(obsInput));
-    assertEquals(img1, this.imageFromState(observableImage));
+    assertEquals(img1, obsInput);
+    assertEquals(img1, observableImage);
   }
 }

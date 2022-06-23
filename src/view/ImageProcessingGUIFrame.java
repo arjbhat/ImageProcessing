@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +41,7 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
     // exit out of the application when X button clicked
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     // disable frame from being resizable.
-    this.setResizable(false);
+    this.setResizable(true);
     // sets the x-dimension and y-dimension of the frame
     this.setSize(1100, 670);
     // set the background of the frame
@@ -98,7 +100,7 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
 
   @Override
   public void addFeatures(Features f) {
-    //TODO: WRITE COMMENT
+    // when the user clicks load, prompt to choose a file and name, then ask to load it
     loadButton.addActionListener(e -> {
       final JFileChooser fileChooser = new JFileChooser(".");
       FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files",
@@ -111,7 +113,7 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
         f.load(file.getAbsolutePath(), newName);
       }
     });
-    //TODO: WRITE COMMENT
+    // when the user clicks save, prompt to choose a destination then ask to save it
     saveButton.addActionListener(e -> {
       final JFileChooser fileChooser = new JFileChooser(".");
       int signal = fileChooser.showSaveDialog(this);
@@ -120,10 +122,11 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
         f.save(file.getAbsolutePath());
       }
     });
-    //TODO: WRITE COMMENT
+    // when the user clicks an image name, ask to select it
     imageSelection.addListSelectionListener(e -> {
       f.select(imageSelection.getSelectedValue());
     });
+    // when the user asks to apply the command, ask to run the command, passing args if any
     applyButton.addActionListener(e -> {
       String selected = (String) commandSelector.getSelectedItem();
       String newName = this.newName.getText();
@@ -134,6 +137,24 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
             (int) downScaleWidth.getNumber());
       } else {
         f.runCommand(selected, newName);
+      }
+    });
+
+    // allow pressing the enter key in the new name box to apply
+    newName.addKeyListener(new KeyListener() {
+      @Override
+      public void keyTyped(KeyEvent e) {
+      }
+
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+          applyButton.doClick();
+        }
+      }
+
+      @Override
+      public void keyReleased(KeyEvent e) {
       }
     });
   }

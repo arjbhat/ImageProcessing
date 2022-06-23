@@ -172,7 +172,7 @@ public class JHistogram extends JPanel {
         return;
       }
       this.drawLine(g, Color.RED, red);
-      this.drawLine(g, Color.GREEN, green);
+      this.drawLine(g, new Color(0x3CB043), green);
       this.drawLine(g, Color.BLUE, blue);
       this.drawLine(g, Color.MAGENTA, intensity);
     }
@@ -189,7 +189,7 @@ public class JHistogram extends JPanel {
         int xPos = (index * totalWidth) / (source.length - 1);
         int yPos = logarithmic
             ? (int) ((Math.log(source[index] + 1) * totalHeight) // log-scale
-            / Math.ceil(Math.log(maxFrequency + 1)))
+            / Math.log(maxFrequency + 1))
             : source[index] * totalHeight / maxFrequency;
 
         g.drawLine(prevX, totalHeight - prevY, xPos, totalHeight - yPos);

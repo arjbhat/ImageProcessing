@@ -10,23 +10,23 @@ import model.RGBColor;
  */
 public class Mask implements Macro {
   private final Macro macro;
-  private final ImageState maskImage;
+  private final ImageState maskImg;
 
   /**
    * Constructs a mask macro.
    *
-   * @param macro     the operation that we wish to perform on the selection
-   * @param maskImage the mask that we will decide how to operate with
+   * @param macro   the operation that we wish to perform on the selection
+   * @param maskImg the mask that we will decide how to operate with
    */
-  public Mask(Macro macro, ImageState maskImage) {
+  public Mask(Macro macro, ImageState maskImg) {
+    if (maskImg == null) {
+      throw new IllegalArgumentException("Mask image cannot be null.");
+    }
     if (macro == null) {
       throw new IllegalArgumentException("Macro cannot be null.");
     }
-    if (maskImage == null) {
-      throw new IllegalArgumentException("Mask image cannot be null.");
-    }
     this.macro = macro;
-    this.maskImage = maskImage;
+    this.maskImg = maskImg;
   }
 
   /**
@@ -43,22 +43,22 @@ public class Mask implements Macro {
     if (img == null) {
       throw new IllegalArgumentException("Image cannot be null.");
     }
-    if (img.getHeight() != maskImage.getHeight() || img.getWidth() != maskImage.getWidth()) {
+    if (img.getHeight() != maskImg.getHeight() || img.getWidth() != maskImg.getWidth()) {
       throw new IllegalArgumentException("Mask image dimensions must be the same " +
           "as image dimensions.");
     }
 
     // new edited image
     ImageTransform editedImage = macro.execute(img);
-    if (editedImage == null || editedImage.getHeight() != maskImage.getHeight()
-        || editedImage.getWidth() != maskImage.getWidth()) {
+    if (editedImage == null || editedImage.getHeight() != maskImg.getHeight()
+        || editedImage.getWidth() != maskImg.getWidth()) {
       throw new IllegalArgumentException("Resulting image dimensions must be the same " +
           "as image dimensions.");
     }
 
     return img.transform((c, y, x) -> {
       // if mask is black then
-      if (new RGBColor(0, 0, 0).equals(maskImage.getColorAt(y, x))) {
+      if (new RGBColor(0, 0, 0).equals(maskImg.getColorAt(y, x))) {
         // choose the color from the edited image
         return editedImage.getColorAt(y, x);
       } else {

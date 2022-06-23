@@ -26,7 +26,9 @@ import view.ImageProcessingGUI;
 import view.ImageProcessingView;
 
 /**
- * An image processing controller with additional image manipulation commands.
+ * An image processing controller with additional image manipulation commands (for size, downscale,
+ * and those for mask partial manipulations). This controller is also used by the GUI for features.
+ * When used by the GUI - it is an asynchronous controller. (Otherwise it is synchronous)
  */
 public class ImageProcessingControllerImplProMax extends ImageProcessingControllerImplPro
     implements Features {
@@ -35,6 +37,7 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
 
   /**
    * In order to construct an image processing controller we need a model, readable, and a view.
+   * This constructor is used by the text view.
    *
    * @param model  the Image Processing model that we work on
    * @param output the view that we relay information with
@@ -81,7 +84,7 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
           this.writeMessage("Downscaled image created.");
         });
 
-    // TODO: Comment also add masking commands
+    // A command that partially brightens an image, given the mask
     Function<Scanner, ImageProcessingCommand> brighten = this.getCommand("brighten");
     addCommand("brighten",
         sc -> model -> {
@@ -96,32 +99,45 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
               sc.next());
           this.writeMessage("Partially brightness changed image created.");
         });
+    // partially find the red component of an image, given the mask
     makeMasked("red-component", () -> new Component(Color::getRed),
         "Partially red-component image created.");
+    // partially find the green component of an image, given the mask
     makeMasked("green-component", () -> new Component(Color::getGreen),
         "Partially green-component image created.");
+    // partially find the blue component of an image, given the mask
     makeMasked("blue-component", () -> new Component(Color::getBlue),
         "Partially blue-component image created.");
+    // partially find the value component of an image, given the mask
     makeMasked("value-component", () -> new Component(Color::getValue),
         "Partially value-component image created.");
+    // partially find the luma component of an image, given the mask
     makeMasked("luma-component", () -> new Component(Color::getLuma),
         "Partially luma-component image created.");
+    // partially find the intensity component of an image, given the mask
     makeMasked("intensity-component", () -> new Component(Color::getIntensity),
         "Partially intensity-component image created.");
+    // partially horizontally flip an image, given the mask
     makeMasked("horizontal-flip", HorizontalFlip::new,
-        "Partially horizontally flipped image created");
+        "Partially horizontally flipped image created.");
+    // partially vertically flip an image, given the mask
     makeMasked("vertical-flip", VerticalFlip::new,
-        "Partially vertically flipped image created");
+        "Partially vertically flipped image created.");
+    // partially blur an image, given the mask
     makeMasked("blur", Blur::new,
-        "Partially blurred image created");
+        "Partially blurred image created.");
+    // partially sharpen an image, given the mask
     makeMasked("sharpen", Sharpen::new,
-        "Partially sharpened image created");
+        "Partially sharpened image created.");
+    // partially greyscale an image, given the mask
     makeMasked("greyscale", Greyscale::new,
-        "Partially greyscale image created");
+        "Partially greyscale image created.");
+    // partially sepia an image, given the mask
     makeMasked("sepia", Sepia::new,
-        "Partially sepia image created");
+        "Partially sepia image created.");
   }
 
+  // helper for masked commands (with no arguments other than a new name)
   private void makeMasked(String name, Supplier<Macro> makeMacro, String successMessage) {
     Function<Scanner, ImageProcessingCommand> oldCommand = this.getCommand(name);
     addCommand(name,
@@ -142,7 +158,7 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
   protected List<String> loadMenu() {
     List<String> list = super.loadMenu();
     list.add("downscale dest-image-height dest-image-width image-name dest-image-name " +
-        "(Create a smaller version of an image).");
+        "(Create a smaller version of an image)");
     list.add("(component name)-component image-name mask-name dest-image-name "
         + "(Create a partially greyscale image with the (component name) component of the image "
         + "with the given name."
@@ -169,22 +185,43 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
     list.add("sepia image-name mask-name dest-image-name "
         + "(Find the partially sepia version of an image to create a new image, "
         + "referred to henceforth by the given destination name)");
-    list.add("size image-name " + "(get the dimensions of an image).");
+    list.add("size image-name " + "(get the dimensions of an image)");
     return list;
   }
 
   @Override
   public void load(String filePath, String imgName) {
-    this.doCommand("load", imgName, filePath);
+    imgName = getName(imgName);
+    if (imgName == null) {
+      return;
+    }
+    try {
+      this.loadImg(model, filePath, imgName);
+    } catch (IllegalArgumentException e) {
+      view.displayError(e.getMessage());
+    }
+    view.addImage(imgName);
+    view.selectImage(imgName, toBufferedImage(imgName));
+    this.currentImage = imgName;
+  }
+
+  private String getName(String imgName) {
+    this.assertGUIMode();
+    if (imgName == null || imgName.isBlank()) {
+      imgName = currentImage;
+    }
+    if (imgName == null || imgName.contains(" ")) {
+      view.displayError("Name cannot contain spaces.");
+      return null;
+    }
+    return imgName;
   }
 
   @Override
   public void save(String filePath) {
-    if (view == null) {
-      throw new IllegalStateException("GUI method called in text mode.");
-    }
+    this.assertGUIMode();
     try {
-      this.runCommand("save", new Scanner(filePath + " " + currentImage), model);
+      this.saveImg(model, filePath, currentImage);
     } catch (IllegalArgumentException e) {
       view.displayError(e.getMessage());
     }
@@ -192,9 +229,7 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
 
   @Override
   public void select(String name) {
-    if (view == null) {
-      throw new IllegalStateException("GUI method called in text mode.");
-    }
+    this.assertGUIMode();
     if (name == null) {
       throw new IllegalArgumentException("Trying to select a null name.");
     }
@@ -224,14 +259,9 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
   }
 
   private void doCommand(String commandName, String newName, String args) {
-    if (view == null) {
-      throw new IllegalStateException("GUI method called in text mode.");
-    }
-    if (newName == null || newName.isBlank()) {
-      newName = currentImage;
-    }
-    if (newName == null || newName.contains(" ")) {
-      view.displayError("Name cannot contain spaces.");
+    this.assertGUIMode();
+    newName = getName(newName);
+    if (newName == null) {
       return;
     }
     try {
@@ -243,6 +273,12 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
     view.addImage(newName);
     view.selectImage(newName, toBufferedImage(newName));
     this.currentImage = newName;
+  }
+
+  private void assertGUIMode() {
+    if (view == null) {
+      throw new IllegalStateException("GUI method called in text mode.");
+    }
   }
 
   private BufferedImage toBufferedImage(String name) {

@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import model.Color;
 import model.Image;
+import model.ImageState;
 import model.ImageTransform;
 import model.RGBColor;
 
@@ -86,7 +87,7 @@ public class Downscale implements Macro {
     return (int) a + 1;
   }
 
-  private int channelCalculation(double y, double x, ImageTransform img,
+  private int channelCalculation(double y, double x, ImageState img,
                                  Function<Color, Integer> getChannel) {
     int cA = getChannel.apply(img.getColorAt(this.floor(y),
         this.floor(x)));
