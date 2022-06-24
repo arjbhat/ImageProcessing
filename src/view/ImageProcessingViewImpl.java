@@ -30,7 +30,7 @@ public class ImageProcessingViewImpl implements ImageProcessingView {
 
     this.destination = destination;
   }
-  
+
   @Override
   public void renderMessage(String message) throws IOException {
     destination.append(message);
