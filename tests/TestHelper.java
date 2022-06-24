@@ -336,8 +336,8 @@ public abstract class TestHelper {
       throw new IllegalArgumentException("Macro cannot be null.");
     }
     if (img.getHeight() != maskImg.getHeight() || img.getWidth() != maskImg.getWidth()) {
-      throw new IllegalArgumentException("Mask image dimensions must be the same " +
-          "as image dimensions.");
+      throw new IllegalArgumentException("Mask image dimensions must be the same "
+          + "as image dimensions.");
     }
     ImageState editedImage = macro.execute(img);
     Color[][] colorArr = new Color[img.getHeight()][img.getWidth()];
@@ -357,21 +357,6 @@ public abstract class TestHelper {
 
     return new Image(colorArr, img.getMaxValue());
   }
-
-//  protected ImageState imageFromState(ImageState s) {
-//    int height = s.getHeight();
-//    int width = s.getWidth();
-//    int maxValue = s.getMaxValue();
-//    Color[][] colorArr = new Color[height][width];
-//
-//    for (int row = 0; row < height; row += 1) {
-//      for (int col = 0; col < width; col += 1) {
-//        colorArr[row][col] = s.getColorAt(row, col);
-//      }
-//    }
-//
-//    return new Image(colorArr, maxValue);
-//  }
 
   protected ImageState fileToImage(String fileName) {
     File source = new File(fileName);

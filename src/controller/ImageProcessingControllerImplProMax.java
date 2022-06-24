@@ -157,8 +157,8 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
   @Override
   protected List<String> loadMenu() {
     List<String> list = super.loadMenu();
-    list.add("downscale dest-image-height dest-image-width image-name dest-image-name " +
-        "(Create a smaller version of an image)");
+    list.add("downscale dest-image-height dest-image-width image-name dest-image-name "
+        + "(Create a smaller version of an image)");
     list.add("(component name)-component image-name mask-name dest-image-name "
         + "(Create a partially greyscale image with the (component name) component of the image "
         + "with the given name."

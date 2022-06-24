@@ -158,6 +158,7 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
     newName.addKeyListener(new KeyListener() {
       @Override
       public void keyTyped(KeyEvent e) {
+        // ignore event
       }
 
       @Override
@@ -169,6 +170,7 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
 
       @Override
       public void keyReleased(KeyEvent e) {
+        // ignore event
       }
     });
   }

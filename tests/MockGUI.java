@@ -4,6 +4,9 @@ import java.io.IOException;
 import view.Features;
 import view.ImageProcessingGUI;
 
+/**
+ * An ImageProcessingGUI that just logs all methods called.
+ */
 public class MockGUI implements ImageProcessingGUI {
   private final StringBuilder log;
 

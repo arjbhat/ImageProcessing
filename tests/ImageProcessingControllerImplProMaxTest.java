@@ -1090,11 +1090,11 @@ public class ImageProcessingControllerImplProMaxTest extends AbstractControllerT
         " ➤ sepia image-name dest-image-name "
             + "(Find the sepia version of an image to create a new image, "
             + "referred to henceforth by the given destination name)",
-        " ➤ downscale dest-image-height dest-image-width image-name dest-image-name " +
-            "(Create a smaller version of an image)",
+        " ➤ downscale dest-image-height dest-image-width image-name dest-image-name "
+            + "(Create a smaller version of an image)",
         " ➤ (component name)-component image-name mask-name dest-image-name "
-            + "(Create a partially greyscale image with the (component name) component of the image "
-            + "with the given name."
+            + "(Create a partially greyscale image with the (component name) component of the image"
+            + " with the given name."
             + " [supported (component name): red, green, blue, value, luma, intensity])",
         " ➤ horizontal-flip image-name mask-name dest-image-name "
             + "(Partially flip an image horizontally to create a new image, "
@@ -1103,8 +1103,8 @@ public class ImageProcessingControllerImplProMaxTest extends AbstractControllerT
             + "(Partially flip an image vertically to create a new image, "
             + "referred to henceforth by the given destination name)",
         " ➤ brighten increment image-name mask-name dest-image-name "
-            + "(Partially brighten the image by the given increment to create a new image, referred to "
-            + "henceforth by the given destination name - the increment may be positive "
+            + "(Partially brighten the image by the given increment to create a new image, referred"
+            + " to henceforth by the given destination name - the increment may be positive "
             + "(brightening) or negative (darkening))",
         " ➤ blur image-name mask-name dest-image-name "
             + "(Partially blur an image to create a new image, "
