@@ -5,7 +5,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.BorderFactory;
 
 /**
  * Produces a JPanel which shows a histogram for a buffered image (with a key) - and the ability to

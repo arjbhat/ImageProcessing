@@ -1,8 +1,6 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import model.macros.Macro;
@@ -61,10 +59,5 @@ public class ImageProcessingModelImpl implements ImageProcessingModel {
       throw new IllegalArgumentException("String name cannot be null.");
     }
     return new ObservableImage(this.images.get(name));
-  }
-
-  @Override
-  public List<String> getImageNames() {
-    return new ArrayList<String>(images.keySet());
   }
 }

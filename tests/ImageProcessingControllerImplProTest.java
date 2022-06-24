@@ -30,7 +30,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
- * Tests for the controller implementation.
+ * Tests for the controller pro implementation.
  */
 public class ImageProcessingControllerImplProTest extends AbstractControllerTest {
 

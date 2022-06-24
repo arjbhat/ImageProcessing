@@ -5,6 +5,7 @@ import java.util.function.Function;
 import model.Color;
 import model.Image;
 import model.ImageState;
+import model.ImageTransform;
 import model.RGBColor;
 import model.macros.Blur;
 import model.macros.Brighten;
@@ -92,31 +93,45 @@ public class ImageProcessingModelImplTest extends TestHelper {
     // Let's load images first
     model.createImage(img1arr, "twoByThree", 255);
     model.createImage(img2arr, "threeByTwo", 255);
+    model.createImage(img1MaskArr, "twoByThreeMask", 255);
+    model.createImage(img2MaskArr, "threeByTwoMask", 255);
 
     // and let's save these images that we loaded
     assertNotNull(model.getImage("twoByThree"));
     assertNotNull(model.getImage("threeByTwo"));
+    assertNotNull(model.getImage("twoByThreeMask"));
+    assertNotNull(model.getImage("threeByTwoMask"));
 
     // Time to test Macros!
 
     // On Image 1:
     // Macro 1: RedGrayscale
-    this.testGrayscaleCommand("twoByThree", "redTwoByThree", img1, Color::getRed);
+    this.testGrayscaleCommand("twoByThree", "redTwoByThree",
+        img1, Color::getRed);
     // Macro 2: GreenGrayscale
-    this.testGrayscaleCommand("twoByThree", "greenTwoByThree", img1, Color::getGreen);
+    this.testGrayscaleCommand("twoByThree", "greenTwoByThree",
+        img1, Color::getGreen);
     // Macro 3: BlueGrayscale
-    this.testGrayscaleCommand("twoByThree", "blueTwoByThree", img1, Color::getBlue);
+    this.testGrayscaleCommand("twoByThree", "blueTwoByThree",
+        img1, Color::getBlue);
     // Macro 4: LumaGrayscale
-    this.testGrayscaleCommand("twoByThree", "lumaTwoByThree", img1, Color::getLuma);
+    this.testGrayscaleCommand("twoByThree", "lumaTwoByThree",
+        img1, Color::getLuma);
     // Macro 5: ValueGrayscale
-    this.testGrayscaleCommand("twoByThree", "valueTwoByThree", img1, Color::getValue);
+    this.testGrayscaleCommand("twoByThree", "valueTwoByThree",
+        img1, Color::getValue);
     // Macro 6: IntensityGrayscale
-    this.testGrayscaleCommand("twoByThree", "intensityTwoByThree", img1, Color::getIntensity);
+    this.testGrayscaleCommand("twoByThree", "intensityTwoByThree",
+        img1, Color::getIntensity);
     // Macro 7: Brighten
-    this.testBrightnessCommand("twoByThree", "up10TwoByThree", img1, 10);
-    this.testBrightnessCommand("twoByThree", "down10TwoByThree", img1, -10);
-    this.testBrightnessCommand("twoByThree", "up1000TwoByThree", img1, 1000);
-    this.testBrightnessCommand("twoByThree", "down1000TwoByThree", img1, -1000);
+    this.testBrightnessCommand("twoByThree", "up10TwoByThree",
+        img1, 10);
+    this.testBrightnessCommand("twoByThree", "down10TwoByThree",
+        img1, -10);
+    this.testBrightnessCommand("twoByThree", "up1000TwoByThree",
+        img1, 1000);
+    this.testBrightnessCommand("twoByThree", "down1000TwoByThree",
+        img1, -1000);
     // Macro 8: Horizontal Flip
     this.testHorizontalCommand("twoByThree", "horizontalFlipTwoByThree", img1);
     // Macro 9: Vertical Flip
@@ -138,22 +153,72 @@ public class ImageProcessingModelImplTest extends TestHelper {
         1, 2);
     this.testDownscaleCommand("twoByThree", "downscaleTwoByThree", img1,
         1, 1);
-    // Macro 15: Mask
-
+    // The following commands are those supported by the Mask
+    // Macro 1: RedGrayscale
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "redTwoByThreeMasked", img1, new Component(Color::getRed));
+    // Macro 2: GreenGrayscale
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "greenTwoByThreeMasked", img1, new Component(Color::getGreen));
+    // Macro 3: BlueGrayscale
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "blueTwoByThreeMasked", img1, new Component(Color::getBlue));
+    // Macro 4: LumaGrayscale
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "lumaTwoByThreeMasked", img1, new Component(Color::getLuma));
+    // Macro 5: ValueGrayscale
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "valueTwoByThreeMasked", img1, new Component(Color::getValue));
+    // Macro 6: IntensityGrayscale
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "intensityTwoByThreeMasked", img1, new Component(Color::getIntensity));
+    // Macro 7: Brighten
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "up10TwoByThreeMasked", img1, new Brighten(10));
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "down10TwoByThreeMasked", img1, new Brighten(-10));
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "up1000TwoByThreeMasked", img1, new Brighten(1000));
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "down1000TwoByThreeMasked", img1, new Brighten(-1000));
+    // Macro 8: Horizontal Flip
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "horizontalFlipTwoByThreeMasked", img1, new HorizontalFlip());
+    // Macro 9: Vertical Flip
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "verticalFlipTwoByThreeMasked", img1, new VerticalFlip());
+    // Macro 10: Blur
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "blurTwoByThreeMasked", img1, new Blur());
+    // Macro 11: Sharpen
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "sharpenTwoByThreeMasked", img1, new Sharpen());
+    // Macro 12: Greyscale
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "greyscaleTwoByThreeMasked", img1, new Greyscale());
+    // Macro 13: Sepia
+    this.testMaskCommand("twoByThree", "twoByThreeMask",
+        "sepiaTwoByThreeMasked", img1, new Sepia());
 
     // On Image 2:
     // Macro 1: RedGrayscale
-    this.testGrayscaleCommand("threeByTwo", "redThreeByTwo", img2, Color::getRed);
+    this.testGrayscaleCommand("threeByTwo", "redThreeByTwo", img2,
+        Color::getRed);
     // Macro 2: GreenGrayscale
-    this.testGrayscaleCommand("threeByTwo", "greenThreeByTwo", img2, Color::getGreen);
+    this.testGrayscaleCommand("threeByTwo", "greenThreeByTwo", img2,
+        Color::getGreen);
     // Macro 3: BlueGrayscale
-    this.testGrayscaleCommand("threeByTwo", "blueThreeByTwo", img2, Color::getBlue);
+    this.testGrayscaleCommand("threeByTwo", "blueThreeByTwo", img2,
+        Color::getBlue);
     // Macro 4: LumaGrayscale
-    this.testGrayscaleCommand("threeByTwo", "lumaThreeByTwo", img2, Color::getLuma);
+    this.testGrayscaleCommand("threeByTwo", "lumaThreeByTwo", img2,
+        Color::getLuma);
     // Macro 5: ValueGrayscale
-    this.testGrayscaleCommand("threeByTwo", "valueThreeByTwo", img2, Color::getValue);
+    this.testGrayscaleCommand("threeByTwo", "valueThreeByTwo", img2,
+        Color::getValue);
     // Macro 6: IntensityGrayscale
-    this.testGrayscaleCommand("threeByTwo", "intensityThreeByTwo", img2, Color::getIntensity);
+    this.testGrayscaleCommand("threeByTwo", "intensityThreeByTwo", img2,
+        Color::getIntensity);
     // Macro 7: Brighten
     this.testBrightnessCommand("threeByTwo", "up10ThreeByTwo", img2, 10);
     this.testBrightnessCommand("threeByTwo", "down10ThreeByTwo", img2, -10);
@@ -181,7 +246,51 @@ public class ImageProcessingModelImplTest extends TestHelper {
     this.testDownscaleCommand("threeByTwo", "downscaleThreeByTwo", img2,
         1, 1);
     // The following commands are those supported by the Mask
-    
+    // Macro 1: RedGrayscale
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "redThreeByTwoMasked", img2, new Component(Color::getRed));
+    // Macro 2: GreenGrayscale
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "greenThreeByTwoMasked", img2, new Component(Color::getGreen));
+    // Macro 3: BlueGrayscale
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "blueThreeByTwoMasked", img2, new Component(Color::getBlue));
+    // Macro 4: LumaGrayscale
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "lumaThreeByTwoMasked", img2, new Component(Color::getLuma));
+    // Macro 5: ValueGrayscale
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "valueThreeByTwoMasked", img2, new Component(Color::getValue));
+    // Macro 6: IntensityGrayscale
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "intensityThreeByTwoMasked", img2, new Component(Color::getIntensity));
+    // Macro 7: Brighten
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "up10ThreeByTwoMasked", img2, new Brighten(10));
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "down10ThreeByTwoMasked", img2, new Brighten(-10));
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "up1000ThreeByTwoMasked", img2, new Brighten(1000));
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "down1000ThreeByTwoMasked", img2, new Brighten(-1000));
+    // Macro 8: Horizontal Flip
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "horizontalFlipThreeByTwoMasked", img2, new HorizontalFlip());
+    // Macro 9: Vertical Flip
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "verticalFlipThreeByTwoMasked", img2, new VerticalFlip());
+    // Macro 10: Blur
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "blurThreeByTwoMasked", img2, new Blur());
+    // Macro 11: Sharpen
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "sharpenThreeByTwoMasked", img2, new Sharpen());
+    // Macro 12: Greyscale
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "greyscaleThreeByTwoMasked", img2, new Greyscale());
+    // Macro 13: Sepia
+    this.testMaskCommand("threeByTwo", "threeByTwoMask",
+        "sepiaThreeByTwoMasked", img2, new Sepia());
   }
 
   private void testGrayscaleCommand(String oldName, String newName, ImageState expected,
@@ -218,13 +327,17 @@ public class ImageProcessingModelImplTest extends TestHelper {
     this.testMacro(oldName, newName, new Sepia(), this.imageMatrixTransform(expected, sepia));
   }
 
-  private void testDownscaleCommand(String oldName, String newName, ImageState expected, int height, int width) {
-    this.testMacro(oldName, newName, new Downscale(height, width), this.imageDownscale(expected, height, width));
+  private void testDownscaleCommand(String oldName, String newName, ImageState expected,
+                                    int height, int width) {
+    this.testMacro(oldName, newName, new Downscale(height, width),
+        this.imageDownscale(expected, height, width));
   }
 
-  private void testMaskCommand(String oldName, String maskImage, String newName, ImageState expected, Macro macro) {
+  private void testMaskCommand(String oldName, String maskImage, String newName,
+                               ImageTransform expected, Macro macro) {
     ImageState maskImg = model.getImage(maskImage);
-    this.testMacro(oldName, newName, new Mask(macro, maskImg), expected);
+    this.testMacro(oldName, newName, new Mask(macro, maskImg),
+        this.imageMask(expected, maskImg, macro));
   }
 
   private void testMacro(String oldName, String newName, Macro macro, ImageState expected) {

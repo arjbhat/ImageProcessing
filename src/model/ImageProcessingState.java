@@ -1,7 +1,5 @@
 package model;
 
-import java.util.List;
-
 /**
  * The state (width, height, colors) of the image that we want to look at (by its name).
  */
@@ -15,11 +13,4 @@ public interface ImageProcessingState {
    * @return the image state
    */
   ImageState getImage(String name) throws IllegalArgumentException;
-
-  /**
-   * Returns the names of the images currently stored on the model.
-   *
-   * @return the names of the images stored
-   */
-  List<String> getImageNames();
 }

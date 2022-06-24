@@ -24,6 +24,9 @@ import view.ImageProcessingGUI;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Testing implementation of features in the pro max controller.
+ */
 public class FeaturesTest extends TestHelper {
   private ImageProcessingModel model;
   private StringBuilder guiLog;
@@ -97,7 +100,7 @@ public class FeaturesTest extends TestHelper {
     controller.select("");
     assertEquals(joinLines(
             "method: addFeatures",
-            "method: displayError err: Name cannot contain spaces.",
+            "method: selectImage image-name: image image: 2x3",
             "method: selectImage image-name: name image: 2x3",
             "method: selectImage image-name: name image: 2x3",
             "method: selectImage image-name: name image: 2x3",
@@ -227,7 +230,7 @@ public class FeaturesTest extends TestHelper {
         guiLog.toString());
 
     assertEquals(joinLines(
-            "method: runCommand image-name: null dest-image-name: name",
+            "method: runCommand image-name: image dest-image-name: name",
             "method: getImage image-name: name",
             "method: runCommand image-name: name dest-image-name: name",
             "method: getImage image-name: name",
@@ -302,8 +305,8 @@ public class FeaturesTest extends TestHelper {
     assertEquals(this.imageConvolve(img1, blur),
         macroLog.get(13).execute(img1));
     assertTrue(macroLog.get(14) instanceof Downscale);
-//    assertEquals(this.downscale(img1, 1, 1),
-//        macroLog.get(14).execute(img1));
+    assertEquals(this.imageDownscale(img1, 1, 1),
+        macroLog.get(14).execute(img1));
   }
 
   private String joinLines(String... lines) {

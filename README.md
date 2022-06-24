@@ -5,24 +5,29 @@ Names: Arjun Bhat & Alexander Chang-Davidson
 ### Overview (running the program):
 
 The program's main method is in `src/ImageProcessingProgram.java`. The jar file can be found in
-`res/imgProcessAssign5.jar` and optionally takes a `-file` command line argument with the file
-to read the script from immediately after. All other command line arguments are currently ignored.
-When run without specifying a file, users interact with the program
-by typing commands in the console with one command per line. The user may view
-available commands and their syntax at any point with the `menu` command.
-There is an example script in the `script.txt` file which can be used by running
+`res/imgProcessAssign6.jar` and optionally takes a `-file` command line argument with the file
+to read the script from immediately after. It also optionally takes a `-text` command line
+argument to run in text mode interact with the program by typing commands in the console
+with one command per line. All other command line arguments are currently ignored.
+When run without specifying a file, users interact via the GUI screen that opens.
+The user may view available commands and their syntax at any point with the `menu` command in
+text mode, or via the command list dropdown in GUI mode. There is an example script in
+the `script.txt` file which can be used by running
 `java -jar imgProcessAssign5.java -file script.txt` in the `res/` folder.
 The provided sample images are in the `res/` folder.
 
 ### Design:
 
 The code (besides the main class for the program) is split into 3 packages: model, view,
-and controller. The view and controller structure is mostly self-explanatory, with details
-provided below. The model consists of the model, which manages many images, which are
+and controller. The model consists of the model, which manages many images, which are
 made of a grid of colors. The logic for image operations is mostly handled by macros
-such as Grayscale and Brighten. The controller makes use of the command design pattern
+such as Greyscale and Brighten. The controller makes use of the command design pattern
 with the commands stored internally rather than declared as separate classes. The Pro version
-of the controller extends the previously written controller and adds extra commands.
+of the controller extends the previously written controller and adds extra commands. The
+Pro Max version of the controller extends the Pro version and adds a couple extra commands as
+well as implementing support for use with the GUI. The View has the default implementation as
+just a text view, and the GUI view interface and implementation with additional methods for more
+control. The features class is used to pass user input to the controller.
 The UML diagram is provided in the `res/UMLDiagram.png` file and should be referenced while
 reading the following descriptions for a more full understanding of the structure.
 
@@ -31,6 +36,11 @@ reading the following descriptions for a more full understanding of the structur
       controller. It renders a message to an output when the controller instructs it to.
     - (class) ImageProcessingViewImpl: This is a generic view implementation that prints
       messages exactly as is, defaulting to using the system output.
+    - (interface) ImageProcessingGUI: This represents a view that additionally allows viewing
+      the image in the program and makes error messages distinct.
+    - (interface) Features: This represents an object that knows how to handle user inputs.
+    - (class) ImageProcessingGUIFrame: This is a GUI view that passes user inputs to a provided
+      features to be handled.
 - Model:
     - (interface) Color: This represents a color, regardless of the format, as long as
       all the channels can be observed.
@@ -70,6 +80,8 @@ reading the following descriptions for a more full understanding of the structur
       its brightness, aka Luma.
     - (class) Sepia: This represents a function to transform an image into a sepia version of
       its colors.
+    - (class) Downscale: This represents a function to scale an image to a smaller size.
+    - (class) Mask: This represents a function to apply a different macro on only part of an image.
 - Controller:
     - (interface) ImageProcessingController: This represents a controller that accepts
       user input to run an image processing model, displaying output to a given view.
@@ -80,6 +92,9 @@ reading the following descriptions for a more full understanding of the structur
     - (class) ImageProcessingControllerImplPro: This class controls the model from inputs
       taken from a readable and handles commands line by line. It has the blur, sharpen, sepia,
       and greyscale commands that the previous controller did not have.
+    - (class) ImageProcessingControllerImplProMax: This class controls the model from inputs
+      taken from a readable or passed from the GUI. It additionally has the downscale and size
+      commands as well as mask versions of all previous image manipulation commands.
 
 ### Design Changes Assignment 4 to 5
 
@@ -116,6 +131,10 @@ given how common the other file types are.
 
 - ImageProcessingControllerImpl made some methods protected and slightly redesigned the menu
   to accommodate for subclassing.
+
+### Design Changes Assignment 5 to 6
+
+None!
 
 ### Citation:
 

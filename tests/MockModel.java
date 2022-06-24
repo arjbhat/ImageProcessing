@@ -62,10 +62,4 @@ public class MockModel implements ImageProcessingModel {
       }
     };
   }
-
-  @Override
-  public List<String> getImageNames() {
-    log.append("method: getImageNames");
-    return null;
-  }
 }

@@ -1,7 +1,61 @@
-## Supported Commands (ImageProcessingImplPro):
+## GUI commands
+
+- `load`
+    - Press the load image button on the bottom right. Select an image, press enter, then
+      optionally provide a name to call the image.
+- `save`
+    - Press the save image button on the bottom right. Choose the right folder and write the file
+      name. Press enter to save the image.
+- `brighten`
+    - Select the `brighten` option from the right side dropdown. Drag the slider to the amount
+      to change the brightness by. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `downscale`
+    - Select the `downscale` option from the right side dropdown. enter the new dimensions of
+      the image. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `red-component`
+    - Select the `red-component` option from the right side dropdown. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `green-component`
+    - Select the `green-component` option from the right side dropdown. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `blue-component`
+    - Select the `blue-component` option from the right side dropdown. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `value-component`
+    - Select the `value-component` option from the right side dropdown. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `luma-component`
+    - Select the `luma-component` option from the right side dropdown. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `intensity-component`
+    - Select the `intensity-component` option from the right side dropdown. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `horizontal-flip`
+    - Select the `horizontal-flip` option from the right side dropdown. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `vertical-flip`
+    - Select the `vertical-flip` option from the right side dropdown. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `blur`
+    - Select the `blur` option from the right side dropdown. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `sharpen`
+    - Select the `sharpen` option from the right side dropdown. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `greyscale`
+    - Select the `greyscale` option from the right side dropdown. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+- `sepia`
+    - Select the `sepia` option from the right side dropdown. Press the apply button.
+      You can optionally provide a new name to retain access to the previous image.
+
+## Supported Text Commands (ImageProcessingImplPro):
 
 Commands are read line by line. Only the first word in the line is checked as a command, with
 the rest of the words in the line being treated as the arguments to the command.
+(note: size, downscale, & mask variants are available in the ProMax controller)
 
 - `load image-path image-name` (Loads an image from the specified path and refers to it henceforth
   in the program by the given name)

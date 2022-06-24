@@ -1,13 +1,31 @@
 package view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.JSlider;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.BoxLayout;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -41,7 +59,7 @@ public class ImageProcessingGUIFrame extends JFrame implements ImageProcessingGU
     // exit out of the application when X button clicked
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     // disable frame from being resizable.
-    this.setResizable(true);
+    this.setResizable(false);
     // sets the x-dimension and y-dimension of the frame
     this.setSize(1100, 670);
     // set the background of the frame

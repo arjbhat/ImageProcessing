@@ -28,8 +28,11 @@ public abstract class TestHelper {
   protected ImageTransform img0;
   protected Color[][] img1arr;
   protected ImageTransform img1;
+  protected Color[][] img1MaskArr;
   protected Color[][] img2arr;
   protected ImageTransform img2;
+  protected Color[][] img2MaskArr;
+  protected ImageTransform oneByOne;
   protected Color c1;
   protected Color c2;
   protected Color c3;
@@ -37,7 +40,6 @@ public abstract class TestHelper {
   protected Color c5;
   protected Color c6;
   protected ImageProcessingModel model;
-  protected ImageState testImage;
   protected StringBuilder input1;
   protected StringReader readInput1;
   protected StringBuilder print1;
@@ -61,8 +63,11 @@ public abstract class TestHelper {
     img0 = new Image(new Color[][]{}, 1);
     img1arr = new Color[][]{{c1, c2}, {c3, c4}, {c5, c6}};
     img1 = new Image(img1arr, 255);
+    img1MaskArr = new Color[][]{{c1, c1}, {c3, c4}, {c5, c1}};
     img2arr = new Color[][]{{c1, c2, c3}, {c4, c5, c6}};
     img2 = new Image(img2arr, 255);
+    img2MaskArr = new Color[][]{{c1, c1, c3}, {c4, c5, c1}};
+    this.oneByOne = new Image(new Color[][]{{c1}});
     model = new ImageProcessingModelImpl();
   }
 
@@ -320,7 +325,7 @@ public abstract class TestHelper {
     return (int) (n * (y - this.floor(y)) + m * (this.ceiling(y) - y));
   }
 
-  private ImageState imageMask(ImageTransform img, ImageState maskImg, Macro macro) {
+  protected ImageState imageMask(ImageTransform img, ImageState maskImg, Macro macro) {
     if (img == null) {
       throw new IllegalArgumentException("Image cannot be null.");
     }

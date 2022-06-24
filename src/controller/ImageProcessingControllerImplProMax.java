@@ -33,7 +33,7 @@ import view.ImageProcessingView;
 public class ImageProcessingControllerImplProMax extends ImageProcessingControllerImplPro
     implements Features {
   private final ImageProcessingGUI view;
-  private String currentImage;
+  private String currentImage = "image";
 
   /**
    * In order to construct an image processing controller we need a model, readable, and a view.
@@ -209,7 +209,7 @@ public class ImageProcessingControllerImplProMax extends ImageProcessingControll
     if (imgName == null || imgName.isBlank()) {
       imgName = currentImage;
     }
-    if (imgName == null || imgName.contains(" ")) {
+    if (imgName.contains(" ")) {
       view.displayError("Name cannot contain spaces.");
       return null;
     }
