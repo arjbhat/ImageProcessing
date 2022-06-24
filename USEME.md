@@ -51,25 +51,22 @@
     - Select the `sepia` option from the right side dropdown. Press the apply button.
       You can optionally provide a new name to retain access to the previous image.
 
-## Supported Text Commands (ImageProcessingImplPro):
+## Supported Text Commands (ImageProcessingImplProMax):
 
 Commands are read line by line. Only the first word in the line is checked as a command, with
 the rest of the words in the line being treated as the arguments to the command.
-(note: size, downscale, & mask variants are available in the ProMax controller)
+(note: size, downscale in the ProMax controller)
 
 - `load image-path image-name` (Loads an image from the specified path and refers to it henceforth
   in the program by the given name)
-    - Can be run at any point as long as the image-path contains a valid image
+    - Can be run at any point as long as the image-path contains a valid image.
     - example: `load res/img1.ppm img`
     - example: `load res/img1.png random-word`
 
 
 - `save image-path image-name` (Saves the image with the given name to the specified path which
   includes the name of the file)
-    - Must have already loaded or created an image with the given name
-    - If mask image is provided, only parts overlapped with black in the mask image are changed.
-    - If mask image is provided, an image with that name must also have been loaded or created.
-    - If mask image is provided, the mask image must be the same size as the image.
+    - Must have already loaded or created an image with the given name..
     - example: `save res/img.jpg img`
     - example: `save res/testing.bmp random-word`
 
@@ -77,7 +74,7 @@ the rest of the words in the line being treated as the arguments to the command.
 - `(component name)-component image-name [mask-image] dest-image-name` (Create a greyscale image
   with the (component name) component of the image with the given name.
   [supported (component name): red, green, blue, value, luma, intensity])
-    - Must have already loaded or created an image with the given name
+    - Must have already loaded or created an image with the given name.
     - If mask image is provided, only parts overlapped with black in the mask image are changed.
     - If mask image is provided, an image with that name must also have been loaded or created.
     - If mask image is provided, the mask image must be the same size as the image.
@@ -97,7 +94,7 @@ the rest of the words in the line being treated as the arguments to the command.
 
 - `horizontal-flip image-name [mask-image] dest-image-name` (Flip an image horizontally to create a
   new image, referred to henceforth by the given destination name)
-    - Must have already loaded or created an image with the given name
+    - Must have already loaded or created an image with the given name.
     - If mask image is provided, only parts overlapped with black in the mask image are changed.
     - If mask image is provided, an image with that name must also have been loaded or created.
     - If mask image is provided, the mask image must be the same size as the image.
@@ -106,7 +103,7 @@ the rest of the words in the line being treated as the arguments to the command.
 
 - `vertical-flip image-name [mask-image] dest-image-name` (Flip an image vertically to create a new
   image, referred to henceforth by the given destination name)
-    - Must have already loaded or created an image with the given name
+    - Must have already loaded or created an image with the given name.
     - If mask image is provided, only parts overlapped with black in the mask image are changed.
     - If mask image is provided, an image with that name must also have been loaded or created.
     - If mask image is provided, the mask image must be the same size as the image.
@@ -117,7 +114,7 @@ the rest of the words in the line being treated as the arguments to the command.
 - `brighten increment image-name [mask-image] dest-image-name` (Brighten the image by the given
   increment to create a new image, referred to henceforth by the given destination name -
   the increment may be positive (brightening) or negative (darkening))
-    - Must have already loaded or created an image with the given name
+    - Must have already loaded or created an image with the given name.
     - If mask image is provided, only parts overlapped with black in the mask image are changed.
     - If mask image is provided, an image with that name must also have been loaded or created.
     - If mask image is provided, the mask image must be the same size as the image.
@@ -129,7 +126,7 @@ the rest of the words in the line being treated as the arguments to the command.
 
 - `blur image-name [mask-image] dest-image-name` (Blue an image to create a new image, referred to
   henceforth by the given destination name)
-    - Must have already loaded or created an image with the given name
+    - Must have already loaded or created an image with the given name.
     - If mask image is provided, only parts overlapped with black in the mask image are changed.
     - If mask image is provided, an image with that name must also have been loaded or created.
     - If mask image is provided, the mask image must be the same size as the image.
@@ -139,7 +136,7 @@ the rest of the words in the line being treated as the arguments to the command.
 
 - `sharpen image-name [mask-image] dest-image-name` (Sharpen an image to create a new image,
   referred to henceforth by the given destination name)
-    - Must have already loaded or created an image with the given name
+    - Must have already loaded or created an image with the given name.
     - If mask image is provided, only parts overlapped with black in the mask image are changed.
     - If mask image is provided, an image with that name must also have been loaded or created.
     - If mask image is provided, the mask image must be the same size as the image.
@@ -149,7 +146,7 @@ the rest of the words in the line being treated as the arguments to the command.
 
 - `greyscale image-name [mask-image] dest-image-name` (Find the greyscale version an image to create
   a new image, referred to henceforth by the given destination name)
-    - Must have already loaded or created an image with the given name
+    - Must have already loaded or created an image with the given name.
     - If mask image is provided, only parts overlapped with black in the mask image are changed.
     - If mask image is provided, an image with that name must also have been loaded or created.
     - If mask image is provided, the mask image must be the same size as the image.
@@ -159,13 +156,24 @@ the rest of the words in the line being treated as the arguments to the command.
 
 - `sepia image-name [mask-image] dest-image-name` (Find the sepia version of an image to create a
   new image, referred to henceforth by the given destination name)
-    - Must have already loaded or created an image with the given name
+    - Must have already loaded or created an image with the given name.
     - If mask image is provided, only parts overlapped with black in the mask image are changed.
     - If mask image is provided, an image with that name must also have been loaded or created.
     - If mask image is provided, the mask image must be the same size as the image.
     - example: `sepia img yellowed-img`
     - example: `sepia img mask-name yellowed-img`
 
+- `downscale dest-height dest-width image-name dest-image-name`
+  (Create a smaller version of an image)
+    - Must have already loaded or created an image with the given name.
+    - The dest-height must be greater than 0 and less than or equal to the image height.
+    - The dest-width must be greater than 0 and less than or equal to the image width.
+    - example: `downscale 50 50 img small-img`
+    - example: `downscale 50 100 img small-img`
+
+- `size image-name` (get the dimensions of an image)
+    - Must have already loaded or created an image with the given name.
+    - example: `size img`
 
 - `menu` (Print supported instruction list)
     - Can be run at any point

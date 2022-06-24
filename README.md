@@ -19,7 +19,9 @@ The provided sample images are in the `res/` folder.
 ### Extra Credit Changes (Assignment 6)
 
 To implement the mask and downscale operations, we only had to add the corresponding macros
-and expose the features in the controller and GUI.
+and expose the features in the controller and GUI. The mask commands were added in the Pro Max
+by adding commands to override the previous versions, and calling the previous version if
+not enough arguments were passed for the mask version.
 
 ### Design:
 
@@ -143,7 +145,8 @@ None!
 
 ### Citation:
 
-All images named with a prefix of "arjun" are derivative of the arjun.ppm image.
-The arjun.ppm image was taken by Arjun Bhat, and is authorized for use in this project.
+All images named with a prefix of "arjun" that look like a face are derivative of the arjun.ppm
+image. The arjun.ppm image was taken by Arjun Bhat, and is authorized for use in this project.
 The img1.ppm image was manually crafted line by line by Arjun Bhat and Alexander Chang-Davidson,
-and is also authorized for use in this project.
+and is also authorized for use in this project. All other files beginning in img1 are derivative
+of img1.ppm.
