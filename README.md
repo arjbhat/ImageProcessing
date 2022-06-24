@@ -16,6 +16,11 @@ the `script.txt` file which can be used by running
 `java -jar imgProcessAssign5.java -file script.txt` in the `res/` folder.
 The provided sample images are in the `res/` folder.
 
+### Extra Credit Changes (Assignment 6)
+
+To implement the mask and downscale operations, we only had to add the corresponding macros
+and expose the features in the controller and GUI.
+
 ### Design:
 
 The code (besides the main class for the program) is split into 3 packages: model, view,

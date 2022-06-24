@@ -67,63 +67,104 @@ the rest of the words in the line being treated as the arguments to the command.
 - `save image-path image-name` (Saves the image with the given name to the specified path which
   includes the name of the file)
     - Must have already loaded or created an image with the given name
+    - If mask image is provided, only parts overlapped with black in the mask image are changed.
+    - If mask image is provided, an image with that name must also have been loaded or created.
+    - If mask image is provided, the mask image must be the same size as the image.
     - example: `save res/img.jpg img`
     - example: `save res/testing.bmp random-word`
 
 
-- `(component name)-component image-name dest-image-name` (Create a greyscale image with the
-  (component name) component of the image with the given name.
+- `(component name)-component image-name [mask-image] dest-image-name` (Create a greyscale image
+  with the (component name) component of the image with the given name.
   [supported (component name): red, green, blue, value, luma, intensity])
     - Must have already loaded or created an image with the given name
+    - If mask image is provided, only parts overlapped with black in the mask image are changed.
+    - If mask image is provided, an image with that name must also have been loaded or created.
+    - If mask image is provided, the mask image must be the same size as the image.
     - example: `red-component red-img img`
     - example: `green-component green-img img`
     - example: `blue-component blue-img img`
     - example: `value-component value-img img`
     - example: `luma-component luma-img img`
     - example: `intensity-component intensity-img img`
+    - example: `red-component red-img mask-name img`
+    - example: `green-component green-img mask-name img`
+    - example: `blue-component blue-img mask-name img`
+    - example: `value-component value-img mask-name img`
+    - example: `luma-component luma-img mask-name img`
+    - example: `intensity-component intensity-img mask-name img`
 
 
-- `horizontal-flip image-name dest-image-name` (Flip an image horizontally to create a new image,
-  referred to henceforth by the given destination name)
+- `horizontal-flip image-name [mask-image] dest-image-name` (Flip an image horizontally to create a
+  new image, referred to henceforth by the given destination name)
     - Must have already loaded or created an image with the given name
+    - If mask image is provided, only parts overlapped with black in the mask image are changed.
+    - If mask image is provided, an image with that name must also have been loaded or created.
+    - If mask image is provided, the mask image must be the same size as the image.
     - example: `horizontal-flip img mirror-img`
+    - example: `horizontal-flip img mask-name mirror-img`
 
-- `vertical-flip image-name dest-image-name` (Flip an image vertically to create a new image,
-  referred to henceforth by the given destination name)
+- `vertical-flip image-name [mask-image] dest-image-name` (Flip an image vertically to create a new
+  image, referred to henceforth by the given destination name)
     - Must have already loaded or created an image with the given name
+    - If mask image is provided, only parts overlapped with black in the mask image are changed.
+    - If mask image is provided, an image with that name must also have been loaded or created.
+    - If mask image is provided, the mask image must be the same size as the image.
     - example: `vertical-flip img upsidown-img`
+    - example: `vertical-flip img mask-name upsidown-img`
 
 
-- `brighten increment image-name dest-image-name` (Brighten the image by the given increment to
-  create a new image, referred to henceforth by the given destination name - the increment may be
-  positive (brightening) or negative (darkening))
+- `brighten increment image-name [mask-image] dest-image-name` (Brighten the image by the given
+  increment to create a new image, referred to henceforth by the given destination name -
+  the increment may be positive (brightening) or negative (darkening))
     - Must have already loaded or created an image with the given name
+    - If mask image is provided, only parts overlapped with black in the mask image are changed.
+    - If mask image is provided, an image with that name must also have been loaded or created.
+    - If mask image is provided, the mask image must be the same size as the image.
     - example: `brighten 50 img brighter`
     - example: `brighten -70 img darker`
+    - example: `brighten 50 img mask-name brighter`
+    - example: `brighten -70 img mask-name darker`
 
 
-- `blur image-name dest-image-name` (Blue an image to create a new image, referred to henceforth by
-  the given destination name)
-    - Must have already loaded or created an image with the given name
-    - example: `blur img blurry`
-
-
-- `sharpen image-name dest-image-name` (Sharpen an image to create a new image, referred to
+- `blur image-name [mask-image] dest-image-name` (Blue an image to create a new image, referred to
   henceforth by the given destination name)
     - Must have already loaded or created an image with the given name
+    - If mask image is provided, only parts overlapped with black in the mask image are changed.
+    - If mask image is provided, an image with that name must also have been loaded or created.
+    - If mask image is provided, the mask image must be the same size as the image.
+    - example: `blur img blurry`
+    - example: `blur img mask-name blurry`
+
+
+- `sharpen image-name [mask-image] dest-image-name` (Sharpen an image to create a new image,
+  referred to henceforth by the given destination name)
+    - Must have already loaded or created an image with the given name
+    - If mask image is provided, only parts overlapped with black in the mask image are changed.
+    - If mask image is provided, an image with that name must also have been loaded or created.
+    - If mask image is provided, the mask image must be the same size as the image.
     - example: `shapen blurry img`
+    - example: `shapen blurry mask-name img`
 
 
-- `greyscale image-name dest-image-name` (Find the greyscale version an image to create a new image,
-  referred to henceforth by the given destination name)
+- `greyscale image-name [mask-image] dest-image-name` (Find the greyscale version an image to create
+  a new image, referred to henceforth by the given destination name)
     - Must have already loaded or created an image with the given name
+    - If mask image is provided, only parts overlapped with black in the mask image are changed.
+    - If mask image is provided, an image with that name must also have been loaded or created.
+    - If mask image is provided, the mask image must be the same size as the image.
     - example: `greyscale img grey-img`
+    - example: `greyscale img mask-name grey-img`
 
 
-- `sepia image-name dest-image-name` (Find the sepia version of an image to create a new image,
-  referred to henceforth by the given destination name)
+- `sepia image-name [mask-image] dest-image-name` (Find the sepia version of an image to create a
+  new image, referred to henceforth by the given destination name)
     - Must have already loaded or created an image with the given name
+    - If mask image is provided, only parts overlapped with black in the mask image are changed.
+    - If mask image is provided, an image with that name must also have been loaded or created.
+    - If mask image is provided, the mask image must be the same size as the image.
     - example: `sepia img yellowed-img`
+    - example: `sepia img mask-name yellowed-img`
 
 
 - `menu` (Print supported instruction list)
@@ -135,4 +176,3 @@ the rest of the words in the line being treated as the arguments to the command.
     - Can be run at any point
     - example: `q`
     - example: `quit`
-
