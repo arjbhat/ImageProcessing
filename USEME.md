@@ -1,5 +1,9 @@
 ## GUI commands
 
+Providing names is at no point required, and a default name is provided, however
+if you wish to switch between multiple images, you can choose the name of the output
+to have multiple images loaded at once.
+
 - `load`
     - Press the load image button on the bottom right. Select an image, press enter, then
       optionally provide a name to call the image.

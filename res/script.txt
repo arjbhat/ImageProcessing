@@ -75,9 +75,9 @@ save arjunSepia.jpg sepia-arj
 save arjunGrey.jpg grey-arj
 save arjunSharp.jpg sharp-arj
 save arjunBlur.jpg blur-arj
-save arjunSmallArj.jpg small-arj-1
-save arjunSmallArj.jpg small-arj-2
-save arjunSmallArj.jpg small-arj-3
+save arjunSmall1.jpg small-arj-1
+save arjunSmall2.jpg small-arj-2
+save arjunSmall3.jpg small-arj-3
 save arjunMaskRed.jpg mask-red-arj
 save arjunMaskGreen.jpg mask-green-arj
 save arjunMaskBlue.jpg mask-blue-arj
@@ -123,9 +123,9 @@ save arjunSepia.png sepia-arj
 save arjunGrey.png grey-arj
 save arjunSharp.png sharp-arj
 save arjunBlur.png blur-arj
-save arjunSmallArj.png small-arj-1
-save arjunSmallArj.png small-arj-2
-save arjunSmallArj.png small-arj-3
+save arjunSmall1.png small-arj-1
+save arjunSmall2.png small-arj-2
+save arjunSmall3.png small-arj-3
 save arjunMaskRed.png mask-red-arj
 save arjunMaskGreen.png mask-green-arj
 save arjunMaskBlue.png mask-blue-arj
